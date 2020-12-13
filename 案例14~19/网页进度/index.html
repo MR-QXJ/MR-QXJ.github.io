@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学成在线教育平台-不是每个网站都叫学成在线</title>
+    <meta name="description" content="细致的服务，为您提供愉悦的网上教育体验"/>
+    <meta name="Keywords" content="学成在线，it，培训"/>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <style>
+        body {
+            overflow: hidden; /*进度加载时无法滚动*/
+        }
+        #progress {
+            position: absolute;
+            z-index: 999;
+            height: 100%;
+            width: 100%;
+            background-color: #333;
+        }
+        #progress .pro-bar {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px; /*父盒子有宽度p的宽度就会从左到右增加*/
+            transform: translate(-50%,-50%);
+        }
+        .pro-bar p {
+            width: 0;
+            height: 40px;
+            background-color: #7df8ff;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="progress">
+    <div class="pro-bar">
+        <p>0%</p>
+    </div>
+</div>
+<script class="proMove">
+    var proBox = document.getElementById("progress");
+    var pro = proBox.getElementsByTagName("p")[0];
+    var body = document.body;
+    var proMove = document.getElementsByClassName("proMove");
+    var css = document.getElementsByTagName("style")[0];
+
+    //实际页面内容会更多，内容过少定时器会被下一部分提前清除,每次执行如果不清除定时器又会bug
+    function progressMove(max,fn) {
+        clearInterval(pro.timer);
+        pro.timer = setInterval(function () {
+            var percent = parseInt(pro.innerText);
+            if(max === percent ){
+                fn();//到达希望进度时执行
+                clearInterval(pro.timer);
+                pro.style.width = 4 * percent + "px";
+                if(percent === 100){
+                    var pLen = proMove.length; /*只有在这里定义所有proMove才能获取完全*/
+                    //删除进度条相关所有代码,腾出空间
+                    body.removeChild(proBox); /*删除进度条html代码*/
+                    css.parentNode.removeChild(css); /*;删除相关css样式*/
+                    for(var i = pLen - 1; i >=  0; i--){ /*删除所有进度条js代码,这里必须从后往前删除，否则会有顺序错乱等bug*/
+                        body.removeChild(proMove[i]);
+                    }
+                }
+                return false;
+            }
+            pro.innerText = percent + 1 + "%";
+            pro.style.width = 4 * percent + "px";
+        },15);
+    }
+</script>
+<header class="clearfix">
+    <div class="logo fl">
+        <h1 title="学成在线首页">学成在线</h1>
+    </div>
+    <ul class="top-nav clearfix fl">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">课程</a></li>
+        <li><a href="#">职业规划</a></li>
+    </ul>
+    <div class="search fl">
+        <input type="text" placeholder="请输入关键字" class="fl">
+        <button class="fl por"></button>
+    </div>
+    <div class="personal fr">
+        <dl>
+            <dt class="fl"><a href="#">个人中心</a></dt>
+            <dd class="fl por">
+                <a href="#" class="ring fl"><img src="images/ld.png" alt=""></a>
+                <a href="#"><img src="images/pic.png" alt="" class="user-pic fl"></a>
+                <a href="#">周杰伦 Jay</a>
+            </dd>
+        </dl>
+    </div>
+</header>
+<script class="proMove">
+    progressMove(20);
+</script>
+<div class="banner">
+    <div class="banner-bd b por">
+        <div class="subnav por"> <!--定位为了使用z-index覆盖图片-->
+            <ul>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+                <li><a href="#">前端开发</a></li>
+            </ul>
+        </div>
+        <div class="img-list">
+            <ul>
+                <li><a href="#"><img src="images/banner.jpg" alt="" width="1199" height="420" class="poa"></a></li>
+            </ul>
+            <div class="circle poa">
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+        </div>
+        <div class="timetable poa">
+            <dl>
+                <dt>我的课程表</dt>
+                <dd>
+                    <ul>
+                        <li>
+                            <h5>继续学习 程序语言设计</h5>
+                            <p>正在学习-使用对象</p>
+                        </li>
+                        <li>
+                            <h5>继续学习 程序语言设计</h5>
+                            <p>正在学习-使用对象</p>
+                        </li>
+                        <li>
+                            <h5>继续学习 程序语言设计</h5>
+                            <p>正在学习-使用对象</p>
+                        </li>
+                    </ul>
+                    <a href="#" class="xc-blue">全部课程</a>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<script class="proMove">
+    progressMove(40);
+</script>
+<div class="recommend b">
+    <div class="recommend-hd">
+        <strong class="xc-blue">精品推荐</strong>|
+        <a href="#">JQuery</a>|
+        <a href="#">Spark</a>|
+        <a href="#">MySQL</a>|
+        <a href="#">javaWeb</a>|
+        <a href="#">jQuery</a>|
+        <a href="#">Spark</a>|
+        <a href="#">MySQL</a>|
+        <a href="#">jQuery</a>|
+        <a href="#">javaWeb</a>|
+        <a href="#">jQuery</a>|
+        <a href="#" class="fun">修改兴趣</a>
+    </div>
+    <div class="products">
+        <div class="pro-hd clearfix">
+            <h4>精品推荐</h4>
+            <a href="#">查看全部</a>
+        </div>
+        <div class="pro-bd clearfix">
+            <ul>
+                <li>
+                    <img src="images/pic1.png" alt="">
+                    <a href="#">Think PHP 5.0 博客系统实战项目演练</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic2_03.jpg" alt="">
+                    <a href="#">Android 网络图片加载框架详解</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic3_05.png" alt="">
+                    <a href="#">Angular 2 最新框架+主流技术+项目实战 </a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic4_07.png" alt="">
+                    <a href="#">Android Hybrid APP开发实战 H5+原生！</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic4_07.png" alt="">
+                    <a href="#">Android Hybrid APP开发实战 H5+原生！</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic1.png" alt="">
+                    <a href="#">Think PHP 5.0 博客系统实战项目演练</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic2_03.jpg" alt="">
+                    <a href="#">Android 网络图片加载框架详解</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic3_05.png" alt="">
+                    <a href="#">Angular 2 最新框架+主流技术+项目实战 </a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic4_07.png" alt="">
+                    <a href="#">Android Hybrid APP开发实战 H5+原生！</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+                <li>
+                    <img src="images/pic4_07.png" alt="">
+                    <a href="#">Android Hybrid APP开发实战 H5+原生！</a>
+                    <p><span>高级</span> • 1125人在学习</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script class="proMove">
+    progressMove(80);
+</script>
+<footer>
+    <div class="b clearfix">
+        <div class="copyright fl">
+            <img src="images/logo.png" alt="">
+            <p>学成在线致力于普及中国最好的教育它与中国一流大学和机构合作提供在线课程。
+                © 2017年XTCG Inc.保留所有权利。-沪ICP备15025210号</p>
+            <a href="#" class="xc-blue">下载APP</a>
+        </div>
+        <div class="footer-nav fr">
+            <dl>
+                <dt>关于学成网</dt>
+                <dd><a href="#">关于</a></dd>
+                <dd><a href="#">管理团队</a></dd>
+                <dd><a href="#">工作机会</a></dd>
+                <dd><a href="#">客户服务</a></dd>
+                <dd><a href="#">帮助</a></dd>
+            </dl>
+            <dl>
+                <dt>新手指南</dt>
+                <dd><a href="#">如何注册</a></dd>
+                <dd><a href="#">如何选课</a></dd>
+                <dd><a href="#">如何拿到毕业证</a></dd>
+                <dd><a href="#">学分是什么</a></dd>
+                <dd><a href="#">考试未通过怎么办</a></dd>
+            </dl>
+            <dl>
+                <dt>合作伙伴</dt>
+                <dd><a href="#">合作机构</a></dd>
+                <dd><a href="#">合作导师</a></dd>
+            </dl>
+        </div>
+    </div>
+</footer>
+<script class="proMove">
+    progressMove(100,function () {
+        alert("网页加载完成");
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>淡入淡出轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        #banner {
+            position: relative;
+            width: 730px;
+            height: 454px;
+            margin: 100px auto;
+            background-color: red;
+        }
+        #img {
+            width: 4380px; 
+        }
+        #img li {
+            position: absolute;
+            top: 0;
+            display: none;
+        }
+        #img li:nth-of-type(1) {
+            display: block;
+        }
+        #icon {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            margin-left: -63px;
+            width: 148px;
+            height: 20px;
+        }
+        #icon li {
+            float: left;
+            width: 18px;
+            height: 18px;
+            margin: 1px 3px;
+            line-height: 18px;
+            background-color: #888;
+            text-align: center;
+            font-size: 12px;
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        #icon li.on {
+            background-color: #f60;
+        }
+        #btn div {
+            display: none;
+            position: absolute;
+            top: 50%;
+            margin-top: -30px;
+            width: 30px;
+            height: 60px;
+            line-height: 60px;
+            background-color: rgba(0,0,0,.4);
+            font-size: 30px;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+        }
+        #btn #right {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="banner">
+    <ul id="img">
+        <li><a href="javascript:;"><img src="img/1.jpg" alt=""></a></li>
+        <li><a href="javascript:;"><img src="img/2.jpg" alt=""></a></li>
+        <li><a href="javascript:;"><img src="img/3.jpg" alt=""></a></li>
+        <li><a href="javascript:;"><img src="img/4.jpg" alt=""></a></li>
+        <li><a href="javascript:;"><img src="img/5.jpg" alt=""></a></li>
+        <li><a href="javascript:;"><img src="img/6.jpg" alt=""></a></li>
+    </ul>
+    <ul id="icon">
+        <li class="on">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+    <div id="btn">
+        <div id="left">&lt;</div>
+        <div id="right">&gt;</div>
+    </div>
+</div>
+<script src="js/jquery-1.12.1.min.js"></script>
+<script>
+    $(function () {
+        var $btns = $("#btn>div");
+        var $icons = $("#icon>li");
+        var $imgs = $("#img>li");
+        var len = $imgs.length;
+        var index = 0;
+        var timer;
+        timer = setInterval(function () {
+            index++;
+            index = index % len;
+            move();
+        },1000);
+       //鼠标进出相框显示隐藏按钮
+       $("#banner").hover(function () {
+           clearInterval(timer);
+           $btns.show(100);
+       },function () {
+           $btns.hide(100);
+           timer = setInterval(function () {
+               index++;
+               index = index % len;
+               move();
+           },1000);
+       });
+
+       //鼠标移入切换图片
+       $icons.on("mouseenter",function () {
+           index = $(this).index();
+           move();
+       });
+
+       //点击左右按钮
+        $btns.on("click",function () {
+            var dir = $(this).index();
+            if(dir){
+                index++;
+                index = index % len;
+            }else{
+                index--;
+                if(index < 0){
+                    index = len - 1;
+                }
+            }
+            move();
+        });
+
+        //移动函数
+        function move() {
+            $icons.eq(index).addClass("on").siblings().removeClass("on");
+            $imgs.eq(index).stop().fadeIn(500).siblings().stop().fadeOut(500);
+        }
+    });
+</script>
+</body>
+</html>

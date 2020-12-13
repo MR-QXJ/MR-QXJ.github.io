@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jq懒加载</title>
+    <style>
+        img {
+            display: block;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="js/jquery.lazyload.min.js"></script>
+</head>
+<body>
+<img data-original="img/1.jpg" alt="" width="500" height="330" />
+<img data-original="img/2.jpg" alt="" width="500" height="300" />
+<img data-original="img/3.jpg" alt="" width="500" height="300" />
+<img data-original="img/4.jpg" alt="" width="500" height="300" />
+<img data-original="img/5.jpg" alt="" width="500" height="300" />
+<img data-original="img/6.jpg" alt="" width="500" height="300" />
+<img data-original="img/7.jpg" alt="" width="500" height="300" />
+<img data-original="img/8.jpg" alt="" width="500" height="300" />
+<img data-original="img/9.jpg" alt="" width="500" height="300" />
+<img data-original="img/10.jpg" alt="" width="500" height="300" />
+<img data-original="img/11.jpg" alt="" width="500" height="300" />
+<img data-original="img/12.jpg" alt="" width="500" height="300" />
+<img data-original="img/13.jpg" alt="" width="500" height="300" />
+<img data-original="img/14.jpg" alt="" width="500" height="300" />
+<script>
+    /*使用此插件图片地址要写在data-original这个属性里*/
+    var $imgs = $("img");
+    $imgs.lazyload({
+        effect: "slideDown",   /* 加载效果，slideDown，show，fadeIn*/
+        placeholder: "img/loading.jpg"   /*未加载时展示的图片的地址*/
+        //event: "事件"   指定事件触发才加载
+        //container: "容器"   可规定容器内的图片进行懒加载
+        //failurelimit: num  默认如果找到第一张不再可视区的图片时不再继续，传num数字可指定几张可视区外的图片停止
+    });
+</script>
+</body>
+</html>

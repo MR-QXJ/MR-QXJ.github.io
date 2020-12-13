@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>瀑布流</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+        }
+        li {
+            list-style: none;
+        }
+        #wrap {
+            overflow: hidden;
+            width: 837px;
+            margin: 50px auto;
+            box-shadow:0 0 6px skyblue;
+        }
+        #wrap li {
+            float: left;
+            width: 265px;
+        }
+        #wrap li:nth-of-type(2) {
+            margin-left: 20px;
+        }
+        #wrap li:nth-of-type(3) {
+            float: right;
+        }
+        #wrap .content {
+            display: none;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        #wrap .content>a {
+            display: block;
+            line-height: 25px;
+            padding: 8px 15px;
+            color: #000;
+        }
+        #wrap .content a:hover {
+            color: #b70032;
+        }
+        .time {
+            height: 42px;
+            border-top: 1px solid #ddd;
+            background-color: #eee;
+            font-size: 12px;
+        }
+        .time p {
+            float: left;
+            line-height: 42px;
+            color: #666;
+            text-align: center;
+            text-indent: 10px;
+        }
+        .time a {
+            float: right;
+            width: 80px;
+            line-height: 42px;
+            border-left: 1px solid #ddd;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="js/data.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <ul>
+        <li>
+            <!--<div class="content">-->
+            <!--<img src="img/1.jpg" alt="" width="263">-->
+            <!--<a href="">你们男神都爱的倪妮 就是个大写哒美好</a>-->
+            <!--<div class="time">-->
+            <!--<p>2016/03/18 20:08</p>-->
+            <!--<a href="">阅读全文</a>-->
+            <!--</div>-->
+            <!--</div>-->
+        </li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script>
+    window.onload = function () {
+        var $lis = $("#wrap li");
+        var liLen = $lis.length;
+        var dataLen = imgData.length - 1;
+        var $wrap = $("#wrap");
+        var wrapTop = $wrap.offset().top;
+        var windH = $(window).height();
+        var count = 0;
+        var index = -1;
+        addContent(15);/*一次添加10个*/
+        //滚动事件
+        $(window).scroll(function () {
+            var scrollLimit = $(this).scrollTop() > $wrap.height()+wrapTop-windH; //判断滚动高度是否超过已创建的底部
+            var dataLimit = index < dataLen ;  //判断数据是否显示完，显示完则不再创建
+            if( scrollLimit && dataLimit){
+                count = index + 5;
+                addContent(count);
+            }
+        });
+        //创建content整体
+        function createContent(i) {
+            // var $content = $("<div class=\"content\">\n" +
+            //     "    <img src=\""+imgData[i].src+"\" alt=\"\" width=\"263\">\n" +
+            //     "    <a href=\"\">"+imgData[i].dec+"</a>\n" +
+            //     "    <div class=\"time\">\n" +
+            //     "        <p>"+imgData[i].time+"</p>\n" +
+            //     "        <a href=\"\">阅读全文</a>\n" +
+            //     "    </div>\n" +
+            //     "</div>");
+            // return $content;  这种方法虽然方便，但还要解析字符串，性能最好的方式还是底层原生js创建
+            var content = document.createElement("div");
+            content.className = "content";
+            var img =  document.createElement("img");
+            img.src = imgData[i].src;
+            img.width = 263;
+            var a1 = document.createElement("a");
+            a1.href = "javascript:;";
+            a1.innerText = imgData[i].dec;
+            var time = document.createElement("div");
+            time.className = "time";
+            var p =  document.createElement("p");
+            p.innerText = imgData[i].time;
+            var a2 = document.createElement("a");
+            a2.href = "javascript:;";
+            a2.innerText = "阅读全文";
+            time.appendChild(p);
+            time.appendChild(a2);
+            content.appendChild(img);
+            content.appendChild(a1);
+            content.appendChild(time);
+            return $(content);  /*原生js创建的dom对象包装为jq对象*/
+        }
+        //判断height最短的li
+        function getShort(){
+               var sIndex = 0;
+               var sNum = $lis.eq(0).height();
+               for(var i = 0; i < liLen ; i++){
+                   var newH = $lis.eq(i).height();
+                   if (sNum > newH){
+                       sIndex = i;
+                       sNum = newH;
+                   }
+               }
+               return sIndex;
+        }
+        //按规则添加content到li
+        function addContent(count) {  /*参数规定添加的次数*/
+            // $.ajax({      /*使用后台数据*/
+            //     url: "data.php",  /*后台数据的地址*/
+            //     success: function (data) { /*参数保存后台的数据，需要处理,可用eval方法执行并返回值*/
+            //         console.log(data);
+            //         /* 将请求成功后执行的代码放到里面即可 */
+            //     }
+            // });
+            index++;  //累加index必须要在最开始，避免上次图片未加载完index重复
+            var nContent = createContent(index);
+            var sIndex = getShort();
+            var $li = $lis.eq(sIndex);
+            $li.append(nContent);
+            var img = nContent.find("img:last")[0];/*最后一个后代元素元素图片才是本次的*/
+            nContent.fadeIn(1000);
+            img.onload = function () { /*本次图片加载完成后才继续下一次操作，不会获取不到宽高*/
+                if( index < count && index < dataLen){  /*还要防止index自循环时不要超出数据长度*/
+                    addContent(count);
+                }
+            };
+        }
+    };
+
+</script>
+</body>
+</html>

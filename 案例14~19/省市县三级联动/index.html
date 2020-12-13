@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>省市县</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #box {
+            width: 500px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: #ccc;
+            text-align: center;
+        }
+        #box h1 {
+            margin-bottom: 30px;
+            color: #9d3bff;
+        }
+        #box select {
+            height: 22px;
+            margin: 0 5px;
+        }
+    </style>
+    <script src="jquery-1.12.1.min.js"></script>
+    <script src="areaData.js"></script>
+</head>
+<body>
+<div id="box">
+    <h1>请选择您的地址</h1>
+    <select name="province" id="province">
+        <option value="0">省</option>
+    </select>
+    <select id="city">
+        <option value="0">市</option>
+    </select>
+    <select id="county">
+        <option value="0">县</option>
+    </select>
+</div>
+<script>
+    $(function () {
+       var $province = $("#province");
+       var $provinceOption;
+       var provinceIndex = 0;
+       var $city = $("#city");
+       var $county = $("#county");
+       init();
+       function init() {
+           //初始化省
+           for(var i = 0, sLen = areaData.sheng.length; i < sLen; i++){
+               var $option = $("<option value="+(i+1)+">"+areaData.sheng[i]+"</option>");
+               $province.append($option);
+           }
+           $provinceOption = $province.find("option");
+       }
+       // $province.find("option").on("click",function () {
+       //     无法给option绑定点击事件
+       // });
+        //选择省添加市
+        $province.change(function () {//给省的select绑定change事件
+            provinceIndex = this.selectedIndex;/*原生JS的selectedIndex属性可获取选中的是第几个，与索引不同，从1开始*/
+            var shi = areaData.shi["a_" + (provinceIndex - 1)];
+            $city.html("<option value=\"0\">市</option>");  //每次要清除前面添加的市和县
+            $county.html("<option value=\"0\">县</option>");
+            for(var i = 0, ciLen = shi.length; i < ciLen; i++){
+                var $option = $("<option value="+(i + 1)+">"+shi[i]+"</option>");
+                $city.append($option);
+            }
+        });
+       //选择市添加县
+       $city.change(function () {
+           var cityIndex = this.selectedIndex;
+           var xian = areaData.xian["a_"+(provinceIndex - 1)+"_"+(cityIndex - 1)];
+           $county.html("<option value=\"0\">县</option>");
+           for(var i = 0,coLen = xian.length; i < coLen; i++){
+               var $option = $("<option value="+(i + 1)+">"+xian[i]+"</option>");
+               $county.append($option);
+           }
+       });
+    });
+</script>
+</body>
+</html>

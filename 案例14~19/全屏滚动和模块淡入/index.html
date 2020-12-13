@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全屏滚动和模块淡入</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body,html {
+            height: 100%;
+        }
+        body {
+            overflow: hidden;
+        }
+        #wrap {
+            height: 100%;
+        }
+        #wrap>div {
+            position: relative;
+            overflow: hidden; /*阻止外边距穿透*/
+            height: 100%;
+            background: url('img/1.jpg') no-repeat center / cover;
+        }
+        #wrap .logo {
+            width: 215px;
+            height: 60px;
+            margin: 20px;
+            background: url('img/logo.png') no-repeat center / 100% 100%;
+        }
+        #wrap>div .pic {
+            position: absolute;
+            transition: 1.6s;
+            opacity: 0;
+        }
+        #wrap>div .pic.on {
+            opacity: 1;
+        }
+        .half-top {
+            top: 50%;
+        }
+        .half-left {
+            left: 50%;
+        }
+        #bg1 .pic {
+            margin-left: -315px;
+            margin-top: -300px;
+        }
+        #bg1 .pic.on {
+            margin-top: -125px;
+        }
+        #bg2 .pic {
+            margin-left: -315px;
+        }
+        #bg2 .pic.on {
+            margin-top: -225px;
+        }
+        #bg3 .pic {
+            left: -100px;
+            margin-top: -110px;
+        }
+        #bg3 .pic.on {
+            left: 100px;
+        }
+        #bg4 .pic {
+            top: 100px;
+            right: -100px;
+        }
+        #bg4 .pic.on {
+            right: 100px;
+        }
+        #bg5 .pic {
+            top: 200px;
+            left: -100px;
+        }
+        #bg5 .pic.on {
+            left: 100px;
+        }
+        #bg6 .pic {
+            top: -30px;
+            left: 50%;
+        }
+        #bg6 .pic.on {
+            top: 100px;
+        }
+        #bg7 .pic {
+            right: -30px;
+            margin-top: -125px;
+        }
+        #bg7 .pic.on {
+            right: 200px;
+        }
+        #slide ul {
+            position: fixed;
+            top: 50%;
+            left: 30px;
+            transform: translate(0,-50%);
+        }
+        #slide li {
+            list-style: none;
+            width: 16px;
+            height: 16px;
+            margin: 5px 0;
+            border: 2px solid #fff;
+            border-radius: 100%;
+        }
+        #slide li.on {
+            background-color: #fff;
+        }
+    </style>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
+</head>
+<body>
+    <div id="wrap">
+        <div id="bg1">
+            <div class="pic half-top half-left"><img src="img/1-2.png" alt="" width="630" height="250"></div>
+        </div>
+        <div id="bg2">
+            <div class="pic half-top half-left"><img src="img/2-2.png" alt="" width="630" height="450"></div>
+        </div>
+        <div id="bg3">
+            <div class="pic half-top"><img src="img/3-2.png" alt="" width="570" height="220"></div>
+        </div>
+        <div id="bg4">
+            <div class="pic"><img src="img/4-2.png" alt="" width="430" height="200"></div>
+        </div>
+        <div id="bg5">
+            <div class="pic"><img src="img/5-2.png" alt="" width="630" height="250"></div>
+        </div>
+        <div id="bg6">
+            <div class="pic"><img src="img/6-2.png" alt="" width="630" height="250"></div>
+        </div>
+        <div id="bg7">
+            <div class="pic half-top"><img src="img/7-2.png" alt="" width="630" height="250"></div>
+        </div>
+    </div>
+    <div id="slide">
+        <ul>
+            <li class="on"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        $(function () {
+           var $bg = $("#wrap>div");
+           var $slideLi = $("#slide li");
+           // var pic = $(".pic"); 跨层级获取可能会有问题有问题
+           var len = $bg.length;
+           var bg,index = 0;
+           var $body = $("body,html");
+           var winH = $(window).height();
+           var toggle = true;
+            $(window).resize(function () {/*窗口拖拽时重新获取窗口高度*/
+               winH = $(window).height();
+               $body.stop().animate({
+                   "scrollTop": index * winH + "px"
+               });
+           });
+            $body.animate({ /* 页面刷新回到顶部*/
+                "scrollTop": 0
+            },500,function () {
+                $bg.eq(0).find(".pic").addClass("on");
+            });
+            for(var i = 0; i < len; i++){
+               bg = (i === 1) ? "rgb(217,127,92)" : "url('img/"+(i + 1)+".jpg') no-repeat center / cover";
+               $bg.eq(i).append($("<div class=\"logo\"></div>")).css("background",bg);
+           }
+            $(window).mousewheel(function () {
+              if(toggle){
+                  toggle = false;
+                  var m = arguments[1];
+                  index = m > 0 ?  (index === 0 ? len - 1 : index - 1) : (index === len - 1 ? 0 : index+1);
+                  move(index);
+              }
+           });
+            $slideLi.on("click",function () {
+                if(toggle){
+                    toggle = false;
+                    index = $(this).index();
+                    move(index);
+                }
+            });
+            function move(i) {
+                $body.stop().animate({
+                    "scrollTop": i * winH + "px"
+                },500,function () {
+                    toggle = true;
+                    $bg.eq(i).find(".pic").addClass("on");  /*必须在滚动动画结束后添加，否则看不到效果*/
+                    $bg.eq(i).siblings().find(".pic").removeClass("on");
+                    // pic.eq(i).addClass("on").removeClass("on"); 使用跨层级获取的元素可能有问题
+                });
+                $slideLi.eq(i).addClass("on").siblings().removeClass("on");
+            }
+        });
+    </script>
+</body>
+</html>

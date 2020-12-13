@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>腾讯新闻，多图序列</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #pic {
+            position: relative;
+            width: 870px;
+            height: 540px;
+            margin: 20px auto 0;
+        }
+        #pic li {
+            position: absolute;
+            display: none;
+            list-style: none;
+            height: 100%;
+            width: 100%;
+        }
+        #pic li:nth-of-type(1) {
+            display: block;
+        }
+        #btns div {
+            position: absolute;
+            top: 50%;
+            margin-top: -31px;
+            width: 32px;
+            height: 63px;
+            background-image: url('img/arrow.jpg');
+            cursor: pointer;
+        }
+        #btns .left {
+            left: -50px;
+        }
+        #btns .right {
+            right: -50px;
+            background-position: right;
+        }
+        #tab {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        #tab .arr {
+            width: 30px;
+            height: 100px;
+            line-height: 100px;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 600;
+            color: #999;
+            cursor: pointer;
+        }
+        #tab .arr:hover{
+            background-color: #43A4EF;
+            color: #fff;
+        }
+        #prev {
+            float: left;
+        }
+        #next {
+            float: right;
+        }
+        .tab-box {
+            overflow: hidden;
+            position: relative;
+            height: 100px;
+        }
+        .tab-box ul {
+            position: absolute; /*脱离文档使li全部在一行*/
+            width: 1000%;
+        }
+        .tab-box li {
+            list-style: none;
+            float: left;
+            width: 120px;
+            height: 75px;
+            margin: 12px 15px;
+            cursor: pointer;
+        }
+        .tab-box li#mask {
+            position: absolute;
+            z-index: -1;
+            top: -8px;
+            left: -5px;
+            width: 130px;
+            height: 89px;
+            background: url('img/mark.png');
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<div id="pic">
+    <ul></ul>
+    <div id="btns">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</div>
+<div id="tab">
+    <div id="prev" class="arr" onselectstart="return false">&lt;</div>
+    <div id="next" class="arr" onselectstart="return false">&gt;</div>
+    <div class="tab-box">
+        <ul></ul>
+    </div>
+</div>
+<script>
+    $(function () {
+       var $picUl = $("#pic>ul");
+       var $picLi,picLen;
+       var $tabUl = $("#tab ul");
+       var $tabLi,tabLiWid;
+       var $tab = $("#tab");
+       var tabWid = ($tab).width();
+       var $btn = $("#btns div");
+       var $prev = $("#prev");
+       var $next = $("#next");
+       var $mask;
+       var index = 0;
+       init();
+       $btn.on("click",function () {
+           var dir = $(this).index();
+           if(dir){
+               $picLi.eq(index).fadeOut();  /*隐藏之前的一个图，不用sibing找所有兄弟*/
+               // if(index === picLen - 1) {  使用设置最值的方法不用手动回到第一和最后了
+               //     $tabUl.stop().animate({
+               //         "marginLeft": "0"
+               //     },500);
+               //     index = 0;
+               // }else{
+               //     index++;
+               // }
+               index = index === picLen - 1 ? 0 : ++index;
+               move();
+           }else {
+               $picLi.eq(index).fadeOut();
+               // if(index === 0) {
+               //     $tabUl.stop().animate({
+               //         "marginLeft": -picLen * (tabLiWid + 30) - (tabWid - 60) + "px"
+               //     },500);
+               //     index = picLen - 1;
+               // }else{
+               //     index--;
+               // }
+               index = index === 0 ? picLen - 1 : --index;
+               move();
+           }
+       });
+       $tabLi.on("click",function () {
+           var thisLi = $picLi.eq(index);
+           if(!(thisLi.hasClass("on"))){  /* 判断是否重复点击，防止同一张图先被隐藏出现闪烁*/
+               thisLi.eq(index).fadeOut();
+           }
+           index = $(this).index();
+           move();
+       });
+       $next.on("click",function () {
+           var nowMargin = parseInt($tabUl.css("marginLeft"));
+           var newMargin = nowMargin - tabWid - 60;
+           var max = picLen * (tabLiWid + 30) - (tabWid - 60);
+           newMargin = Math.max(newMargin,-max); /*都是负数，取最大值反而是偏移的最小的*/
+           console.log(newMargin,-max);
+           $tabUl.stop().animate({
+               "marginLeft": newMargin + "px"
+           },500);
+       });
+       $prev.on("click",function () {
+           var nowMargin = parseInt($tabUl.css("marginLeft"));
+           var newMargin = nowMargin + tabWid - 60;
+           newMargin = Math.min(newMargin,0); /*newMargin是负数，当它大于0时才会偏移超出，此时取0*/
+           $tabUl.stop().animate({
+               "marginLeft": newMargin + "px"
+           },500);
+       });
+       function init() {
+           for(var i = 0; i < 22; i++){
+               var $li = $("<li></li>").css({
+                   "background": "url('img/"+(i + 1)+".jpg') no-repeat top / cover" /*cover等比扩展图片不会随窗口拖拽而压缩，contain等比缩放*/
+               });
+               var $tLi = $("<li></li>").css({
+                   "background": "url('img/"+(i + 1)+".jpg') no-repeat top / cover"
+               });
+               $tabUl.append($tLi);
+               $picUl.append($li);
+           }
+           $tabUl.append($("<li id='mask'></li>"));
+           $picLi = $("#pic li");
+           picLen = $picLi.length;
+           $tabLi = $("#tab li");
+           tabLiWid = $tabLi.width();
+           $mask = $("#mask");
+       }
+       function move() {
+           $picLi.eq(index).fadeIn(200);
+           $mask.css("left",150 * index - 5 + "px");
+           // if(index > 4 && index < picLen - 4){   这种方法比较死，第一次右移加20像素左移时要减回来
+           //     var l = $tabLi.eq(index).position().left + 20 - ($("#tab").width() - 60)/2; /*右移时加20像素使最后一张可以完整显示*/
+           //     $tabUl.stop().animate({
+           //          "marginLeft": -l + "px"
+           //     },500);
+           // }
+           var l = $tabLi.eq(index).position().left + 20 - (tabWid - 60)/2;
+           var max = picLen * (tabLiWid + 30) - (tabWid - 60);
+           l = Math.min(max,l);
+           l = Math.max(0,l);/*这种设置最值的算法在范围内可自动调整使第一和最后图片都能显示，往回会回到0,并且能自动返回第一张或最后一张*/
+           $tabUl.stop().animate({
+               "marginLeft": -l + "px"
+           },500);
+       }
+    });
+</script>
+</body>
+</html>

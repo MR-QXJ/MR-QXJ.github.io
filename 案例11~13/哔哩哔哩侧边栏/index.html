@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>侧边栏导航</title>
+    <script src="jquery-1.12.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #box {
+            width: 1300px;
+            margin: 0 auto;
+            font-size: 30px;
+        }
+        #header {
+            height: 800px;
+            background-color: orange;
+            text-align: center;
+        }
+        #content div {
+            height: 500px;
+        }
+        #content div:nth-of-type(even) {
+            background-color: skyblue;
+        }
+        #content div:nth-of-type(odd) {
+            background-color: greenyellow;
+        }
+        #footer {
+            height: 800px;
+            background-color: pink;
+            text-align: center;
+        }
+        #nav {
+            position: fixed;
+            top: 230px;
+            right: 46px;
+            width: 49px;
+            height: 500px;
+            border: 1px solid #ccc;
+            background-color: #e6f7f7;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        #nav li {
+            position: relative;
+            z-index: 2;
+            list-style: none;
+            width: 50px;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #nav li:hover,#nav li.on {
+            background-color: #00A1D6;
+            color: #fff;
+        }
+        #nav #cover {
+            display: none;
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            width: 50px;
+            height: 32px;
+            background-color: #00A1D6;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="header">头部</div>
+        <div id="content">
+            <div class="content1">动画</div>
+            <div class="content2">音乐</div>
+            <div class="content3">舞蹈</div>
+            <div class="content4">番剧</div>
+            <div class="content5">科技</div>
+            <div class="content6">娱乐</div>
+            <div class="content7">鬼畜</div>
+            <div class="content8">电影</div>
+            <div class="content9">TV剧</div>
+            <div class="content10">直播</div>
+            <div class="content11">时尚</div>
+            <div class="content12">游戏</div>
+        </div>
+        <div id="footer">底部</div>
+        <div id="nav">
+            <ul>
+                <li>动画</li>
+                <li>音乐</li>
+                <li>舞蹈</li>
+                <li>番剧</li>
+                <li>科技</li>
+                <li>娱乐</li>
+                <li>鬼畜</li>
+                <li>电影</li>
+                <li>TV剧</li>
+                <li>直播</li>
+                <li>时尚</li>
+                <li>游戏</li>
+                <li id="cover"></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(function () {
+           var $navBox = $("#nav");
+           var $navs = $("#nav li");
+           var $content = $("#content div");
+           var contentH = $content.height();
+           var len = $content.length;//content内容的个数
+           var $cover = $("#cover");
+           var index = 0;
+           var navHei = $navBox.height();
+           var winH = $(window).height();
+           var minus = ($(window).height() - navHei) / 2;
+           var toggle = true;
+           var footerTop = $("#footer").offset().top;
+           $navs.on("click",function () {
+               toggle = false;  //点击内容滑动时暂停滚动事件
+               //导航滑动动画
+               index = $(this).index();
+               $(this).addClass("on").siblings().removeClass("on");
+               $cover.stop().show().animate({
+                   "top": 32 * index + "px"
+               },400);
+               //页面滚动
+               $("html,body").stop().animate({//chrome 支持body，其他游览器支持html操作游览器
+                   "scrollTop": 500 + contentH * index + "px"
+               },500,function () {
+                   toggle = true;
+               });
+           }).on("mousedown",function () {
+               return false;
+           });
+                //滚动事件
+           $(window).scroll(function () {
+              if(toggle){
+                  //导航栏位置
+                  var scrTop = $(this).scrollTop();
+                  for(var i = len - 1; i >= 0 ; i--){
+                      if($content.eq(i).offset().top < scrTop + winH) {
+                          index = i ;
+                          //导航栏内容
+                          $navs.eq(index).addClass("on").siblings().removeClass("on");
+                          $cover.stop().show().animate({
+                              "top": 32 * index + "px"
+                          },80);
+                          break;
+                      }
+                  }
+                  if(scrTop > 100){
+                      if(scrTop >= footerTop - 500){
+                          $navs.removeClass("on");
+                          $cover.hide();
+                      }
+                      $navBox.css("top",minus + "px");
+                  }else {
+                      $navBox.css("top","230px");
+                      $cover.hide();
+                      $navs.removeClass("on");
+                  }
+              }
+           }).resize(function () {
+               winH = $(window).height();
+               minus = (winH - navHei) / 2; /*垂直方向自适应居中*/
+               minus = Math.max(0,minus);  /*最小值为0*/
+               $navBox.css("top",minus + "px");
+           });
+        });
+    </script>
+</body>
+</html>

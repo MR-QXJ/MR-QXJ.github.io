@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>立方旋转轮播</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <style>
+        body {
+            background-color: #333;
+        }
+        #box {
+            position: relative;
+            width: 800px;
+            height: 360px;
+            margin: 100px auto;
+            box-shadow: 0 0 8px deepskyblue;
+            border-radius: 3px;
+            perspective: 800px;
+        }
+        #box li {
+            position: relative;
+            float: left;
+            width: 100px;
+            height: 360px;
+            transform-style: preserve-3d;
+            transform: translateZ(-180px);/*每一面向前使旋转轴心在中间，再将整体向后使整体不会变近*/
+        }
+        #box li span {
+            position: absolute;
+            width: 100px;
+            height: 360px;
+        }
+        #box li span:nth-of-type(1){
+            background: url("img/1.png");
+            transform: translateZ(180px);/*每一面向前使旋转轴心在中间，再将整体向后使整体不会变近*/
+        }
+        #box li span:nth-of-type(2){ /*后*/
+            background: url("img/3.jpg");
+            transform: translateZ(-180px) rotateX(180deg);  /*后面旋转时翻转后内容不是反的*/
+        }
+        /*#box li span:nth-of-type(3){ !*左*!*/
+            /*background-color: orange;*/
+            /*left: -100px;*/
+            /*transform-origin: right;*/
+            /*transform: rotateY(-90deg);*/
+        /*}*/
+        /*#box li span:nth-of-type(4){ !*右*!*/
+            /*background-color: #fff;*/
+            /*left: 100px;*/
+            /*transform-origin: left;*/
+            /*transform: rotateY(90deg);*/
+        /*}*/
+        #box li span:nth-of-type(3){ /*上*/
+            background: url("img/4.jpg");
+            top: -360px;
+            transform-origin: bottom;
+            transform: translateZ(180px) rotateX(90deg) ;
+        }
+        #box li span:nth-of-type(4){  /*下*/
+            background: url("img/2.png");
+            top: 360px;
+            transform-origin: top;
+            transform: translateZ(180px) rotateX(-90deg);
+        }
+        #btn {
+            width: 340px;
+            height: 40px;
+            margin: -50px auto 0;
+        }
+        #btn li {
+            float: left;
+            width: 40px;
+            height: 40px;
+            margin: 0 20px;
+            line-height: 40px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            border-radius: 100%;
+            background-color: mediumpurple;
+            cursor: pointer;
+        }
+        #btn li.on {
+            color: #000;
+            background-color: orangered;
+        }
+    </style>
+    <script src="jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<ul id="box">
+    <!--<li>-->
+        <!--<span>前</span>-->
+        <!--<span>后</span>-->
+        <!--<span>左</span>-->
+        <!--<span>右</span>-->
+        <!--<span>上</span>-->
+        <!--<span>下</span>-->
+    <!--</li>-->
+</ul>
+<ul id="btn">
+    <li class="on">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+</ul>
+<script>
+    $(function () {
+        var $btn = $("#btn>li");
+        var $ul = $("#box");
+        var wid = $ul.width();
+        var delay = 0; /*用于按钮延迟，必须本次动画结束再按才有效*/
+        var toggle = true;
+        init(20);
+        var $lis = $("#box>li");
+        $btn.on("click",function () {
+            if(toggle){
+                toggle = false;
+                var index = $(this).index();
+                $lis.css({
+                    "transform": " translateZ(-180px) rotateX("+ 90 * index +"deg)"
+                }) ;
+                $(this).addClass("on").siblings().removeClass("on");
+                var timer = setTimeout(function () {
+                    clearTimeout(timer);
+                    toggle = true;
+                },delay);
+            }
+        }).mousedown(function () {
+            return false;
+        });
+
+        function init(num) {
+            var liWid = wid/num;
+            var eSec = num * 0.004;
+            var sec = 0;
+            for(var i = 0; i < num; i++){
+                var $li = $("<li><span></span><span></span><span></span><span></span></li>");
+                var $span = $li.find("span");
+                $li.width(liWid);
+                $span.width(liWid);
+                $ul.append($li);
+                if(i >= num / 2){/*后半li层级递减，防止背面由于后创建而显示*/
+                    $li.css({
+                        "zIndex": -i
+                    });
+                }
+                $li.css("transition",".8s "+sec+"s");
+                sec += eSec;
+                $span.each(function () {
+                    $(this).css({
+                        "backgroundPosition": -liWid * i + "px 0"
+                    });
+                });
+           }
+            delay = (0.8 + sec) * 1000;//保存本次动画将要完成的时间
+        }
+    });
+</script>
+</body>
+</html>

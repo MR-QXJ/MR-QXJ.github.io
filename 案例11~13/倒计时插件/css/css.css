@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #000;
+}
+h2 {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    color: #f60;
+    font-size: 30px;
+    text-align: center;
+    opacity: 0;
+    transform: translate(-50%,0);
+    transition : 1s opacity;
+}
+#wrap {
+    width: 500px;
+    height: 260px;
+    margin: 200px auto;
+    background-color: #333;
+    font-size: 20px;
+    color: skyblue;
+    box-shadow: 0 0 10px deepskyblue;
+}
+#time {
+    width: 100%;
+    line-height: 260px;
+    text-align: center;
+}
+#time p {
+    display: inline-block;
+    line-height: 51px;
+}
+#time p span {
+    float: left;
+    width: 36px;
+    height: 51px;
+    background: url('../img/1.png') no-repeat 0 -1px;
+    text-align: center;
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品选购</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: "Microsoft yahei";
+        }
+        #wrap {
+            width: 600px;
+            height: 400px;
+            margin: 50px auto;
+        }
+        #product {
+            height: 220px;
+            border-bottom: 1px solid #aaa;
+            font-size: 14px;
+        }
+        #product p {
+            padding-bottom: 15px;
+        }
+        #product b {
+            margin-right: 15px;
+            font-weight: 400;
+        }
+        #product span {
+            display: inline-block;
+            padding: 8px;
+            border: 1px solid #aaa;
+            color: #666;
+            cursor: pointer;
+        }
+        #product span.on {
+            border: 2px solid #f60;
+            padding: 7px;
+            background: url('img/on.png') no-repeat right bottom;
+        }
+        #price {
+            padding-top: 20px;
+            height: 159px;
+        }
+        #price p {
+            padding-bottom: 20px;
+            font-size: 16px;
+        }
+        #price span {
+            margin-right: 20px;
+            color: #f60;
+            font-size: 20px;
+        }
+        #price a {
+            font-size: 14px;
+        }
+        #price i {
+            margin: 0 5px;
+            color: #90c;
+        }
+        #price input {
+            width: 330px;
+            height: 50px;
+            border: 0;
+            background-color: #f60;
+            outline: none;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div id="product">
+        <p id="size">
+            <b>型号</b>
+            <span class="on">4.7英寸</span>
+            <span>5.5英寸</span>
+        </p>
+        <p id="color">
+            <b>颜色</b>
+            <span class="on">银色</span>
+            <span>金色</span>
+            <span>深空灰色</span>
+        </p>
+        <p id="ram">
+            <b>内存</b>
+            <span class="on">16GB</span>
+            <span>64GB</span>
+            <span>128GB</span>
+        </p>
+        <p id="version">
+            <b>版本</b>
+            <span class="on">旗舰版</span>
+            <span>联通合约版</span>
+            <span>移动增费版</span>
+        </p>
+    </div>
+    <div id="price">
+        <p>价格：<span>￥ 5288.00</span> <a href="javascript:;"><i>联通合约版</i>或<i>移动赠费版</i>购机价格计算请点击这里>.<</a></p>
+        <input type="button" value="立即购买"/>
+    </div>
+</div>
+<script>
+    var allSpan = document.getElementsByTagName("span");
+    var allLen = allSpan.length;
+    var price = document.getElementById("price").getElementsByTagName("span")[0];
+    var sSpan = document.getElementById("size").getElementsByTagName("span");
+    var rSpan = document.getElementById("ram").getElementsByTagName("span");
+    var vSpan = document.getElementById("version").getElementsByTagName("span");
+    for(var i = 0; i < allLen; i++){
+        allSpan[i].onclick = function () {
+            var brother = this.parentNode.children; /* 先删除点击的这一行所有元素的class*/
+            for(var j = 0, len = brother.length; j < len; j++){
+                brother[j].className = "";
+            }
+            this.className = "on";
+            addPrice();
+        };
+    }
+    function addPrice() {
+        var p1 = 0, p2 = 0, p3 = 0, p;
+        var ramData = {
+            "0": 0,
+            "1": 200,
+            "2": 400
+        };
+        var versionData = {
+            "0": 0,
+            "1": 160,
+            "2": 180
+        };
+        for(var i = 0, sLen = sSpan.length; i < sLen; i++){  /*型号选择价格*/
+            console.log(sSpan[i].className);
+            if(sSpan[i].className === "on"){
+                p1 = i ? 6088 : 5288;
+                break;
+            }
+        }
+        for(var j = 0, rLen = rSpan.length; j < rLen; j++){ /*内存增加价格*/
+            if(rSpan[j].className === "on"){
+                p2 = ramData[j];
+                break;
+            }
+        }
+        for(var z = 0, vLen = vSpan.length; z < vLen; z++){ /*选版本增加价格*/
+            if(vSpan[z].className === "on"){
+                p3 = versionData[z];
+                break;
+            }
+        }
+        p = p1 + p2 + p3;
+        price.innerText = "￥ "+ p +".00";
+    }
+</script>
+</body>
+</html>

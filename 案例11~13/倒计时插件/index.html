@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>倒计时插件</title>
+    <link rel="stylesheet" href="css/css.css">
+    <script src="js/js.js"></script>
+</head>
+<body>
+<h2>开始活动，一起来抢吧！！</h2>
+<div id="wrap">
+    <div id="time">
+        <p><span></span><span></span><b>时</b></p>
+        <p><span></span><span></span><b>分</b></p>
+        <p><span></span><span></span><b>秒</b></p>
+    </div>
+</div>
+<script>
+    var p = document.getElementsByTagName("p");
+    var spans1 = p[0].getElementsByTagName("span");
+    var spans2 = p[1].getElementsByTagName("span");
+    var spans3 = p[2].getElementsByTagName("span");
+    var h2 = document.getElementsByTagName("h2")[0];
+
+    /**
+     * 年月日和时分秒中间空格隔开
+     * 年月日可用（ - . / ）分隔    时分秒可用 : 或 . 分隔
+     * */
+    countDown({
+        data: "2019-9-2 21:19:33",
+        show: function (ms,mf,mm) {// 参数时，分，秒
+            for(var i = 0; i < 2; i++){
+                spans1[i].style.backgroundPosition = "0 "+(-ms[i] * 52 * 6 - 1)+"px";
+                spans2[i].style.backgroundPosition = "0 "+(-mf[i] * 52 * 6 - 1)+"px";
+                spans3[i].style.backgroundPosition = "0 "+(-mm[i] * 52 * 6 - 1)+"px";
+            }
+        },
+        end: function () {
+            h2.style.opacity = 1;//倒计时结束后显示标题
+        }
+    });
+
+</script>
+</body>
+</html>

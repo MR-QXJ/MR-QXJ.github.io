@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无缝轮播</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            display: block;
+        }
+        .clearfix:after {
+            clear: both;
+            display: block;
+            visibility: hidden;
+            height: 0;
+            content: "";
+        }
+        .clearfix {
+            *zoom: 1;
+        }
+        #wrap {
+            position: relative;
+            width: 502px;
+            margin: 100px auto;
+        }
+        #pic {
+            overflow: hidden;
+            width: 462px;
+            margin: 0 auto;
+        }
+        #pic ul {
+            width: 1000%;
+        }
+        #pic li{
+            float: left;
+            list-style: none;
+            margin: 0 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        #pic li:hover {
+            border: 1px solid #000;
+        }
+        #btns div {
+            position: absolute;
+            top: 0;
+            width: 20px;
+            height: 59px;
+            cursor: pointer;
+        }
+        .left {
+            left: 0;
+            background: url('img/prev.png') no-repeat 0 0;
+        }
+        .right {
+            right: -10px;
+            background: url('img/next.png') no-repeat 0 0;
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+    <div id="wrap">
+        <div id="pic">
+            <ul class="clearfix">
+                <li><img src="img/1.png" alt="" width="132" height="59"></li>
+                <li><img src="img/2.png" alt="" width="132" height="59"></li>
+                <li><img src="img/3.png" alt="" width="132" height="59"></li>
+                <li><img src="img/4.png" alt="" width="132" height="59"></li>
+                <li><img src="img/1.png" alt="" width="132" height="59"></li>
+                <li><img src="img/2.png" alt="" width="132" height="59"></li>
+                <li><img src="img/3.png" alt="" width="132" height="59"></li>
+            </ul>
+        </div>
+        <div id="btns">
+            <div class="left"></div>
+            <div class="right"></div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var $ul = $("#pic>ul");
+            var $btn = $("#btns>div");
+            var $wrap = $("#wrap");
+            var flag = true;
+            var index = 0;
+            var timer = setInterval(moveRight,2000);
+            $wrap.hover(function () {
+                clearInterval(timer);
+            },function () {
+                timer = setInterval(moveRight,2000);
+            });
+            $btn.on("click",function () {
+               var dir = $(this).index();
+                if(flag){
+                  flag = false;
+                  if(dir){
+                     moveRight();
+                  }else {
+                      if(index === 0){
+                          index = 4;
+                          $ul.css("marginLeft", -index * 152 + "px");
+                      }
+                      index--;
+                      $ul.animate({
+                          "marginLeft": -index * 152 + "px"
+                      },500,function () {
+                          flag = true;
+                      });
+                  }
+              }
+            });
+            function moveRight() {
+                index++;
+                $ul.animate({
+                    "marginLeft": -index * 152 + "px"
+                },500,function () {
+                    if(index === 4){
+                        index = 0;
+                        $ul.css("marginLeft", 0);
+                    }
+                    flag = true;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

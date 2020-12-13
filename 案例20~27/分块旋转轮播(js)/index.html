@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分块旋转</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #494992;
+        }
+        li {
+            list-style: none;
+        }
+        #wrap {
+            width: 800px;
+            height: 360px;
+            margin: 100px auto;
+            box-shadow: 0 0 8px deepskyblue;
+            border-radius: 3px;
+            perspective: 800px;
+        }
+        #wrap>ul li {
+            list-style: none;
+            position: relative;
+            float: left;
+            height: 360px;
+            background-color: #000;
+            transform: translateZ(-180px);
+            transform-style: preserve-3d;
+        }
+        #wrap>ul li>div {
+            position: absolute;
+            height: 360px;
+        }
+        #wrap>ul li>div:nth-of-type(1) {  /*后*/
+            background-image: url('img/3.png');
+            transform: translateZ(-180px) rotateX(180deg);
+        }
+        #wrap>ul li>div:nth-of-type(2) { /* 前*/
+            background-image: url('img/1.png');
+            transform: translateZ(180px);
+        }
+        #wrap>ul li>div:nth-of-type(3) {  /*上*/
+            top: -360px;
+            background-image: url('img/2.png');
+            transform: translateZ(180px) rotateX(90deg);
+            transform-origin: bottom;
+        }
+        #wrap>ul li>div:nth-of-type(4) { /*下*/
+            bottom: -360px;
+            background-image: url('img/4.png');
+            transform: translateZ(180px) rotateX(-90deg);
+            transform-origin: top;
+        }
+        #tab {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            width: 216px;
+            height: 34px;
+            transform: translate(-50%,0);
+        }
+        #tab li {
+            float: left;
+            width: 24px;
+            height: 24px;
+            margin: 5px 15px;
+            line-height: 24px;
+            background-color: #999;
+            color: #fff;
+            text-align: center;
+            border-radius: 100%;
+            cursor: pointer;
+        }
+        #tab li.on {
+            background-color: #f60;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <ul></ul>
+        <div id="tab">
+            <ul>
+                <li class="on">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+          var oLi = document.getElementsByTagName("ul");
+          var tab = oLi[1].getElementsByTagName("li");
+          var pic;
+          var len = tab.length;
+          var oCss = document.getElementsByTagName("style")[0];
+          init(60);
+          for(var i = 0; i < len; i++){
+              tab[i].i = i;
+              tab[i].onclick = function () {
+                  for(var j = 0; j < len; j++){
+                      tab[j].className = "";
+                  }
+                  this.className = "on";
+                  oCss.innerHTML += "#wrap>ul li {transform: translateZ(-180px) rotateX("+(-90 * this.i) +"deg)}";
+              };
+              tab[i].onmousemove= function () { /*取消文本选中*/
+                  return false;
+              };
+          }
+          function init(num) {
+              var wid = 800 / num;
+              var z = parseInt(num/2);
+              oCss.innerHTML += "#wrap>ul li {width: "+ wid +"px} #wrap>ul div {width: "+ wid +"px}";
+              for(var i = 0; i < num; i++){
+                var picLi = document.createElement("li");
+                if(i > z){
+                    picLi.style.zIndex = -i;  /*后面一半层级递减，任意多少个li都可以避免后面背后内容比前面层级高*/
+                }
+                for(var j = 0; j < 4; j++){
+                    var div = document.createElement("div");
+                    div.style.backgroundPosition = -i * wid + "px 0";
+                    picLi.appendChild(div);
+                }
+                picLi.style.transition = 0.5 + i/num + "s";  /*无论创建多少个，控制动画总时长都为1.5s*/
+                oLi[0].appendChild(picLi);
+              }
+              pic = oLi[0].getElementsByTagName("li");
+          }
+        };
+    </script>
+</body>
+</html>

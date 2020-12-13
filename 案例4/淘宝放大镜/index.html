@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>放大镜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            display: block;/*除去图片底部间隙*/
+        }
+        #wrap {
+            width: 400px;
+            height: 500px;
+            margin: 100px;
+            border: 1px solid #333;
+        }
+        #pic .small {
+            position: relative;
+        }
+        #pic .mask {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: url("img/cover.png");
+            cursor: move;
+        }
+        #pic .big {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: -410px;  /*如果用left图片缩放会影响位置*/
+            width: 400px;
+            height: 400px;
+            background: url("img/1.jpg") no-repeat 0 0;
+        }
+        #tab li {
+            list-style: none;
+            position: relative;
+            float: left;
+            width: 50px;
+            height: 50px;
+            margin: 20px 13px;
+            border:2px solid #fff;
+            transition: border .3s;
+            cursor: pointer;
+        }
+        #tab li.on {
+            border: 2px solid #f60;
+        }
+        #tab li img {
+            display: none;/*先隐藏，初始化完成后再显示*/
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+    <script src="jquery-1.12.1.min.js"></script>
+</head>
+<body>
+    <div id="wrap">
+        <div id="pic">
+            <div class="small">
+                <img src="img/1.jpg" alt="" width="400" height="400">
+                <div class="mask"></div>
+                <div class="big"></div>
+            </div>
+        </div>
+        <div id="tab">
+            <ul>
+                <li class="on"><img src="img/1.jpg" alt="" width="" height="" /></li> <!--故意不设置初始值，测试init函数-->
+                <li><img src="img/2.jpg" alt="" width="" height="" /></li>
+                <li><img src="img/3.jpg" alt="" width="" height="" /></li>
+                <li><img src="img/4.jpg" alt="" width="" height="" /></li>
+                <li><img src="img/5.jpg" alt="" width="" height="" /></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        var $tabs = $("#tab li");
+        var $tabImgs = $("#tab li>img");
+        var $bImg = $(".big");
+        var $mask = $(".mask");
+        var $small = $(".small");
+        var $sImg = $("#pic img");
+        var index = 0;
+        var imgArr = [];
+        window.onload = function(){/*防止图片宽高获取bug*/
+            init();
+        };
+        $tabs.on("mouseenter",function () {
+           $(this).addClass("on").siblings().removeClass("on");
+           index = $(this).index();
+           $sImg.prop({
+               "src": "img/"+(index+1)+".jpg",
+               "width": imgArr[index].widPro * 400,
+               "height": imgArr[index].heiPro * 400
+           });
+            $small.css({
+                "marginLeft": (400 - imgArr[index].widPro * 400) / 2,
+                "marginTop": (400 - imgArr[index].heiPro * 400) / 2
+            });
+            //遮罩新宽/遮罩原宽=缩放后图宽/原图宽   即遮罩新宽 = 缩放后图宽/原图宽*遮罩原宽
+            var nmWid = imgArr[index].widPro * 200;
+            $mask.css({
+                "width": nmWid,
+                "height": nmWid
+            });
+            $bImg.css({
+                "backgroundImage": "url("+$sImg.prop("src")+")"
+            });
+        });
+        $small.on("mousemove",function (e) {
+            $bImg.show();
+            $mask.show();
+            var eve = window.event || e;
+            var sWid = $sImg.width();
+            var sHei = $sImg.height();
+            var pX = eve.pageX;
+            var pY = eve.pageY;
+            var imgLeft = $sImg.offset().left;
+            var imgTop = $sImg.offset().top;
+            var maskWid = $mask.width();
+            var maskHei = $mask.height();
+            //遮罩left：鼠标x-图片左偏移-遮罩宽度/2，top同理可得
+            var minusX = pX - imgLeft - maskWid / 2;
+            var minusY =  pY - imgTop - maskHei / 2;
+            minusX = Math.max(minusX,0);  //在minusX和0中取max最大值，即设置最小值为0
+            minusX = Math.min(minusX,sWid - maskWid);
+            minusY = Math.max(minusY,0);
+            minusY = Math.min(minusY,sHei - maskHei);
+            $mask.css({
+                "left" : minusX + "px",
+                "top" :minusY + "px"
+            });
+            //遮罩X移动/图片缩放后宽度=大图移动X/大图原宽  即大图移动X=遮罩X移动/图片缩放后宽*大图原宽
+            var bX = minusX /( imgArr[index].widPro * 400 )* imgArr[index].wid;  //这里的括号不加会bug，估计由于小数计算的误差
+            var bY = minusY /( imgArr[index].heiPro * 400 )* imgArr[index].hei;
+            $bImg.css({
+                "backgroundPosition": -bX + "px " +  -bY + "px"
+            });
+        }).on("mouseleave",function () {
+            $bImg.hide();
+            $mask.hide();
+        });
+        $bImg.on("mouseover",function () {
+            $bImg.hide();
+            $mask.hide();
+        }).on("mousemove",function () {  //取消冒泡，防止鼠标快速移入大图无法隐藏
+            return false;
+        });
+        function init() {
+            $tabImgs.each(function (i,ele) {
+                var orWid = $(this).width(); //获取原图宽高
+                var orHei = $(this).height();
+                if(orWid >= orHei){ //宽比高大,设置宽度定值为50
+                    //原图宽/原图高 = 新宽/新高    即 新高 = 新宽/原图宽*原图高   新宽 = 新高*原图宽/原图高
+                    $(ele).css({
+                        "width":  50 +"px",
+                        "height": 50 / orWid * orHei + "px",
+                        "top": (50 - 50 / orWid * orHei) / 2 + "px"
+                    });
+                    imgArr[i] = {"widPro": 1,"heiPro": orHei / orWid,"wid": orWid,"hei": orHei};/*获取图片宽高和比例*/
+                }else{ //高比宽大,设置高度定值为50
+                    $(ele).prop({
+                        "width":  50 * orWid / orHei,
+                        "height": 50
+                    });
+                    $(ele).css({
+                        "left": (50 - 50 * orWid / orHei) / 2 + "px"
+                    });
+                    imgArr[i] = {"widPro": orWid / orHei,"heiPro": 1,"wid": orWid,"hei": orHei};
+                }
+                $(ele).show();//初始化结束后显示，防止图片加载bug
+            });
+        }
+    </script>
+</body>
+</html>

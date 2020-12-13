@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片延迟加载js</title>
+    <style>
+        img {
+            display: block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<img src="img/1.jpg" alt="" width="500" height="330" />
+<img src="img/2.jpg" alt="" width="500" height="300" />
+<img src="img/3.jpg" alt="" width="500" height="300" />
+<img src="img/4.jpg" alt="" width="500" height="300" />
+<img src="img/5.jpg" alt="" width="500" height="300" />
+<img src="img/6.jpg" alt="" width="500" height="300" />
+<img src="img/7.jpg" alt="" width="500" height="300" />
+<img src="img/8.jpg" alt="" width="500" height="300" />
+<img src="img/9.jpg" alt="" width="500" height="300" />
+<img src="img/10.jpg" alt="" width="500" height="300" />
+<img src="img/11.jpg" alt="" width="500" height="300" />
+<img src="img/12.jpg" alt="" width="500" height="300" />
+<img src="img/13.jpg" alt="" width="500" height="300" />
+<img src="img/14.jpg" alt="" width="500" height="300" />
+<script>
+    var imgs = document.getElementsByTagName("img");
+    var len = imgs.length;
+    var imgArr = [];
+
+    for(var i = 0; i < len; i++){
+        imgs[i].srcArr = imgs[i].src;
+        imgArr[i] = imgs[i];  /*保存图片原本地址并放入数组中操作，节省空间*/
+        imgs[i].src = "img/loading.jpg";
+    }
+
+   window.onload = function () {
+       var windH = winSize().height;
+       lazyLoad();
+       window.onscroll = lazyLoad;
+       function lazyLoad() {
+           var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+           for(var i = imgArr.length - 1; i >= 0; i--){   /*从后往前并在数组中删除已加载的图片可跳过已加载的并节省空间*/
+               var imgTop = imgArr[i].offsetTop;
+               if(imgTop < scrollTop + windH){
+                   imgArr[i].src = imgArr[i].srcArr;
+                   imgArr.splice(i,1); /*每次加载删除数组中的此图片，下次滚动减少检索次数*/
+                   console.log(imgArr); /*可观察到未加载的元素*/
+               }
+           }
+       }
+
+       //所有游览器兼容获取窗口宽高
+       function winSize() {
+           var e = "inner", a = window;
+           if(!("innerHeight" in window)){
+               e = "client";
+               a = document.documentElement || document.body;/*优先用documentElement，ie8中body获取的是整个页面不是窗口*/
+           }
+           return {width: a[e + "Width"],height: a[e + "Height"]};
+       }
+   };
+</script>
+</body>
+</html>

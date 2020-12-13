@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日历插件</title>
+    <script src="laydate.js"></script>
+</head>
+<body>
+<div id="t1">
+    <label>请输入日期：<input type="text" id="txt"/></label>
+</div>
+<br />
+<div id="t2">
+    <input type="text" id="txt1"/>
+    <input type="button" id="btn" value="选择日期"/>
+</div>
+<script>
+    // var txt = document.getElementById("txt");
+    laydate({
+        elem:  "#txt", /*日历对应的元素，只能传选择器，传DOM元素不可*/
+        format: "YYYY/MM/DD", /*格式化Y代表年，M月，D日，设置用什么隔开*/
+        festival: true,  /*是否显示节日*/
+        event: "mouseenter",  /*触发日历的事件,默认为click*/
+        // defSkin: "dahong",  没有修改皮肤的接口，要在源码中改
+        choose: function () {
+            alert("日期选择成功！");
+        }
+    });
+    var btn = document.getElementById("btn");
+    btn.onclick = function () {
+        laydate({
+            elem: "#txt1"
+        })
+    };
+</script>
+</body>
+</html>

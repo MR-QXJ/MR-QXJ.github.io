@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无缝轮播</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+            float: left;
+        }
+        #banner {
+            overflow: hidden;
+            position: relative;
+            width: 520px;
+            height: 280px;
+            border: 3px solid red;
+            margin: 100px auto;
+        }
+        #banner #img {
+            width: 3120px;
+        }
+        #icon ul {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            margin-left: -35px;
+            width: 70px;
+            height: 14px;
+            background-color: rgba(255,255,255,.5);
+            border-radius: 14px;
+        }
+        #icon li {
+            width: 10px;
+            height: 10px;
+            margin: 2px;
+            background-color: #aaa;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        #icon li.on {
+            background-color: #f60;
+        }
+        #btn div {
+            display: none;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: rgba(0,0,0,.2);
+            text-align: center;
+            color: #fff;
+            font-size: 30px;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        #btn div:hover {
+            background-color: rgba(0,0,0,.7);
+        }
+        #btn #left {
+            left: 5px;
+        }
+        #btn #right {
+            right: 5px;
+        }
+    </style>
+    <script src="../../秦枭嘉_案例1_2019.08.16/球体表格特效/js/index2.js"></script>
+</head>
+<body>
+<div id="banner">
+    <ul id="img">
+        <li><a href="javascript;"><img src="img/1.jpg" alt=""></a></li>
+        <li><a href="javascript;"><img src="img/2.jpg" alt=""></a></li>
+        <li><a href="javascript;"><img src="img/3.jpg" alt=""></a></li>
+        <li><a href="javascript;"><img src="img/4.jpg" alt=""></a></li>
+        <li><a href="javascript;"><img src="img/5.jpg" alt=""></a></li>
+    </ul>
+    <div id="icon">
+        <ul>
+            <li class="on"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div id="btn">
+        <div id="left">&lt;</div>
+        <div id="right">&gt;</div>
+    </div>
+</div>
+<script src="js/jquery-1.12.1.min.js"></script>
+<script>
+    $(function () {
+        var $icons = $("#icon li");
+        var $btns = $("#btn>div");
+        var $imgs = $("#img");
+        var $imgWid = $imgs.find("li").width();
+        var index = 0;
+        var now = 0;//用于判断动画函数执行的时间，防止快速点击动画未执行结束
+        var timer;
+        //复制第一张图片到最后
+        $imgs.append($("#img>li:eq(0)").clone(true));
+        var imgLen = $imgs.find("li").length;
+
+        //自动轮播
+        timer = setInterval(function () {
+            move(1);//传1向右轮播
+        },3000);
+
+        //鼠标移入相框左右按钮显示
+        $("#banner").hover(function () {
+            clearInterval(timer);
+            $btns.fadeIn(100);
+        },function () {
+            timer = setInterval(function () {
+                move(1);//传1向右轮播
+            },3000);
+            $btns.fadeOut(100);
+        });
+
+       //点击小圆圈
+       $icons.on("click",function () {
+           $(this).addClass("on").siblings().removeClass("on");
+           index = $(this).index();
+           $imgs.animate({
+               "marginLeft": -$imgWid*index+"px"
+           },300);
+       });
+
+       //点击左右按钮
+        $btns.on("click",function () {
+            if(new Date() - now > 300){  //满足条件时上次移动才结束，才可进行下一次移动,或者在animate方法前stop停止上一次动画也不会bug
+                var $dir = $(this).index();//判断左右方向
+                move($dir);
+                now = new Date();//记录当前时间
+            }
+        }).on("mousedown",function () {
+            return false; //这样也可以阻止鼠标选中文本
+        });
+
+        //点击左右按钮函数
+        function move(dir) {
+            var zero;
+            dir ? index++ : index--; /*索引为0即点了向左，index减一，为1即点了向右，index加1*/
+            //最右边再右移
+            if(index > imgLen-1){
+                index = 1;
+                $imgs.css({
+                    "marginLeft": 0
+                });
+            }
+            //最左边再左移
+            if(index < 0){
+                index = imgLen-1;
+                $imgs.css({
+                    "marginLeft": -$imgWid*index+"px"
+                });
+                index--;
+            }
+            $imgs.animate({
+                "marginLeft": -$imgWid*index+"px"
+            },300);
+            zero = index === imgLen-1 ? 0 : index;
+            $icons.eq(zero).addClass("on").siblings().removeClass("on");
+        }
+    });
+</script>
+</body>
+</html>

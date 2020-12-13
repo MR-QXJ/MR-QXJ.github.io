@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全屏滚动</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            overflow: hidden;
+            height: 100%;
+        }
+        a {
+            text-decoration: none;
+        }
+        li {
+            list-style: none;
+        }
+        #bg {
+            height: 100%;
+        }
+        #bg div {
+            height: 100%;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .bg1 {
+            background-image: url("img/1.jpg");
+        }
+        .bg2 {
+            background-image: url("img/2.jpg");
+        }
+        .bg3 {
+            background-image: url("img/3.jpg");
+        }
+        .bg4 {
+            background-image: url("img/4.jpg");
+        }
+        #hd {
+            position: fixed;
+            top: 25px;
+            width: 100%;
+        }
+        #hd .logo a{
+            overflow: hidden;
+            float: left;
+            width: 226px;
+            height: 47px;
+            margin-left: 50px;
+            background: url("img/logo.png");
+            text-indent: -999px;
+        }
+        #hd .nav {
+            float: right;
+            position: relative;
+            margin-right: 30px;
+        }
+        .nav ul {
+            position: relative;
+            width: 400px;
+            z-index: 1; /* 防止层级被#border覆盖*/
+        }
+        .nav li {
+            float: left;
+            height: 47px;
+            line-height: 47px;
+            margin-left: 45px;
+        }
+        .nav li a {
+            font-size: 14px;
+            color: rgba(255,255,255,.8);
+            text-shadow: 3px 2px 10px #000;
+        }
+        .nav li.on a{
+            color: #fff;
+        }
+        #border {
+            position: absolute;
+            top: 8px;
+            left: 30px;
+            width: 56px;
+            height: 30px;
+            border: 1px solid rgba(255,255,255,.7);
+            border-radius: 14px;
+        }
+        #slide {
+            position: fixed;
+            top: 35%;
+            left: 50px;
+            width: 100px;
+            height: 330px;
+            background: url("img/nav.png") no-repeat;
+        }
+        #slide li {
+            padding-left: 40px;
+            margin: 6px 0 56px;
+            line-height: 21px;/* 保证背景圆点显示完全*/
+            font-size: 12px;
+            color: rgba(255,255,255,.8);
+            cursor: pointer;
+        }
+        #slide li.on {
+            background: url("img/nav_cho.png") no-repeat;
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="js/jquery.mousewheel.js"></script>
+</head>
+<body>
+    <div id="hd">
+        <div class="logo">
+            <h1>
+                <a href="javascript:;" title="360安全换机">360安全换机</a>
+            </h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li class="on"><a href="javascript:;">首页</a></li>
+                <li><a href="javascript:;">常见问题</a></li>
+                <li><a href="javascript:;">论坛</a></li>
+                <li><a href="javascript:;">360首页&gt;&gt;</a></li>
+            </ul>
+            <div id="border"></div>
+        </div>
+    </div>
+    <div id="bg">
+        <div class="bg1"></div>
+        <div class="bg2"></div>
+        <div class="bg3"></div>
+        <div class="bg4"></div>
+    </div>
+    <div id="slide">
+        <ul>
+            <li class="on">安全换机</li>
+            <li>无网对传</li>
+            <li>隐私粉碎</li>
+            <li>一键转移</li>
+        </ul>
+    </div>
+    <script>
+        $(function () {
+            var $nav = $(".nav");
+            var $lis = $nav.find("li");
+            var $border = $("#border");
+            var $bg = $("html,body");
+            $bg.animate({/* 页面刷新后先回到第一个背景，处理缓存问题*/
+                "scrollTop": 0
+            },300);
+            //导航栏
+            (function(){
+                var $wid;
+                var $left;
+                var $chooseWid = 28; /*若设为0第一轮鼠标移入没点击宽度会不够*/
+                var $chooseLeft = 0;
+                var $index = 0;
+                $lis.on("mouseenter",function () {
+                    $(this).addClass("on").siblings().removeClass("on");
+                    $wid = $(this).width();
+                    $left = $(this).position().left; /*position()获取相对于定位父元素的偏移量，offset获取相对于页面*/
+                    $border.stop().animate({
+                        "width": 28 + $wid + "px",
+                        "left": 30 + $left  +"px"
+                    },200);
+                }).on("click",function () {  /*点击后记录点击的信息*/
+                    $chooseWid = $(this).width();
+                    $chooseLeft = $(this).position().left;
+                    $index = $(this).index();
+                    console.log($chooseWid,$chooseLeft);
+                });
+                $nav.on("mouseleave",function () {  /*移出导航栏和边框时回到记录的位置和宽度*/
+                        $num = 0;
+                        $lis.eq($index).addClass("on").siblings().removeClass("on");
+                        $border.stop().animate({
+                            "width": 28 +  $chooseWid + "px",
+                            "left": 30 +  $chooseLeft  +"px"
+                        },200);
+                });
+            }());
+
+            //背景滚动
+            (function(){
+                var $btn = $("#slide li");
+                var $bg = $("html,body");
+                var len = $btn.length;
+                var toggle = true;
+                // var $num = 0;//限制鼠标滚动事件
+                var index = 0;
+                var windowH = $(window).height();
+                $btn.on("click",function () {
+                    index = $(this).index();
+                    slide();
+                });
+                $(window).resize(function () {  /*窗口拖拽重置高度，防止小窗口高度滑动不全的bug*/
+                    windowH = $(window).height();
+                    slide();
+                });
+                $(document).mousewheel(function () {
+                    // $num++;  %降频限制滚动频率
+                    // if($num % 5 === 0) {
+                    if(toggle){   /*开关锁限制滚动频率*/
+                        var flag = arguments[1];
+                        toggle = false;
+                        if (flag < 0) {
+                            index++;
+                            index %= len;
+                            /*限制index的最大值，保证背景不会超出索引*/
+                        } else {
+                            index--;
+                            if (index < 0) {
+                                index = len - 1;
+                            }
+                        }
+                        slide();
+                        toggle = true;/*由于animate异步，放到这里动画未结束也会执行*/
+                    }
+                    // }
+                });
+
+                //背景滚动函数
+                function slide() {
+                    $btn.eq(index).addClass("on").siblings().removeClass("on");
+                    $bg.stop().animate({
+                        "scrollTop": index * windowH
+                    },300,function () {    //注意最后这个回调函数会执行两次
+                        toggle = true;
+                    });
+                }
+            }());
+        });
+    </script>
+</body>
+</html>

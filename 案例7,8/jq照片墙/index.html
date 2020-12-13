@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jq动画照片墙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            height: 100%;
+        }
+        body{
+            overflow:hidden; /*剪切拖拽窗口小数计算误差使wrap溢出的宽高*/
+        }
+        #wrap {
+            position: relative;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+        }
+        #wrap li {
+            list-style: none;
+            position: absolute;
+            width: 125px;
+            height: 125px;
+            box-shadow: 1px 2px 5px  #222;
+            transition: top 1s, left 1s;
+            cursor: pointer;
+        }
+        #wrap li img {
+            transform: scale(.9);
+            transition: transform 1s;/* ！！！不能设置全为1s，会影响fadeOut方法无法淡出bug*/
+        }
+        #btns {
+            display: none;
+        }
+        #btns input {
+            position: absolute;
+            top: 50%;
+            outline: none;
+            width: 60px;
+            height: 30px;
+            background-color: greenyellow;
+            border: 3px dashed orange;
+            transform: translate(0,-50%);
+            cursor: pointer;
+        }
+        #btns .left {
+            left: 15px;
+        }
+        #btns .right {
+            right: 15px;
+        }
+    </style>
+    <script src="jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <ul></ul>
+</div>
+<div id="btns">
+    <input type="button" value="上一张" class="left" />
+    <input type="button" value="下一张" class="right" />
+</div>
+<script>
+    $(function () {
+        var $wrap = $("#wrap");
+        var $ul = $("#wrap>ul");
+        var $btns = $("#btns");
+        var $left = $(".left");
+        var $right = $(".right");
+        var liNum = [];
+        var timerC,timerB;
+        var index = 0;
+        var limTime = 0;
+        var toggle = true; /*判断当前是否点击有效且是大图还是小图 */
+        var canBtn = true; /*判断当前点击按钮是否有效*/
+        init();
+        var $lis = $("#wrap li");  /*初始化之后才有li可获取*/
+        var $imgs =  $lis.find("img");
+        liPosition();
+        $(window).resize(liPosition);
+        //点击li
+        $lis.on("click",function () {
+             if(new Date() - limTime > 2000){  /* 正在进行大小图切换动画时点击无效*/
+                 limTime = new Date();
+                 if(toggle){
+                     index = $(this).index();
+                     $imgs.css("transform","scale(1)");
+                     timerC = setTimeout(function () {
+                         clickLi();
+                         $lis.css({
+                             "backgroundImage": "url(img/big/"+(index + 1)+".jpg)",
+                         });
+                         $imgs.fadeOut(1000,function () {
+                             clearTimeout(timerC);
+                             toggle = false; //淡出结束后的回调函数会执行24次，不能取反
+                             return false;
+                         });
+                     },1000);
+                     $btns.show(1000);
+                     $(window).off("resize").resize(clickLi);/*变成大图和小图时切换窗口拖动的事件函数，对应大图和散图的适应居中*/
+                 }else{
+                     liPosition();
+                     roLi();
+                     $imgs.fadeIn(1000,function () {
+                         $imgs.css("transform", "scale(.9)");
+                         $lis.css("backgroundImage","");
+                     });
+                     $btns.hide(1000,function () {
+                         toggle = true;
+                     });
+                     $(window).off("resize").resize(liPosition);
+                 }
+             }
+        }).on({"mosedown": function () {  /*阻止选中图片*/
+                return false;
+            },"mousemove": function () {
+                return false;
+            }});
+        //点击上一张按钮
+        $left.on("click",function () {
+            if(canBtn){
+                clearInterval(timerB);
+                canBtn = false;
+                index = index === 0 ? 23 : --index;
+                clickBtn();
+            }
+        });
+        $right.on("click",function () {
+            if(canBtn){
+                clearInterval(timerB);
+                canBtn = false;
+                index = index === 23 ? 0 : ++index;
+                clickBtn();
+            }
+        });
+        //初始化li
+        function init() {
+            for(var i = 0; i < 24; i++){
+                var $li = $("<li><img src='img/"+(i+1)+".jpg' width=''/></li>");
+                $ul.append($li);
+                roLi();
+            }
+        }
+        //随机角度旋转li
+        function roLi() {
+            $("#wrap li").each(function (i,ele) {
+                var rot = Math.ceil((Math.random()-0.5)*60);  //-30 到 30的随机数
+                $(ele).css({
+                    "transform": "rotate("+ rot +"deg)"
+                });
+            })
+        }
+        //放置li的位置
+        function liPosition() {
+            var wW = $wrap.width();  /*窗口大小改变后值也会改变*/
+            var wH = $wrap.height();
+            var eW = (wW - 125 * 6) / 5;//根据窗口改变后的wrap，求每个空隙的距离
+            var eH = (wH - 125 * 4) / 3;
+            $lis.each(function (i,ele) {
+                $(ele).css({
+                    "left": (i % 6) * (125 + eW) + "px",
+                    "top": parseInt(i / 6) * (125 + eH) + "px",
+                    "backgroundPosition": +(-((i % 6) * 125))+"px "+(-(parseInt((i / 6)) * 125)) + "px"
+                });
+            });
+        }
+        //点击li变换大图并到正中间
+        function clickLi() {
+            var fL = ($wrap.width() - 750) / 2; //计算第一个top和left偏移量
+            var fT = ($wrap.height() - 500) / 2;
+            $lis.each(function (i,ele) {
+                $(ele).css({
+                    "left": fL + (i % 6) * 125 + "px",
+                    "top": fT + parseInt((i / 6)) * 125 + "px",
+                    "transform": "rotate(0deg)"
+                });
+            });
+        }
+        //随机格子切换大图
+        function clickBtn() {
+               for(var i = 0; i < 24; i++){
+                   liNum[i] = i;  //数组保存 0-23 的下标待用
+               }
+               timerB = setInterval(function () {
+                   if(liNum.length === 0){
+                       clearInterval(timerB);
+                       canBtn = true;
+                       return false;
+                   }
+                   var num = Math.floor(Math.random() * liNum.length);/*生成0-23随机数*/
+                   $lis.eq(liNum[num]).css("backgroundImage", "url(img/big/"+(index + 1)+".jpg)");
+                   liNum.splice(num,1);
+               },30);
+           }
+    });
+</script>
+</body>
+</html>

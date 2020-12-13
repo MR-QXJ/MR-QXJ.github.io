@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>吸顶盒</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            height: 2000px;
+        }
+        #head {
+            height: 160px;
+            width: 1201px;
+            margin: 0 auto;
+            background: url('1.png');
+        }
+        #body {
+            height: 737px;
+            width: 1201px;
+            margin: 0 auto;
+            background: url('2.png') no-repeat 0 0;
+        }
+        #body.fixed {
+            margin-top: 50px;    /*定位和margin都可以取消nav开启定位的空隙*/
+            /*position: relative;*/
+            /*top: 50px;*/
+        }
+        #nav {
+            border-bottom: 1px solid #f69;
+            width: 100%;
+            background-color: #fff;
+        }
+        #nav.fixed {
+            position: fixed;
+            top: 0;
+            z-index: 999;
+        }
+        #nav ul {
+            overflow: hidden;
+            width: 1201px;
+            margin: 0 auto;
+        }
+        #nav li {
+            list-style: none;
+            float: left;
+            height: 50px;
+            line-height: 50px;
+            padding: 0 20px;
+            font-size: 16px;
+        }
+        #nav li a{
+            text-decoration: none;
+            color: #000;
+        }
+        #nav li a:hover {
+            color: #f69;
+        }
+        #nav li.b a{
+            color: #f69;
+            font-weight:600;
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+    <div id="head"></div>
+    <div id="nav">
+       <ul>
+           <li><a href="javascript:;">首页</a></li>
+           <li><a href="javascript:;">最新</a></li>
+           <li><a href="javascript:;">上衣</a></li>
+           <li><a href="javascript:;">裙子</a></li>
+           <li><a href="javascript:;">裤子</a></li>
+           <li><a href="javascript:;">鞋子</a></li>
+           <li><a href="javascript:;">包包</a></li>
+           <li><a href="javascript:;">配饰</a></li>
+           <li><a href="javascript:;">更多</a></li>
+           <li class="b"><a href="javascript:;">Hi范儿</a></li>
+           <li class="b"><a href="javascript:;">明星同款</a></li>
+           <li class="b"><a href="javascript:;">韩国馆</a></li>
+           <li class="b"><a href="javascript:;">团购</a></li>
+           <li class="b"><a href="javascript:;">福利社</a></li>
+       </ul>
+    </div>
+    <div id="body"></div>
+    <script>
+        $(function () {
+            var $nav = $("#nav");
+            var navTop =  $nav.offset().top;
+            var $body = $("#body");
+            $(window).on("scroll",function () {
+                var toggle = "Class";
+                if($(this).scrollTop() >= navTop){
+                    toggle = "add" + toggle;
+                }else {
+                    toggle = "remove" + toggle;
+                }
+                $nav[toggle]("fixed");
+                $body[toggle]("fixed");
+            });
+        });
+    </script>
+</body>
+</html>

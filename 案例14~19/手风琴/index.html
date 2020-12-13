@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手风琴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            height: 100%;
+            background: url("img/bg.jpg") no-repeat center top;
+        }
+        #wrap {
+            overflow: hidden;
+            width: 1090px;
+            height: 429px;
+            margin: 160px auto;
+        }
+        #wrap li {
+            float: left;
+            list-style: none;
+            width: 100px;
+            height: 429px;
+        }
+        #wrap li:last-of-type {
+            width: 789px;
+        }
+        #wrap .description {
+            width: 100px;
+            height: 429px;
+            text-align: center;
+            background-color: rgba(0,0,0,.7);
+        }
+        .description span {
+            display: inline-block;
+            width: 14px;
+            font-size: 14px;
+            color: #fff;
+        }
+    </style>
+    <script src="js/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <ul>
+        <li>
+            <div class="pic">
+                <div class="description"><span>我的个人拉萨之旅丨丨故事之城</span></div>
+            </div>
+        </li>
+        <li>
+            <div class="pic">
+                <div class="description"><span>我的个人拉萨之旅丨丨故事之城</span></div>
+            </div>
+        </li>
+        <li>
+            <div class="pic">
+                <div class="description"><span>我的个人拉萨之旅丨丨故事之城</span></div>
+            </div>
+        </li>
+        <li>
+            <div class="pic">
+                <div class="description"><span>我的个人拉萨之旅丨丨故事之城</span></div>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+    $(function () {
+       var $lis = $("#wrap li");
+       $lis.each(function (i,ele) {
+           $(ele).css({
+               "background": " url('img/"+(i + 1)+".jpg') no-repeat 0 0"
+           });
+       });
+       $lis.on("mouseenter",function () {
+            $(this).stop().animate({
+                "width": "789px"
+            },500).siblings().stop().animate({
+                "width": "100px"
+            },500);
+       });
+    });
+</script>
+</body>
+</html>

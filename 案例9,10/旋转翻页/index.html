@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: url('img/bg.jpg');
+        }
+        li {
+            list-style: none;
+        }
+        #wrap {
+            position: relative;
+            width: 670px;
+            height: 420px;
+            padding: 50px 70px;
+            margin: 100px auto;
+            background: url('img/bg.jpg');
+            box-shadow: 1px 1px 5px skyblue;
+            border-radius: 3px;
+        }
+        #wrap ul {
+            position: absolute;
+            left: 50%;
+            margin-left: -285px;
+            z-index: -1;
+            /*top: 0;*/
+            /*left: 0;*/    /* 不设置定位的偏移会在盒子的padding内*/
+            width:570px;
+            height:420px;
+            border: 2px solid lightseagreen;
+            border-radius: 3px;
+        }
+        #pic ul.now {
+            z-index: 2;
+        }
+        #pic ul.next {
+            z-index: 1;
+        }
+        #pic li {
+            position: absolute;
+            width: 55px;
+            height: 58px;
+            border: 1px solid transparent;
+            background-origin:border-box; /*使后面图片背景不会被border漏出*/
+            opacity: 1;
+        }
+        #pic li.move {  /*开启动画效果*/
+            transition: transform 2s, opacity 2s;
+        }
+        #pic li.on { /*翻转移动的目标样式*/
+            border: 1px solid #333;
+            transform: translate(-50px,-50px) rotateX(720deg);
+            opacity: 0;
+        }
+        #pic li.last { /*恢复原位置的样式*/
+            border: 1px solid transparent;
+            transform: translate(0.0) rotateX(0deg);
+            opacity: 1;
+        }
+        .pic1 li {
+            background-image: url('img/1.jpg');
+        }
+        .pic2 li {
+            background-image: url('img/2.jpg');
+        }
+        .pic3 li {
+            background-image: url('img/3.jpg');
+        }
+        .pic4 li {
+            background-image: url('img/4.jpg');
+        }
+        .pic5 li {
+            background-image: url('img/5.jpg');
+        }
+        #btns div {
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            width: 40px;
+            height: 69px;
+            background: url('img/btn.png') no-repeat 0 0;
+            cursor: pointer;
+        }
+        #btns .left {
+            left: 30px;
+        }
+        #btns .right {
+            right: 30px;
+            background-position: -42px 0;
+        }
+    </style>
+    <title>旋转翻页</title>
+    <script src="js/jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div id="pic">
+        <ul class="pic5"></ul>
+        <ul class="pic1 next"></ul>
+        <ul class="pic2"></ul>
+        <ul class="pic3"></ul>
+        <ul class="pic4"></ul>
+        <ul class="pic5"></ul>
+        <ul class="pic1"></ul>
+    </div>
+    <div id="btns">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+       var $pics = $("#pic>ul");
+       var uLen = $pics.length;
+       var $btn = $("#btns div");
+       var flag = true;
+       var sum;
+       var $lis,tLi;
+       var uIndex = 1;
+       init();
+       $btn.on("click",function () {
+           var dir = $(this).index();
+           if(flag){//还在动画时不许按按钮
+                sum = 6 + 9;/*从0坐标开始，7行10列*/
+                flag = false;
+                if(dir){
+                    nextZIndex();/*下一个变为next的样式层级,当前变为now最高层级*/
+                    tLi = $pics.eq(uIndex).find("li");
+                    uIndex++;
+                    var timer = setInterval(function () {//当前翻转消失
+                        if(sum < 0){
+                            clearInterval(timer);
+                            var timer1 = setTimeout(function () {
+                                clearTimeout(timer1);
+                                if(uIndex === uLen - 1){/*  2000定时动画结束后判断，初始化所有样式*/
+                                    $lis.removeClass("move on");
+                                    $pics.removeClass("now next");
+                                    $pics.eq(1).addClass("next");
+                                    uIndex = 1;
+                                }
+                                flag = true;
+                            },2000);
+                            return false;
+                        }
+                        tLi.each(function () {
+                            if(this.x + this.y === sum){
+                                $(this).removeClass("last move").addClass("on move");
+                            }
+                        });
+                        sum--;
+                    },50);
+                }else{
+                    lastZIndex();/*当前变为next层级，上一张变为now最高层级*/
+                    uIndex--;
+                    tLi = $pics.eq(uIndex).find("li");
+                    tLi.removeClass("move").addClass("on");
+                    sum = 0;
+                    var timer = setInterval(function () {
+                        if(sum > 15){
+                            clearInterval(timer);
+                            var timer1 = setTimeout(function () {
+                                clearTimeout(timer1);
+                                if(uIndex === 0){
+                                    $lis.removeClass("last on");
+                                    $pics.removeClass("now next");
+                                    $pics.eq(uLen - 2).addClass("next");
+                                    uIndex = uLen - 2;/*倒数第二张，看似第五张*/
+                                }
+                                flag = true;
+                            },2000);
+                            return false;
+                        }
+                        tLi.each(function () {
+                            if(this.x + this.y === sum){
+                                $(this).addClass("last move");
+                            }
+                        });
+                        sum++;
+                    },50);
+                }
+            }
+       });
+       function init() {
+           $pics.each(function () {
+               for (var j = 0; j < 70; j++) {
+                   var nLi = document.createElement("li");
+                   nLi.x = (j % 10);
+                   nLi.y =  parseInt(j / 10);
+                   var pX = 57 * nLi.x ;
+                   var pY = 60 * nLi.y;
+                   nLi.style.backgroundPosition = (-pX) + "px " + (-pY) + "px";
+                   nLi.style.left = pX + "px";
+                   nLi.style.top = pY + "px";
+                   $(this).append($(nLi));
+               }
+               $lis = $("#pic li");
+           });
+       }
+
+       function lastZIndex() {  //上一张恢复上一张层级先为最高
+           $pics.eq(uIndex).addClass("next").siblings().removeClass("next");
+           $pics.eq(uIndex - 1).addClass("now").siblings().removeClass("now");
+       }
+       function nextZIndex() { //翻转下一张本张层级最高
+           $pics.eq(uIndex).addClass("now").siblings().removeClass("now");
+           $pics.eq(uIndex + 1).addClass("next").siblings().removeClass("next");
+       }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度经验</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #main {
+            width: 1071px;
+            height: 654px;
+            margin: 0 auto;
+        }
+        #content {
+            position: relative;
+            width: 680px;
+        }
+        #content h1 {
+            line-height: 40px;
+            border-bottom: 1px solid #ccc;
+            font-size: 22px;
+            font-weight: 400;
+            color: #505050;
+        }
+        #content .step {
+            position: relative;
+            list-style: none;
+            margin: 30px 0 10px 18px;
+        }
+        .step .step_num {
+            position: absolute;
+            left: -15px;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            background: url("img/step.png") no-repeat 0 0;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+        }
+        .step li {
+            padding-left: 30px;
+            border-left: 2px dotted #ccc;
+        }
+        .step p {
+            margin-bottom: 15px;
+        }
+        .step img {
+            padding-bottom: 35px; /* 用padding才不会断线*/
+        }
+        #top {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 40px;
+            width: 100%;
+            background: url("img/top.png") no-repeat center top;
+            border-bottom: 1px solid #ddd;
+            z-index: 1;
+            box-shadow:0 4px 5px #ddd;
+        }
+        .slide {
+            position: fixed;
+            top: 42px;
+            margin-left: 3px;
+            background-color: #fff;
+        }
+        .slide li {
+            display: none;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            background: url("img/step.png") no-repeat 0 -69px;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+        }
+        .slide li.on {
+            background-position: 0 0;
+        }
+        .slide li.current {
+            background-position: 0 0;
+        }
+    </style>
+    <script src="jquery-1.12.1.min.js"></script>
+</head>
+<body>
+<div id="main">
+    <div id="hd">
+        <img src="img/header.png" alt="">
+    </div>
+    <div id="top"></div>
+    <div id="content">
+        <h1>方法/步骤</h1>
+        <ul class="step">
+            <li>
+                <div class="step_num">1</div>
+                <p>试用后油法，将面团揉成团，面包机30分钟即可！牛奶要用凉的，因为面包机揉面温度较高！</p>
+                <img src="img/1.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">2</div>
+                <p>揉好的面团，用手抻开可以抻成薄一些的膜，有一定的扩展性！</p>
+                <img src="img/2.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">3</div>
+                <p>然后揉成团，放入面包机中就行第一次发酵，发酵约1小时，是原面团的2倍大！用手按下去无回缩就证明发酵好了！</p>
+                <img src="img/3.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">4</div>
+                <p>发酵好的面团排气揉光滑，称重</p>
+                <img src="img/4.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">5</div>
+                <p>将面团平均分成5份，揉成光滑的面团！盖上保鲜膜醒发15分钟</p>
+                <img src="img/5.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">6</div>
+                <p>然后揉成你想放的模具中，没有就用纸拖，或可以不用也行。</p>
+                <img src="img/6.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">7</div>
+                <p>将烤箱中放一碗热水保持湿度，把面包生坯放入烤箱就行二次发酵，烤箱温度不易超过30度，发酵40分钟！</p>
+                <img src="img/7.jpg" alt="" width="500" height="500" />
+            </li>
+            <li>
+                <div class="step_num">8</div>
+                <p>然后烤箱预热180度，上下火加热中下层烤20左右即可！</p>
+                <img src="img/8.jpg" alt="" width="500" height="335" />
+            </li>
+            <li>
+                <div class="step_num">9</div>
+                <p>软软的很好吃！</p>
+                <img src="img/9.jpg" alt="" width="500" height="625" />
+            </li>
+        </ul>
+        <div class="slide">
+            <ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>
+        </div>
+    </div>
+</div>
+<script>
+    var $top = $("#top");
+    var $stepNum = $(".step_num");
+    var $slide = $(".slide li");
+    var index = 0;
+    $(document).on("scroll",function () {
+        //搜索栏显示
+        $(this).scrollTop()>150 ? $top.show() : $top.hide();
+        //时光轴显示
+        $stepNum.each(function (i,ele) {
+            var minus = $(ele).offset().top - $(document).scrollTop();
+            if(minus <= 42+32*i){ //序号贴近顶部
+                $slide.eq(i).show();
+                index = i ;
+            }else{
+                $slide.eq(i).hide();
+            }
+        });
+        $slide.eq(index).addClass("on");
+        $slide.eq(index-1).removeClass("on");
+    });
+    $slide.on("click",function () {
+        var cIndex = $(this).index();
+        $("html,body").animate({   /*动画方法不能给document对象*/
+            "scrollTop": $stepNum.eq(cIndex).offset().top
+        },300);
+    }).hover(function () {
+        $(this).addClass("current");
+    },function () {
+        $(this).removeClass("current");  //防止离开后当前序号没有颜色，不能用on这个class类
+    });
+</script>
+</body>
+</html>
