@@ -1,9 +1,9 @@
-import {request} from "network/request"
+import { request } from 'network/request'
 
 export function getMainData() {
   return request({
     url: '',
     method: 'post',
-    data: {a: 1}
+    data: { a: 1 }
   })
 }
