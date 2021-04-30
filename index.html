@@ -303,11 +303,17 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> req_path = &#123;</span><br><span class="line">  development: <span class="string">&#x27;/api&#x27;</span>,</span><br><span class="line">  production: <span class="string">&#x27;http://xxxxxxxx&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">REQUEST_URL: req_path[process.env.NODE_ENV]</span><br></pre></td></tr></table></figure>
 
 <h3 id="history模式"><a href="#history模式" class="headerlink" title="history模式"></a>history模式</h3><ul>
-<li><strong>刷新页面空白</strong>    设置为history模式后，打包的文件只能在放到服务上才能正常显示，并且需要后端配置匹配不到资源重定向到首页，否则刷新会空白(刷新页面history模式会根据路径向服务端get请求)</li>
-<li><strong>图片资源路径</strong>    history模式时，<em>publicPath</em>不可设置为相对路径(<code>&#39;./&#39;</code>或<code>&#39;&#39;</code>)，否则图片在当前路由地址处请求静态文件，解决方式<ul>
-<li>后端配置匹配不到资源就去根路径下找，</li>
-<li><em>publicPath</em>使用绝对路径(默认)</li>
-<li>若使用绝对路径后项目文件不想放到服务器根目录，需要根据环境设置打包后资源绝对路径:</li>
+<li><p><strong>刷新页面空白</strong>    设置为history模式后，打包的文件只能在放到服务上才能正常显示，并且需要后端配置匹配不到资源重定向到首页，否则刷新会空白(刷新页面history模式会根据路径向服务端get请求)</p>
+</li>
+<li><p><strong>图片资源路径</strong>    history模式时，<em>publicPath</em>不可设置为相对路径(<code>&#39;./&#39;</code>或<code>&#39;&#39;</code>)，否则图片在当前路由地址处请求静态文件，解决方式</p>
+<ul>
+<li><p>后端配置匹配不到资源就去根路径下找，若是vue-cli开启的本地代理服务可以在vue.config.js中配置:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    historyApiFallback: &#123;</span><br><span class="line">      <span class="comment">//将请求指向index.html文件，打包后还是需要在后端配,方式见vue-router官方文档</span></span><br><span class="line">      index: <span class="string">&#x27;/index.html&#x27;</span> </span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><em>publicPath</em>使用绝对路径(默认)</p>
+</li>
+<li><p>若使用绝对路径后项目文件不想放到服务器根目录，需要根据环境设置打包后资源绝对路径:</p>
+</li>
 </ul>
 </li>
 </ul>
