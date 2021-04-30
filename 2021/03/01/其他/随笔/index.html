@@ -18,7 +18,7 @@
 <meta property="og:description" content="随笔使用node.js的process内置模块和fs文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码) js 对象合并技巧 若字段相等则会都被后一个的值覆盖  Object.assign(obj1, obj2)参数为简单类型则深拷贝，引用类型则浅拷贝。 &amp;#123;...obj1, ...obj2&amp;#125">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-01T09:39:43.000Z">
-<meta property="article:modified_time" content="2021-04-29T09:14:36.945Z">
+<meta property="article:modified_time" content="2021-04-30T08:26:16.007Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="其他">
 <meta property="article:tag" content="随笔">
@@ -259,7 +259,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">7.1k字</span>
+      <span class="post-count">6.1k字</span>
     </span>
   </span>
 
@@ -268,7 +268,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">31分</span>
+      <span class="post-count">27分</span>
     </span>
   </span>
 </div>
@@ -573,9 +573,6 @@
 <p>vue中使用axios发起post请求要么每次请求都要配置header,要么必须使用urlencoded格式传参:<code>a=1&amp;b=2</code>，可封装为表单序列化的post请求:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//axios挂载到vue原型方式</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;String&#125;</span> </span>url </span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;Object&#125;</span> </span>data </span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="type">&#123;Function&#125;</span> </span>callback </span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="title">post</span>(<span class="params">url, data, callback</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> ret = []</span><br><span class="line">    <span class="built_in">Object</span>.keys(data).forEach(<span class="function"><span class="params">ele</span> =&gt;</span> ret.push(<span class="string">`<span class="subst">$&#123;ele&#125;</span>=<span class="subst">$&#123;data[ele]&#125;</span>`</span>))</span><br><span class="line">    Vue.prototype.axios.post(url, ret.join(<span class="string">&#x27;&amp;&#x27;</span>)).then(<span class="function"><span class="params">res</span> =&gt;</span> callback(res.data))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//axios.create创建请求分支实例方式</span></span><br><span class="line"><span class="comment">//拦截post请求并转换参数</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"><span class="comment">//create方法创建请求分支，不同分支可设置不同的默认参数。比全局axios配置更灵活,只是不能取消请求和批量请求,其他语法全部一致</span></span><br><span class="line"><span class="keyword">const</span> interfaceOne = axios.create(&#123;</span><br><span class="line">  baseURL: <span class="string">&#x27;/api&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line">interfaceOne.interceptors.request.use(<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> data = config.data</span><br><span class="line">  <span class="keyword">if</span> (config.method === <span class="string">&#x27;post&#x27;</span> &amp;&amp; data) &#123;</span><br><span class="line">    <span class="keyword">const</span> ret = []</span><br><span class="line">    <span class="built_in">Object</span>.keys(data).forEach(<span class="function"><span class="params">ele</span> =&gt;</span> ret.push(<span class="string">`<span class="subst">$&#123;ele&#125;</span>=<span class="subst">$&#123;data[ele]&#125;</span>`</span>))</span><br><span class="line">    config.data = ret.join(<span class="string">&#x27;&amp;&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> config</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//文件上传的axios实例</span></span><br><span class="line"><span class="comment">//input框上传时都是用append进FormData实例再将实例作为data</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">uploadFile</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> inter = axios.create(&#123;</span><br><span class="line">    baseURL: <span class="string">&#x27;/api&#x27;</span>,</span><br><span class="line">    timeout: <span class="number">5000</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  inter.interceptors.request.use(<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">    load = Vue.prototype.$loading(&#123;</span><br><span class="line">      lock: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    config.method = <span class="string">&#x27;post&#x27;</span>  </span><br><span class="line">    config.headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;multipart/form-data&#x27;</span>&#125;</span><br><span class="line">    <span class="built_in">console</span>.log(config)</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> config</span><br><span class="line">  &#125;)</span><br><span class="line">  inter.interceptors.response.use(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    closeLoad()</span><br><span class="line">    <span class="keyword">return</span> res.data</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> inter(config)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//请求结束后关闭加载效果</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">closeLoad</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!timer) &#123;</span><br><span class="line">    load.close()</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">clearTimeout</span>(timer)</span><br><span class="line">    timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      load.close()</span><br><span class="line">      <span class="built_in">clearTimeout</span>(timer)</span><br><span class="line">      timer = <span class="literal">null</span></span><br><span class="line">    &#125;, <span class="number">400</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>抓取同路由跳转报错</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//防止同路由报错</span></span><br><span class="line"><span class="keyword">const</span> originalPush = VueRouter.prototype.push</span><br><span class="line">VueRouter.prototype.push = <span class="function"><span class="keyword">function</span> <span class="title">push</span>(<span class="params">location</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> originalPush.call(<span class="built_in">this</span>, location).catch(<span class="function"><span class="params">err</span> =&gt;</span> err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>组件通信方法</strong></p>
 <p><em>父子组件</em></p>
 <ul>
@@ -608,7 +605,6 @@
 </li>
 <li><p>若provide定义为对象，里面<code>this</code>是拿不到vue实例的,必须定义为方法且返回提供的数据对象</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//obj是data中的响应数据，其内部的属性是响应的。直接传内部的普通数据不会响应，必须将obj整个传入,子组件注入后使用其属性</span></span><br><span class="line"><span class="function"><span class="title">provide</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    provideData: <span class="built_in">this</span>.obj</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
 
 </li>
@@ -667,83 +663,6 @@
 <blockquote>
 <p>此外还有mapState=&gt;computed，mapMutations=&gt;methods用法和效果类似</p>
 </blockquote>
-</li>
-</ul>
-<p><strong>keep-alive</strong></p>
-<p>时此组件内部的组件缓存，不被重新渲染</p>
-<ul>
-<li><p>属性,参数都是组件实例暴露的的<code>name</code>属性,多个用<code>,</code>隔开，也可以使用正则</p>
-<ul>
-<li><code>exclude</code> 指定<code>name</code>的组件不会被缓存</li>
-<li><code>include</code> 指定<code>name</code>的组件会被缓存，优先级比<code>exclude</code>更高</li>
-<li><code>max</code>指定缓存的组件最大数量</li>
-</ul>
-</li>
-<li><p>生命周期,被缓存的组件不会重复进行创建、挂载和销毁的生命周期，但会多出两个钩子:</p>
-<ul>
-<li><code>activated</code>组件激活</li>
-<li><code>deactivated</code>组件停用</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>也可在组件路由的meta元数据中定义是否缓存，然后通过<code>v-if</code>判断是否放到keep-alive内实现部分组件缓存:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;//当这种方法嵌套组件时，子组件没有keepAlive回造成误判，可以尝试用$route.matched[0].meta.keeyAlive</span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">keep-alive</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">&quot;$route.meta.keepAlive&quot;</span> /&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">&quot;!$route.meta.keepAlive&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正常组件切换时不会触发更新生命周期,而缓存的组件在第一次进入创建后，显示离开切换时都会触发updated和beforeUpdate</span><br></pre></td></tr></table></figure>
-
-<p><strong>打包</strong></p>
-<ul>
-<li>静态路径问题</li>
-</ul>
-<p>将最终版打包至dist目录时，里面的静态资源默认是以盘服根路径开始，若项目静态资源未存放至服务器根目录路径会错误。可配置打包后为相对路径:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue-cli3中: vue.config.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  publicPath: <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>请求路径问题</li>
-</ul>
-<p>项目配置了代理跨域，请求路径设置为<code>/api</code>。而打包时生产环境必须将路径切换至真实的接口路径，不希望手动切换可以判断环境变量<code>process.env.NODE_ENV</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> req_path = &#123;</span><br><span class="line">  development: <span class="string">&#x27;/api&#x27;</span>,</span><br><span class="line">  production: <span class="string">&#x27;http://xxxxxxxx&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">REQUEST_URL: req_path[process.env.NODE_ENV]</span><br></pre></td></tr></table></figure>
-
-<p><strong>history模式</strong></p>
-<ul>
-<li><strong>刷新页面空白</strong>    设置为history模式后，打包的文件只能在放到服务上才能正常显示，并且需要后端配置匹配不到资源重定向到首页，否则刷新会空白(刷新页面history模式会根据路径向服务端get请求)</li>
-<li><strong>图片资源路径</strong>    history模式时，<em>publicPath</em>不可设置为相对路径(<code>&#39;./&#39;</code>或<code>&#39;&#39;</code>)，否则图片在当前路由地址处请求静态文件，解决方式<ul>
-<li>后端配置匹配不到资源就去根路径下找，</li>
-<li><em>publicPath</em>使用绝对路径(默认)</li>
-<li>若使用绝对路径后项目文件不想放到服务器根目录，需要根据环境设置打包后资源绝对路径:</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publicPath: process.env.NODE_ENV === <span class="string">&quot;production&quot;</span> ? <span class="string">&#x27;/mystatic/&#x27;</span> : <span class="string">&quot;/&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>环境变量文件</strong></p>
-<ul>
-<li><p>文件名 在项目根目录新建这样的文件：*.env* - 什么环境都会生效  <em>.env.development</em> - 开发环境生效 </p>
-<p><em>.env-production</em> - 生产环境生效</p>
-</li>
-<li><p>变量必须以<code>VUE_APP_</code>开头：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VUE_APP_API &#x3D; &#39;&#x2F;api&#39;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>项目中通过<code>process.env.VUE_APP_XX</code>使用，对应环境会成为对应的变量值</p>
-</li>
-<li><p><code>npm run serve</code> 开发环境 <code>npm run build</code>生产环境</p>
-</li>
-</ul>
-<p><strong>工程化使用SVG图标</strong></p>
-<ul>
-<li><p><code>vue.config.js</code>中配置：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"><span class="comment">//获取绝对路径</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">dir</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> path.join(__dirname, dir)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="function"><span class="title">chainWebpack</span>(<span class="params">config</span>)</span> &#123;</span><br><span class="line">    <span class="comment">//修改默认svg配置，排除icons目录</span></span><br><span class="line">    config.module.rule(<span class="string">&#x27;svg&#x27;</span>).exclude.add(svgs)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//新增rule添加icons中的svg</span></span><br><span class="line">    config.module</span><br><span class="line">      .rule(<span class="string">&#x27;icons&#x27;</span>)</span><br><span class="line">      .test(<span class="regexp">/\.svg$/</span>)</span><br><span class="line">      .include.add(svgs)</span><br><span class="line">      .end()</span><br><span class="line">      .use(<span class="string">&#x27;svg-sprite-loader&#x27;</span>) <span class="comment">//要安装此loader</span></span><br><span class="line">      .loader(<span class="string">&#x27;svg-sprite-loader&#x27;</span>)</span><br><span class="line">      .options(&#123; <span class="attr">symbolId</span>: <span class="string">&#x27;icon-[name]&#x27;</span> &#125;) <span class="comment">//之后加载svg图标的xlink:href就是#icon-文件名</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>svg目录上级定义工程文件index.js:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//让webpack创建以svg目录为上下文的require函数</span></span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">&#x27;./svg&#x27;</span>, <span class="literal">false</span>, <span class="regexp">/\.svg$/</span>)</span><br><span class="line"><span class="comment">//keys获取所有svg文件全部加载</span></span><br><span class="line">req.keys().map(req)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在main.js导入工程文件：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;@/assets/icons&#x27;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>直接使用:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">use</span> <span class="attr">:xlink:href</span>=<span class="string">&quot;#icon-iconName&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">use</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h2 id="浅谈富文本"><a href="#浅谈富文本" class="headerlink" title="浅谈富文本"></a>浅谈富文本</h2><p>除表单元素外，其他元素默认不可编辑。html5提供了<code>contenteditable</code>属性定义元素为可编辑状态，可借此实现富文本编辑器。</p>
@@ -1222,7 +1141,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1230,19 +1149,11 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1251,6 +1162,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1274,11 +1197,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1286,11 +1209,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">

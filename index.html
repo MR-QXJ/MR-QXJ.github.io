@@ -229,6 +229,193 @@
             
 
   
+    <article id="post-框架/vue优化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/04/30/%E6%A1%86%E6%9E%B6/vue%E4%BC%98%E5%8C%96/" target="_blank">vue优化</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/04/30/%E6%A1%86%E6%9E%B6/vue%E4%BC%98%E5%8C%96/" class="archive-article-date">
+        <time datetime="2021-04-30T08:26:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-30</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="样式穿透"><a href="#样式穿透" class="headerlink" title="样式穿透"></a>样式穿透</h2><p>在vue中定义<code>scoped</code>后样式产生作用域，但是一些ui组件需要我们局部修改样式，在<code>scoped</code>内修改经常不生效。除了新增一个没有<code>scoped</code>的<code>style</code>标签外，还可以选择穿透<code>scoped</code>：</p>
+<ul>
+<li><pre><code class="css">.parent &gt;&gt;&gt; .ui-component
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 有些Sass 之类的预处理器无法正确解析 &#96;&gt;&gt;&gt;&#96;。更建议使用 &#96;&#x2F;deep&#x2F;&#96;或&#96;::v-deep&#96; :</span><br><span class="line"></span><br><span class="line">  &#96;&#96;&#96;css</span><br><span class="line">  .parent &#x2F;deep&#x2F; .ui-component</span><br><span class="line">  .parent ::v-deep .ui-component</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>注意：穿透不是成为全局样式，新增没有scoped的style标签才会成为全局样式污染全局。因此穿透仅在父子关系时在父组件使用有效，兄弟组件无效</p>
+</blockquote>
+<h2 id="防止同路由报错"><a href="#防止同路由报错" class="headerlink" title="防止同路由报错"></a>防止同路由报错</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> originalPush = VueRouter.prototype.push</span><br><span class="line">VueRouter.prototype.push = <span class="function"><span class="keyword">function</span> <span class="title">push</span>(<span class="params">location</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> originalPush.call(<span class="built_in">this</span>, location).catch(<span class="function"><span class="params">err</span> =&gt;</span> err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h2><p>时此组件内部的组件缓存，不被重新渲染</p>
+<ul>
+<li><p>属性,参数都是组件实例暴露的的<code>name</code>属性,多个用<code>,</code>隔开，也可以使用正则</p>
+<ul>
+<li><code>exclude</code> 指定<code>name</code>的组件不会被缓存</li>
+<li><code>include</code> 指定<code>name</code>的组件会被缓存，优先级比<code>exclude</code>更高</li>
+<li><code>max</code>指定缓存的组件最大数量</li>
+</ul>
+</li>
+<li><p>生命周期,被缓存的组件不会重复进行创建、挂载和销毁的生命周期，但会多出两个钩子:</p>
+<ul>
+<li><code>activated</code>组件激活</li>
+<li><code>deactivated</code>组件停用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>也可在组件路由的meta元数据中定义是否缓存，然后通过<code>v-if</code>判断是否放到keep-alive内实现部分组件缓存:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;//当这种方法嵌套组件时，子组件没有keepAlive回造成误判，可以尝试用$route.matched[0].meta.keeyAlive</span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">keep-alive</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">&quot;$route.meta.keepAlive&quot;</span> /&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br><span class="line">&gt;<span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">&quot;!$route.meta.keepAlive&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正常组件切换时不会触发更新生命周期,而缓存的组件在第一次进入创建后，显示离开切换时都会触发updated和beforeUpdate</span><br></pre></td></tr></table></figure>
+
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><h3 id="静态路径问题"><a href="#静态路径问题" class="headerlink" title="静态路径问题"></a>静态路径问题</h3><p>将最终版打包至dist目录时，里面的静态资源默认是以盘服根路径开始，若项目静态资源未存放至服务器根目录路径会错误。可配置打包后为相对路径:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue-cli3中: vue.config.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  publicPath: <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="请求路径问题"><a href="#请求路径问题" class="headerlink" title="请求路径问题"></a>请求路径问题</h3><p>项目配置了代理跨域，请求路径设置为<code>/api</code>。而打包时生产环境必须将路径切换至真实的接口路径，不希望手动切换可以判断环境变量<code>process.env.NODE_ENV</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> req_path = &#123;</span><br><span class="line">  development: <span class="string">&#x27;/api&#x27;</span>,</span><br><span class="line">  production: <span class="string">&#x27;http://xxxxxxxx&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">REQUEST_URL: req_path[process.env.NODE_ENV]</span><br></pre></td></tr></table></figure>
+
+<h3 id="history模式"><a href="#history模式" class="headerlink" title="history模式"></a>history模式</h3><ul>
+<li><strong>刷新页面空白</strong>    设置为history模式后，打包的文件只能在放到服务上才能正常显示，并且需要后端配置匹配不到资源重定向到首页，否则刷新会空白(刷新页面history模式会根据路径向服务端get请求)</li>
+<li><strong>图片资源路径</strong>    history模式时，<em>publicPath</em>不可设置为相对路径(<code>&#39;./&#39;</code>或<code>&#39;&#39;</code>)，否则图片在当前路由地址处请求静态文件，解决方式<ul>
+<li>后端配置匹配不到资源就去根路径下找，</li>
+<li><em>publicPath</em>使用绝对路径(默认)</li>
+<li>若使用绝对路径后项目文件不想放到服务器根目录，需要根据环境设置打包后资源绝对路径:</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publicPath: process.env.NODE_ENV === <span class="string">&quot;production&quot;</span> ? <span class="string">&#x27;/mystatic/&#x27;</span> : <span class="string">&quot;/&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="环境变量文件"><a href="#环境变量文件" class="headerlink" title="环境变量文件"></a>环境变量文件</h3><ul>
+<li><p>文件名 在项目根目录新建这样的文件：*.env* - 什么环境都会生效  <em>.env.development</em> - 开发环境生效 </p>
+<p><em>.env-production</em> - 生产环境生效</p>
+<p>或者可以自定义环境名称，文件名为*.env.xx* 并在package.json中配置scripts:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//xx对应文件名后根的xx, </span></span><br><span class="line"><span class="comment">//打包</span></span><br><span class="line">&quot;build:xx&quot;: &quot;vue-cli-service build --mode xx&quot;</span><br><span class="line"><span class="comment">//本地服务</span></span><br><span class="line">&quot;dev&quot;: &quot;vue-cli-service serve --mode xx&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>环境变量设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#可以设置NODE_ENV(默认run serve为development, run build为production)</span><br><span class="line">NODE_ENV &#x3D; production</span><br><span class="line">#普通变量必须以&#96;VUE_APP_&#96;开头：</span><br><span class="line">VUE_APP_API &#x3D; &#39;&#x2F;api&#39;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>项目中通过<code>process.env.xx</code>使用，对应环境会成为对应文件的变量值</p>
+</li>
+<li><p><code>npm run serve</code> 开发环境 <code>npm run build</code>生产环境。</p>
+<p>自定义环境名称时之后<code>npm run build:xx</code>也可对应各环境打包。</p>
+</li>
+<li><p>输出文件名默认为dist，也可以通过在环境文件中指定变量来设置:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vue.config.js中</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  outputDir: process.env.outputDir || <span class="string">&#x27;dist&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//环境文件中设置打包输出的文件名</span></span><br><span class="line">outputDir = xxx</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="忽略打包三方库-cdn引入"><a href="#忽略打包三方库-cdn引入" class="headerlink" title="忽略打包三方库 + cdn引入"></a>忽略打包三方库 + cdn引入</h3><p><em>vue.config.js</em>中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isProduction = process.env.VUE_APP_MODE === <span class="string">&#x27;production&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> cdn = &#123;</span><br><span class="line">  <span class="comment">// 忽略打包的第三方库</span></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * externals 对象属性解析：</span></span><br><span class="line"><span class="comment">  * &#x27;包名&#x27; : &#x27;在项目中引入的名字&#x27;</span></span><br><span class="line"><span class="comment">  * 以element-ui举例 我再main.js里是以</span></span><br><span class="line"><span class="comment">  * import ELEMENT from &#x27;element-ui&#x27;</span></span><br><span class="line"><span class="comment">  * Vue.use(ELEMENT, &#123; size: &#x27;small&#x27; &#125;)</span></span><br><span class="line"><span class="comment">  * 这样引入的，所以我的externals的属性值应该是ELEMENT</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  externals: &#123;</span><br><span class="line">    vue: <span class="string">&#x27;Vue&#x27;</span>,</span><br><span class="line">    vuex: <span class="string">&#x27;Vuex&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;vue-router&#x27;</span>: <span class="string">&#x27;VueRouter&#x27;</span>,</span><br><span class="line">    axios: <span class="string">&#x27;axios&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;element-ui&#x27;</span>: <span class="string">&#x27;ELEMENT&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  js: [</span><br><span class="line">    <span class="string">&#x27;https://cdn.jsdelivr.net/npm/vue&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://unpkg.com/vue-router/dist/vue-router.js&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://unpkg.com/element-ui@2.13.2/lib/index.js&#x27;</span></span><br><span class="line">  ],</span><br><span class="line">  css: [</span><br><span class="line">    <span class="string">&#x27;https://unpkg.com/element-ui@2.13.2/lib/theme-chalk/index.css&#x27;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	chainWebpack: <span class="function">(<span class="params">config</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (isProduction) &#123;</span><br><span class="line">	      config.plugin(<span class="string">&#x27;html&#x27;</span>).tap(<span class="function">(<span class="params">args</span>) =&gt;</span> &#123;</span><br><span class="line">	        args[<span class="number">0</span>].cdn = cdn</span><br><span class="line">	        <span class="keyword">return</span> args</span><br><span class="line">	      &#125;)</span><br><span class="line">    	&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	configureWebpack: <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">		config.externals = cdn.externals</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>public/index.html中</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 使用CDN的CSS文件 --&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">%</span> <span class="attr">for</span> (<span class="attr">var</span> <span class="attr">i</span> <span class="attr">in</span> <span class="attr">htmlWebpackPlugin.options.cdn</span> &amp;&amp; <span class="attr">htmlWebpackPlugin.options.cdn.css</span>) &#123; %&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;&lt;%= htmlWebpackPlugin.options.cdn.css[i] %&gt;&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;preload&quot;</span> <span class="attr">as</span>=<span class="string">&quot;style&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;&lt;%= htmlWebpackPlugin.options.cdn.css[i] %&gt;&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 使用CDN的js文件 --&gt;</span>     </span><br><span class="line"> <span class="tag">&lt;<span class="name">%</span> <span class="attr">for</span> (<span class="attr">var</span> <span class="attr">i</span> <span class="attr">in</span> <span class="attr">htmlWebpackPlugin.options.cdn</span> &amp;&amp; <span class="attr">htmlWebpackPlugin.options.cdn.js</span>) &#123; %&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;&lt;%= htmlWebpackPlugin.options.cdn.js[i] %&gt;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xzwwjl1314/article/details/108233321">https://blog.csdn.net/xzwwjl1314/article/details/108233321</a></p>
+<h3 id="工程化使用SVG图标"><a href="#工程化使用SVG图标" class="headerlink" title="工程化使用SVG图标"></a>工程化使用SVG图标</h3><ul>
+<li><p><code>vue.config.js</code>中配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"><span class="comment">//获取绝对路径</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">dir</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> path.join(__dirname, dir)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="function"><span class="title">chainWebpack</span>(<span class="params">config</span>)</span> &#123;</span><br><span class="line">    <span class="comment">//修改默认svg配置，排除icons目录</span></span><br><span class="line">    config.module.rule(<span class="string">&#x27;svg&#x27;</span>).exclude.add(svgs)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//新增rule添加icons中的svg</span></span><br><span class="line">    config.module</span><br><span class="line">      .rule(<span class="string">&#x27;icons&#x27;</span>)</span><br><span class="line">      .test(<span class="regexp">/\.svg$/</span>)</span><br><span class="line">      .include.add(svgs)</span><br><span class="line">      .end()</span><br><span class="line">      .use(<span class="string">&#x27;svg-sprite-loader&#x27;</span>) <span class="comment">//要安装此loader</span></span><br><span class="line">      .loader(<span class="string">&#x27;svg-sprite-loader&#x27;</span>)</span><br><span class="line">      .options(&#123; <span class="attr">symbolId</span>: <span class="string">&#x27;icon-[name]&#x27;</span> &#125;) <span class="comment">//之后加载svg图标的xlink:href就是#icon-文件名</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>svg目录上级定义工程文件index.js:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//让webpack创建以svg目录为上下文的require函数</span></span><br><span class="line"><span class="keyword">const</span> req = <span class="built_in">require</span>.context(<span class="string">&#x27;./svg&#x27;</span>, <span class="literal">false</span>, <span class="regexp">/\.svg$/</span>)</span><br><span class="line"><span class="comment">//keys获取所有svg文件全部加载</span></span><br><span class="line">req.keys().map(req)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在main.js导入工程文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;@/assets/icons&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接使用:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">use</span> <span class="attr">:xlink:href</span>=<span class="string">&quot;#icon-iconName&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">use</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">vue优化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/04/30/%E6%A1%86%E6%9E%B6/vue%E4%BC%98%E5%8C%96/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-其他/地图总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1364,163 +1551,6 @@
 
 
   
-    <article id="post-其他/踩坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/01/14/%E5%85%B6%E4%BB%96/%E8%B8%A9%E5%9D%91/" target="_blank">踩坑</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/01/14/%E5%85%B6%E4%BB%96/%E8%B8%A9%E5%9D%91/" class="archive-article-date">
-        <time datetime="2021-01-14T07:18:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-14</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h2 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h2><ul>
-<li><p>vue中使用<strong>sass</strong>，安装<code>node-sass@4.14.1</code>,<code>sass-loader@8.0.2</code>。这两个版本稳定，最新版兼容问题多</p>
-</li>
-<li><p>vue中使用<strong>swiper</strong>,安装<code>vue-awesome-swiper@3</code>可以完美使用,新版使用swiper6，出现设置autoplay不生效的问题</p>
-<ul>
-<li>另外使用时swiper-slide内容添加点击事件，在设置loop后第二轮过后点击事件不生效。原来loop会新增swiper-slide实现无缝，但vue中就没有绑定到所有元素上:</li>
-</ul>
-<p>添加配置属性on监听点击:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">on: &#123;</span><br><span class="line">  <span class="comment">//用tab点击事件，click有明细延迟</span></span><br><span class="line">  tap: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this.realIndex得到当前点击准确索引，传给methods中的点击处理方法</span></span><br><span class="line">    _this.clickHandler(<span class="built_in">this</span>.realIndex)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>而且由于图片数量和路径由接口数据决定，导致初始化计算错误，轮播的<code>loop</code>无缝失效。给轮播父级加上<code>v-if=&quot;picArr.length&quot;</code>即可</li>
-</ul>
-</li>
-<li><p><strong>better-scroll</strong></p>
-<ul>
-<li>实例方法<code>scrollTo</code>动画滚动到指定位置</li>
-<li>实例方法<code>refresh</code>重新计算滚动高度,</li>
-</ul>
-</li>
-<li><p>新版<code>observeDom: true</code>监视元素变化，自动计算滚动高度</p>
-</li>
-<li><p><strong>全局常量</strong>挂载到window上后可在组件内复用，但除开组件这种加载顺序靠后的，像vuex内就获取不到(因为执行时还未完成挂载)。混入的内容是依附组件的，也能获取到</p>
-</li>
-<li><p>在vue-cli3中，通过路径<strong>跳转本地的文件</strong>，必须将本地文件放到public目录下，放到assets会找不到文件</p>
-</li>
-<li><p>vue生产环境需要配置vue.config.js=&gt;<code>productionSourceMap: false</code>，打包后不生成<strong>map文件</strong>(用于查找报错位置)，节省空间</p>
-</li>
-<li><p>vue-cli3打包开启gzip压缩文件(需要服务端开启gzip才有效):</p>
-<ol>
-<li><p><code>npm i compression-webpack-plugin@5 -D</code>   不加<code>@5</code>默认安装最新版7.1，会报错</p>
-</li>
-<li><p><code>vue.config.js</code>中配置：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CompressionPlugin = <span class="built_in">require</span>(<span class="string">&quot;compression-webpack-plugin&quot;</span>)</span><br><span class="line">configureWebpack: &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> CompressionPlugin(&#123;</span><br><span class="line">      <span class="comment">//需要压缩的文件正则</span></span><br><span class="line">      test: <span class="regexp">/\.js$|\.html$|\.css$|\.jpg$|\.jpeg$|\.png$|\.gif$|\.webp$|\.svg$/</span>,</span><br><span class="line">      <span class="comment">// test: /\.(js|css)(\?.*)?$/i,</span></span><br><span class="line">      threshold: <span class="number">10240</span>,<span class="comment">//文件大小大于这个值时启用压缩</span></span><br><span class="line">      deleteOriginalAssets: <span class="literal">false</span><span class="comment">//压缩后保留原文件</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-<li><p>使用eslint + prettier规范代码格式老报错:</p>
-<p>除了在<code>vue.config.js</code>中取消规范:<code>lintOnSave:false</code>,  还可以:</p>
-<p>先命令行<code>npm run lint</code>规范代码,如果报错且没有修改成功，可以修改<code>package.json</code>  script=&gt;lint: <code>&quot;vue-cli-service lint&quot;</code>改为<code>&quot;eslint --fix --ext .js,.vue src&quot;</code>   之后。</p>
-<blockquote>
-<p>此时多数格式问题都被规范了，但定义的全局常量<code>CONST</code>挂载到了window，eslint确报错这个常量未定义。需要在package.json的eslintConfig中:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;//配置全局常量</span><br><span class="line">&gt;&quot;globals&quot;: &#123;</span><br><span class="line">  &quot;CONST&quot;: true</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<ul>
-<li><p>配置eslint不以分号结尾（eslint + prettier时无效,原因后文的注意）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数2改为1报错改为警告,为0表示关闭规则。注意关闭后默认会要分号</span></span><br><span class="line">&quot;semi&quot;: [2, &quot;never&quot;]	</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>不需要规范的文件/目录，在根目录创建<code>.eslintignore</code>文件声明:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;src&#x2F;assets&#x2F;font</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-    
-    <a class="article-more-a" href="/2021/01/14/%E5%85%B6%E4%BB%96/%E8%B8%A9%E5%9D%91/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其他</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">踩坑</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/01/14/%E5%85%B6%E4%BB%96/%E8%B8%A9%E5%9D%91/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
@@ -1678,7 +1708,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1686,19 +1716,11 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1707,6 +1729,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1730,11 +1764,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1742,11 +1776,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">
