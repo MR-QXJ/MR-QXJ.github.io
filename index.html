@@ -229,6 +229,151 @@
             
 
   
+    <article id="post-语言/nodejs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/05/17/%E8%AF%AD%E8%A8%80/nodejs/" target="_blank">node.js</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/05/17/%E8%AF%AD%E8%A8%80/nodejs/" class="archive-article-date">
+        <time datetime="2021-05-17T03:30:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-17</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h2><h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p><strong>CommonJS</strong></p>
+<p>node实现commonjs的模块化规范</p>
+<ul>
+<li><code>require(path)</code>导入 path是<strong>文件夹</strong>路径时，会找其中package.json的<code>main</code>属性指向的文件作为入口，否则会找index.js</li>
+<li><code>module.exports/exports.xx</code>导出整个对象或属性</li>
+</ul>
+<blockquote>
+<p>通常ESmodule可以将CommonJS作为默认导入，反之不行。因为CommonJS是同步加载，而ESmodule要先进行静态分析(异步)</p>
+</blockquote>
+<h3 id="内置组件"><a href="#内置组件" class="headerlink" title="内置组件"></a>内置组件</h3><p><strong>path</strong></p>
+<ul>
+<li>linux、mac等系统路径以<code>/</code>分隔，而windows有的以<code>\</code>分割，直接写死发布到linux等系统下就会有问题。以下方法用于进行<strong>路径拼接</strong><ul>
+<li><code>path.join</code>纯粹拼接，不处理</li>
+<li><code>path.resolve</code>拼接前会将相对路径解析为对应绝对路径再拼接。若参数路径有误会自动选择最后一个合适的绝对路径。</li>
+</ul>
+</li>
+</ul>
+<p><strong>fs</strong></p>
+<ul>
+<li><code>fs.open</code>获取<strong>文件描述符</strong>。通过描述符也可以用内置模块操作对应文件</li>
+<li><strong>读取写入</strong>文件时，可以传配置项<code>flag</code>设置读写方式。<strong>读取</strong>文件时若不传配置项<code>encoding</code>设置<strong>编码格式</strong>，默认会返回<code>buffer</code></li>
+<li><code>fs.readdir</code>读取文件夹目录，配置区分文件类型后才可通过<code>isDirectory/isFile</code>方法判断目录还是文件</li>
+</ul>
+<p><strong>events</strong></p>
+<p>事件触发器,vue等框架的<strong>事件总线</strong>思想由此而来</p>
+<p><code>events</code>是一个类，下面称为<code>EventEmitter</code>，实例称为<code>emitter</code></p>
+<ul>
+<li><code>emitter.on/addListener</code><strong>监听</strong>自定义方法</li>
+<li><code>emitter.once</code><strong>监听</strong>自定义方法，只监听<strong>一次</strong></li>
+<li><code>emitter.emit</code><strong>触发</strong>自定义方法</li>
+<li><code>emitter.off</code><strong>取消监听</strong></li>
+<li><code>EventEmitter.eventNames</code>获取当前监听的<strong>事件名</strong></li>
+<li><code>EventEmitter.listeners</code>获取当前<strong>事件名对应</strong>的<strong>事件个数</strong></li>
+<li><code>EventEmitter.removeAllListeners</code><strong>移除</strong>所有事件</li>
+</ul>
+<p><strong>promise封装</strong></p>
+<p>内置模块方法都可使用<code>promise</code>的方式使用了，有两种用法:</p>
+<ul>
+<li><p><code>模块.promises.fn</code> 调用<code>promise</code>封装的内置模块方法, </p>
+</li>
+<li><p><code>require(&quot;模块/promises&quot;)</code>，该内置模块所有异步方法都会是<code>promise</code>方式了</p>
+</li>
+</ul>
+<p>可能与回调方式返回的数据结构不同，需要查看文档对应类</p>
+<ul>
+<li>基于 promise 的 API 不使用数字文件描述符。 而是，基于 promise 的 API 使用 <code>FileHandle</code> 类 </li>
+</ul>
+<p>用<code>fileHandle</code>写入文件时出现了<em>operation not permitted, write</em>错误，用路径却成功。猜测因为此 <code>fs.open</code>调用时未设置可写入的<code>flag</code>参数 ，于是设置为<code>&quot;a+&quot;</code>成功。得出结论: <strong><code>fs.open</code>需要设置flag确保可进行读写操作</strong></p>
+<p>还要注意，<code>fileHandle</code>写入后再用<code>fileHandle</code>读取不到内容。猜测由于文件被写入状态更新，导致第一次<code>open</code>获取的<code>fileHandle</code>失效, 于是重新<code>fs.open</code>获取，再用新获取的<code>fileHandle</code>尝试成功。得出结论: <strong>写入等更新文件的操作后需要重新获取<code>fileHandle</code>才能继续操作</strong></p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Node.js</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/05/17/%E8%AF%AD%E8%A8%80/nodejs/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-框架/vue优化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1425,147 +1570,6 @@
 
 
   
-    <article id="post-git/git归纳" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/01/22/git/git%E5%BD%92%E7%BA%B3/" target="_blank">git归纳</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/01/22/git/git%E5%BD%92%E7%BA%B3/" class="archive-article-date">
-        <time datetime="2021-01-22T03:04:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-22</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h3 id="完整项目中的文件"><a href="#完整项目中的文件" class="headerlink" title="完整项目中的文件"></a>完整项目中的文件</h3><ul>
-<li><p><code>.gitignore</code> — <strong>忽略</strong>文件：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node_modules  <span class="comment">//安装的项目包自然不用上传</span></span><br><span class="line">.idea	<span class="comment">//忽略webstorm,vscode,git默认生成的文件</span></span><br><span class="line">.vscode	</span><br><span class="line">.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>README.md</code>  —  <strong>项目描述</strong></p>
-</li>
-<li><p><code>LICENSE</code> — <strong>开源协议</strong></p>
-</li>
-</ul>
-<h3 id="上传到本地git"><a href="#上传到本地git" class="headerlink" title="上传到本地git"></a>上传到本地git</h3><ol>
-<li><p><code>git init</code> —  <strong>初始化</strong>git</p>
-</li>
-<li><p><code>git status </code> —  查看项目<strong>状态</strong></p>
-</li>
-<li><p><code>git add .</code>  — <strong>添加追踪</strong>当前目录所有文件(除开被.gitignore忽略的)</p>
-</li>
-<li><p><code>git commit -m &quot;简要说明&quot;</code>  — <strong>提交</strong>到git版本库</p>
-<p>记得设置本地git<strong>用户名和邮箱</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;删除</span><br><span class="line">git config --global --unset user.name &quot;用户名&quot;</span><br><span class="line">git config --global --unset user.email &quot;邮箱&quot;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;清理本地账户信息</span><br><span class="line">git config --system --unset credential.helper</span><br><span class="line">git config --global credential.helper wincred</span><br><span class="line">&#x2F;&#x2F;清除掉缓存在git中的用户名和密码</span><br><span class="line">git credential-manager uninstall</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<h3 id="上传到远程库"><a href="#上传到远程库" class="headerlink" title="上传到远程库"></a>上传到远程库</h3><p>将自己电脑添加<strong>公钥</strong>才能上传和下载项目</p>
-<p>将本机主分支<strong>推送</strong>到码云<strong>仓库</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin 仓库地址 &#x2F;&#x2F;修改仓库对应远程地址</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;需要的windows凭证，用户名为邮箱</span><br><span class="line">&#x2F;&#x2F;-u将当前分支设为默认，以后可直接&#96;git push&#96;</span><br><span class="line">git push -u origin master </span><br></pre></td></tr></table></figure>
-
-<h3 id="更新代码到远程库"><a href="#更新代码到远程库" class="headerlink" title="更新代码到远程库"></a>更新代码到远程库</h3><p><strong>命令行</strong>方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;说明&quot;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<p><strong>vscode</strong>方式：</p>
-<p>vscode中直接修改后，侧栏第三个图标。输入<strong>简要说明</strong>后确定，修改的文件会直接提交到<strong>本地版本库</strong>，然后选择<strong>推送</strong>自动推送到远程仓库</p>
-    
-    <a class="article-more-a" href="/2021/01/22/git/git%E5%BD%92%E7%BA%B3/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">git归纳</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/01/22/git/git%E5%BD%92%E7%BA%B3/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
@@ -1707,23 +1711,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1731,23 +1719,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1775,6 +1755,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">跨域</a>
               </li>
              
@@ -1788,6 +1772,30 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
