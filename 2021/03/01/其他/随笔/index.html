@@ -18,7 +18,7 @@
 <meta property="og:description" content="随笔使用node.js的process内置模块和fs文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码) js 对象合并技巧 若字段相等则会都被后一个的值覆盖  Object.assign(obj1, obj2)参数为简单类型则深拷贝，引用类型则浅拷贝。 &amp;#123;...obj1, ...obj2&amp;#125">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-01T09:39:43.000Z">
-<meta property="article:modified_time" content="2021-05-18T09:38:53.142Z">
+<meta property="article:modified_time" content="2021-05-21T07:34:49.492Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="其他">
 <meta property="article:tag" content="随笔">
@@ -259,7 +259,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">6.1k字</span>
+      <span class="post-count">6.4k字</span>
     </span>
   </span>
 
@@ -268,7 +268,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">27分</span>
+      <span class="post-count">28分</span>
     </span>
   </span>
 </div>
@@ -669,6 +669,24 @@
 </blockquote>
 </li>
 </ul>
+<p><strong>多行文本截断</strong></p>
+<p><code>vue-clamp</code>实现多行文本截断并在末尾同一行最后加入按钮等元素，支持插槽。</p>
+<p>如果需要自己实现，可以通过: </p>
+<ul>
+<li>最外部<strong>块级</strong>元素。<strong>文本容器</strong>应该是<strong>行内</strong>元素(文本跟末尾/头部按钮也要包在一个行内元素内)。</li>
+<li>计算内容需要的<strong>总高度</strong>: <code>最外部总高度 = 内容行高 * 行数</code>。要特别注意:<ul>
+<li><strong>末尾/头部按钮高度</strong>如果大于行高，会影响该行的高度</li>
+<li>最外部如果设置了<code>padding</code>，高度需要算上<code>paddingTop</code>和<code>paddingBottom</code></li>
+<li>以上计算可以使用<code>getComputedStyle</code>拿到实际样式值</li>
+</ul>
+</li>
+<li>文本容器内<strong>尾部/头部</strong>加入的按钮等元素，设置<code>display: inline-block</code>才能和文本文字同一行</li>
+<li>设置文本容器<code>visibility: hidden</code>，并循环文本字符串逐个添加到文本容器(尾部可能加上<code>...</code>等省略符)，直到实际总高度<strong>超过之前计算的总高度</strong>，就取上一次的字符串</li>
+<li>最后再设置文本容器<code>visibility: visible</code>展示。</li>
+</ul>
+<blockquote>
+<p>已通过vue实现，需要源码的可以联系我，乐意分享</p>
+</blockquote>
 <h2 id="浅谈富文本"><a href="#浅谈富文本" class="headerlink" title="浅谈富文本"></a>浅谈富文本</h2><p>除表单元素外，其他元素默认不可编辑。html5提供了<code>contenteditable</code>属性定义元素为可编辑状态，可借此实现富文本编辑器。</p>
 <ul>
 <li><p>定义<code>contenteditable</code>后聚焦时默认会出现外边框使用css取消:</p>
@@ -1136,7 +1154,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1144,11 +1162,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1180,10 +1206,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">跨域</a>
               </li>
              
@@ -1204,11 +1226,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1217,10 +1239,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
