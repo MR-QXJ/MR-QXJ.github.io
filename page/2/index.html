@@ -229,6 +229,139 @@
             
 
   
+    <article id="post-框架/vue3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/09/23/%E6%A1%86%E6%9E%B6/vue3/" target="_blank">vue3</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/09/23/%E6%A1%86%E6%9E%B6/vue3/" class="archive-article-date">
+        <time datetime="2021-09-23T08:02:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-23</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="vue3新特性"><a href="#vue3新特性" class="headerlink" title="vue3新特性"></a>vue3新特性</h2><ul>
+<li><p>更好的支持typescript</p>
+</li>
+<li><p>使用<code>proxy</code>+<code>Reflect</code>代替<code>defineProperty</code>实现响应式</p>
+<p>由于<code>proxy</code>和<code>Reflect</code>的方法一一对应，由<code>proxy</code>监听拦截对应操作，<code>Reflect</code>来完成并返回对应的默认行为,</p>
+<ul>
+<li>将条件判断和实际行为优雅的区分, </li>
+<li><code>proxy</code>性能更好</li>
+<li>数组也可以深度响应(<code>proxy</code>和<code>Reflect</code>都可以操作数组)</li>
+</ul>
+</li>
+<li><p>重写虚拟dom实现和<em>Tree-Shaking</em></p>
+</li>
+<li><p>vue3组件的模板可以不只有一个根标签</p>
+</li>
+<li><p>将不会支持 IE11 </p>
+</li>
+</ul>
+<blockquote>
+<p>vue-cli3 4.5.0以上</p>
+</blockquote>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>除了<code>beforeDestroy</code>和<code>destroyed</code>已经改名了不能用， vue2的其他生命周期在vue3同样可用，但vue3都有对应的组合API可以在<code>setup</code>中代替。vue2和vue3生命周期对比： 以下右边的生命周期也可以去掉<code>on</code>可以跟vue2一样<code>option</code>方式定义生命周期</p>
+<ul>
+<li><code>beforeCreate</code>和<code>created</code>  =&gt; <code>setup</code></li>
+<li><code>beforeMount</code>  =&gt; <code>onBeforeMount</code></li>
+<li><code>mounted</code> =&gt; <code>onMounted</code></li>
+<li><code>beforeUpdate</code> =&gt; <code>onBeforeUpdate</code></li>
+<li><code>updated</code> =&gt; <code>onUpdated</code></li>
+<li><code>beforeDestroy</code> =&gt; <code>onBeforeUnmount</code></li>
+<li><code>destroyed</code> =&gt; <code>onUnmounted</code></li>
+<li><code>errorCaptured</code> =&gt; <code>onErrorCaptured</code></li>
+</ul>
+<blockquote>
+<p>经过测试同样生命周期定义在setup中都比vue2的方式快，优先级更高</p>
+</blockquote>
+    
+    <a class="article-more-a" href="/2021/09/23/%E6%A1%86%E6%9E%B6/vue3/#more">more >></a>
+    
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vue3</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/09/23/%E6%A1%86%E6%9E%B6/vue3/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-git/git归纳" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -419,9 +552,9 @@
 <ul>
 <li><p>node-sass需要与sass-loader版本匹配</p>
 </li>
-<li><p><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#45;&#x73;&#x61;&#x73;&#x73;&#x40;&#52;&#x2e;&#49;&#52;">&#110;&#x6f;&#x64;&#x65;&#45;&#x73;&#x61;&#x73;&#x73;&#x40;&#52;&#x2e;&#49;&#52;</a>对应<a href="mailto:&#115;&#x61;&#115;&#115;&#45;&#108;&#x6f;&#97;&#100;&#x65;&#x72;&#x40;&#x38;&#x2e;&#x78;">&#115;&#x61;&#115;&#115;&#45;&#108;&#x6f;&#97;&#100;&#x65;&#x72;&#x40;&#x38;&#x2e;&#x78;</a></p>
+<li><p><a href="mailto:&#x6e;&#111;&#100;&#x65;&#x2d;&#x73;&#x61;&#x73;&#x73;&#64;&#52;&#46;&#49;&#x34;">&#x6e;&#111;&#100;&#x65;&#x2d;&#x73;&#x61;&#x73;&#x73;&#64;&#52;&#46;&#49;&#x34;</a>对应<a href="mailto:&#115;&#97;&#115;&#x73;&#45;&#x6c;&#x6f;&#x61;&#100;&#101;&#x72;&#64;&#x38;&#46;&#x78;">&#115;&#97;&#115;&#x73;&#45;&#x6c;&#x6f;&#x61;&#100;&#101;&#x72;&#64;&#x38;&#46;&#x78;</a></p>
 <ul>
-<li><a href="mailto:&#x6e;&#111;&#100;&#101;&#x2d;&#x73;&#x61;&#x73;&#x73;&#64;&#52;&#x2e;&#49;&#x33;">&#x6e;&#111;&#100;&#101;&#x2d;&#x73;&#x61;&#x73;&#x73;&#64;&#52;&#x2e;&#49;&#x33;</a>对应<a href="mailto:&#115;&#x61;&#x73;&#x73;&#45;&#x6c;&#x6f;&#x61;&#x64;&#x65;&#114;&#x40;&#x37;&#46;&#x78;">&#115;&#x61;&#x73;&#x73;&#45;&#x6c;&#x6f;&#x61;&#x64;&#x65;&#114;&#x40;&#x37;&#46;&#x78;</a></li>
+<li><a href="mailto:&#110;&#x6f;&#100;&#x65;&#45;&#x73;&#x61;&#x73;&#115;&#x40;&#52;&#x2e;&#49;&#x33;">&#110;&#x6f;&#100;&#x65;&#45;&#x73;&#x61;&#x73;&#115;&#x40;&#52;&#x2e;&#49;&#x33;</a>对应<a href="mailto:&#x73;&#x61;&#x73;&#115;&#45;&#108;&#x6f;&#97;&#100;&#101;&#x72;&#x40;&#55;&#x2e;&#120;">&#x73;&#x61;&#x73;&#115;&#45;&#108;&#x6f;&#97;&#100;&#101;&#x72;&#x40;&#55;&#x2e;&#120;</a></li>
 </ul>
 </li>
 <li><p>node-sass还要与node版本相配，否则会报<code>Error:Can&#39;t find Python executable &quot;python&quot;</code>。与node版本匹配如下表:</p>
@@ -673,11 +806,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">部署</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">部署</a>
         		</li>
       		
 		</ul>
@@ -1702,165 +1835,6 @@
 
 
   
-    <article id="post-游览器/移动端" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/06/29/%E6%B8%B8%E8%A7%88%E5%99%A8/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" target="_blank">移动端小结</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/06/29/%E6%B8%B8%E8%A7%88%E5%99%A8/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" class="archive-article-date">
-        <time datetime="2021-06-29T08:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-29</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h2 id="微信小程序"><a href="#微信小程序" class="headerlink" title="微信小程序"></a>微信小程序</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27449993/article/details/90602451">微信小程序使用iconFont</a></p>
-</li>
-<li><p>文本框及其父元素保持在软键盘上方：</p>
-<ul>
-<li>文本框<code>auto-focus</code>配合<code>v-if</code>使软键盘自动弹出</li>
-<li><code>wx.onKeyboardHeightChange</code>监听软键盘高度并调整文本框</li>
-<li>文本框<code>:adjust-position=&quot;false&quot;</code>兼容iphone，保证软键盘上升不顶开页面</li>
-</ul>
-</li>
-<li><p>uni-app中使用节流函数，由于uni-app类似vue的特性，节流函数直接绑定到元素上每次会触发新的节流函数而不是调用节流<code>return</code>的方法，不能生成闭包。赋值到<code>methods</code>内或者定义到全局也因为<code>this</code>的指向不方便使用页面实例的数据。解决如下:</p>
-<blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将节流方法赋值给data中的属性，只要不轻易修改该属性。即能满足this指向，</span></span><br><span class="line"><span class="comment">//又会在存初始化时节流函数return的方法生成闭包，使用时调用data中的改方法即可</span></span><br><span class="line"><span class="function"><span class="title">data</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">     <span class="comment">//this.loadMore是methods中定义的加载更多方法</span></span><br><span class="line">     <span class="comment">//this.$tool是赋到Vue原型上的utils</span></span><br><span class="line">       throLoad: <span class="built_in">this</span>.$tool.throttle(<span class="built_in">this</span>.loadMore, <span class="number">500</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-<li><p>自定义<code>tabBar</code>除了每页放一个自定义组件，还可以使用官方提供的方法:</p>
-<p>在根目录新建<code>custom-tab-bar</code>存放原生小程序自定义组件的tabbar内容</p>
-<p>具体方式见文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/82660552">微信小程序自定义tabbar</a></p>
-</li>
-</ul>
-<h2 id="h5"><a href="#h5" class="headerlink" title="h5"></a>h5</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.mob.com/download ">MobTech集成网站分享到各个第三方平台</a></li>
-</ul>
-<h3 id="内部元素滚动时页面滚动bug"><a href="#内部元素滚动时页面滚动bug" class="headerlink" title="内部元素滚动时页面滚动bug"></a>内部元素滚动时页面滚动bug</h3><p>在自己定义可滚动的侧边栏时，常规方法侧边栏无法阻止滚动冒泡到body。虽然使用的遮罩并阻止遮罩滚动，但侧边栏等层级高于遮罩的元素仍会出现问题。主要有三种情况导致页面滚动: </p>
-<ul>
-<li>侧边栏无法滚动时,滚动目标会给到body</li>
-<li>侧边栏滚动到最顶部在下滑或到最底部再上滑滚动目标会给到body</li>
-<li>侧边栏内的元素仍会冒泡到body,除非给所有子元素阻止冒泡</li>
-</ul>
-<p><strong>解决方法</strong></p>
-<blockquote>
-<p>以下代码块menubox为滚动盒子的jq对象，menuBoxPri是滚动盒子的dom对象</p>
-</blockquote>
-<ul>
-<li><p>禁止所有的滚动行为，再用JS手动添加滚动:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">menuBox.on(<span class="string">&#x27;touchstart&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.startY = e.targetTouches[<span class="number">0</span>].clientY</span><br><span class="line">&#125;).on(<span class="string">&#x27;touchmove&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dis = <span class="built_in">this</span>.startY - e.targetTouches[<span class="number">0</span>].clientY</span><br><span class="line">  <span class="keyword">if</span> (dis != <span class="number">0</span>) <span class="built_in">this</span>.startY = e.targetTouches[<span class="number">0</span>].clientY</span><br><span class="line">  <span class="comment">//JS手动添加滚动</span></span><br><span class="line">  menuBoxPri.scrollTop += dis</span><br><span class="line">  <span class="comment">//禁止所有的滚动行为</span></span><br><span class="line">  preventDefault(e)</span><br><span class="line">&#125;) </span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这种方式唯一有点缺陷就是没有原生惯性滚动的效果，我们可以用js自己写：</span></span><br><span class="line"><span class="comment">//比起自己实现，为了兼容添加那么多无用代码更恶心</span></span><br><span class="line"> menuBox.on(<span class="string">&#x27;touchstart&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">this</span>.startY = e.targetTouches[<span class="number">0</span>].clientY</span><br><span class="line">   <span class="keyword">if</span> (<span class="built_in">this</span>.timer) <span class="built_in">clearInterval</span>(<span class="built_in">this</span>.timer)</span><br><span class="line"> &#125;).on(<span class="string">&#x27;touchmove&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">let</span> dis =  <span class="built_in">this</span>.startY - e.targetTouches[<span class="number">0</span>].clientY</span><br><span class="line">   <span class="keyword">if</span> (dis != <span class="number">0</span>) <span class="built_in">this</span>.startY = e.targetTouches[<span class="number">0</span>].clientY</span><br><span class="line">   menuBoxPri.scrollTop += dis</span><br><span class="line">   <span class="built_in">this</span>.speed = <span class="built_in">Math</span>.abs(dis) &gt; <span class="number">4</span> ? dis : <span class="literal">null</span></span><br><span class="line">     </span><br><span class="line">   preventDefault(e)</span><br><span class="line"> &#125;).on(<span class="string">&#x27;touchend&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (!<span class="built_in">this</span>.speed) <span class="keyword">return</span></span><br><span class="line">     <span class="keyword">const</span> speed = <span class="built_in">this</span>.speed</span><br><span class="line">     <span class="built_in">this</span>.speed = <span class="literal">null</span></span><br><span class="line">     <span class="keyword">let</span> step = speed &gt; <span class="number">0</span> ? <span class="number">12</span> : -<span class="number">12</span></span><br><span class="line">     <span class="keyword">if</span> (<span class="built_in">this</span>.speed &gt; <span class="number">30</span>) step *= <span class="number">2</span></span><br><span class="line">  </span><br><span class="line">   <span class="built_in">this</span>.timer = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">     <span class="keyword">if</span> (step &lt;= <span class="number">0.1</span>) <span class="keyword">return</span> <span class="built_in">clearInterval</span>(<span class="built_in">this</span>.timer)</span><br><span class="line">       menuBoxPri.scrollTop += step </span><br><span class="line">       step *= <span class="number">0.96</span></span><br><span class="line">   &#125;, <span class="number">1</span>)</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>弹出层出现时就给body<code>fixed </code>，但这种方式会导致整个页面瞬间到达顶部，需要先获取body原本的<code>scrollTop</code>动态赋值给<code>top</code>（为负数才是下滚）。结束时记得把<code>scrollTop</code>给回去</p>
-<ul>
-<li><pre><code>document.documentElement.scrollTop || document.body.scrollTop
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 在移动端可以更简便地使用&#96;document.scrollingElement.scrollTop&#96;代替上面方式获取到滚动属性</span><br><span class="line"></span><br><span class="line">- 弹出层出现时给后方元素加上如下设置，结束时赋值为空即可：</span><br><span class="line">  </span><br><span class="line">  &#96;&#96;&#96;js</span><br><span class="line">  document.scrollingElement.style.height &#x3D; &#39;100vh&#39;</span><br><span class="line">document.scrollingElement.style.overflow &#x3D; &#39;hidden&#39;</span><br></pre></td></tr></table></figure>
-
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-    
-    <a class="article-more-a" href="/2021/06/29/%E6%B8%B8%E8%A7%88%E5%99%A8/%E7%A7%BB%E5%8A%A8%E7%AB%AF/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信小程序</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">h5</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">游览器</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">hybrid app</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/06/29/%E6%B8%B8%E8%A7%88%E5%99%A8/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
@@ -1994,11 +1968,43 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2014,19 +2020,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2038,31 +2032,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">地图汇总</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2074,19 +2056,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2102,7 +2072,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2110,7 +2080,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2126,19 +2100,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2150,7 +2112,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">地图汇总</a>
               </li>
             
             <div class="clearfix"></div>
