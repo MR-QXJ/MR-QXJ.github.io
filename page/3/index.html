@@ -229,6 +229,147 @@
             
 
   
+    <article id="post-语言/EventLoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/06/29/%E8%AF%AD%E8%A8%80/EventLoop/" target="_blank">Event Loop</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/06/29/%E8%AF%AD%E8%A8%80/EventLoop/" class="archive-article-date">
+        <time datetime="2021-06-29T09:11:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-29</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="游览器事件循环"><a href="#游览器事件循环" class="headerlink" title="游览器事件循环"></a>游览器事件循环</h2><p><strong>宏任务/微任务</strong></p>
+<p>除了广义的同步任务和异步任务，我们对任务有更精细的定义：</p>
+<ol>
+<li>macro-task(宏任务)：当前<strong>调用栈中执行的任务</strong>称为宏任务。包括：setTimeout、setInterval、setImmediate（浏览器暂时不支持，只有IE10支持，具体可见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setImmediate">MDN</a>）、I/O、UI Rendering。宏任务队列可以有多个</li>
+<li>.micro-task(微任务)： 当前（此次事件循环中）宏任务执行完，在<strong>下一个宏任务开始之前需要执行的任务</strong>为微任务。包括：Promise的then回调、Object.observe(废弃)、MutationObserver</li>
+<li>不同类型的任务会进入对应的Event Queue，宏任务中的事件放在callback queue中，由<strong>事件触发线程维护</strong>；微任务的事件放在微任务队列中，由<strong>js引擎线程维护</strong>。微任务队列只有一个</li>
+</ol>
+<p><strong>什么是event loop</strong></p>
+<ul>
+<li>主线程运行的时候会生成堆（heap）和栈（stack）；</li>
+<li>js 从上到下解析方法，将其中的同步任务按照执行顺序排列到执行栈中；函数开始和结束时，也会进行压栈、出栈操作。</li>
+<li>当程序调用外部的 API 时（比如 ajax、setTimeout 等），会将此类异步任务挂起，继续执行执行栈中的任务。等异步任务返回结果后，再按照顺序排列到事件队列中；</li>
+<li>主线程先将执行栈中的同步任务清空，然后检查事件队列中是否有任务，如果有，就将第一个事件对应的回调推到执行栈中执行，若在执行过程中遇到异步任务，则继续将这个异步任务排列到事件队列中。</li>
+<li>主线程每次将执行栈(main script)清空后，就去事件队列中检查是否有任务，如果有，就每次取出一个推到执行栈中执行，这个循环往复的过程被称为“Event Loop 事件循环”</li>
+</ul>
+<blockquote>
+<p>async函数内await之后的代码相当于在then回调，是微任务</p>
+</blockquote>
+<h2 id="node事件循环"><a href="#node事件循环" class="headerlink" title="node事件循环"></a>node事件循环</h2><p>游览器事件循环根据html5规范，而node事件循环是使用libuv(专注于异步IO)实现。node中的文件操作其实是libuv对操作系统的系统调用。</p>
+<p>node事件循环tick分成很多阶段(宏任务队列)<strong>逐步进行</strong>:</p>
+<ul>
+<li>timers： 定时器相关回调</li>
+<li>pending callback： 一些系统操作的回调，如(tcp错误类型)</li>
+<li>idel,prepare：仅系统内部使用</li>
+<li>poll: 检索新IO事件，执行IO相关回调。<strong>poll</strong>阶段是耗时最多，它会停留，让IO回调尽早响应</li>
+<li>check: 执行setImmediate回调</li>
+<li>close callback：如 socket.on(‘close’，…) 等关闭回调</li>
+</ul>
+<blockquote>
+<p>在初始化事件循环后定时器可能未将回调放入timer(即使定时为0)，此时定时器回调会在下一次tick再执行。而check检测阶段在当前tick会立即执行。</p>
+<p>因此定时器和setImmediate回调执行顺序即使定时器定时为0、代码相同也可能顺序不一致。但是过程还是根据阶段一步步进行的。</p>
+</blockquote>
+<p>练习:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">&#x27;events&#x27;</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EE</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">const</span> yy = <span class="keyword">new</span> EE()</span><br><span class="line">yy.on(<span class="string">&#x27;event&#x27;</span>, <span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;粗大事啦&#x27;</span>))</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;0 毫秒后到期的定时器回调&#x27;</span>), <span class="number">0</span>)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;100 毫秒后到期的定时器回调&#x27;</span>), <span class="number">100</span>)</span><br><span class="line">setImmediate(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;immediate 立即回调&#x27;</span>))</span><br><span class="line">process.nextTick(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;process.nextTick 的回调&#x27;</span>))</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  yy.emit(<span class="string">&#x27;event&#x27;</span>)</span><br><span class="line">  process.nextTick(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;process.nextTick 的回调2&#x27;</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;promise 第一次回调&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;promise 第二次回调&#x27;</span>))</span><br><span class="line"></span><br><span class="line">  <span class="comment">//第一次事件循环tick</span></span><br><span class="line">    <span class="comment">//第一次清空微任务</span></span><br><span class="line"><span class="comment">//process.nextTick 的回调</span></span><br><span class="line"><span class="comment">//粗大事啦</span></span><br><span class="line"><span class="comment">//promise 第一次回调</span></span><br><span class="line"><span class="comment">//promise 第二次回调</span></span><br><span class="line">    <span class="comment">//第二次清空微任务</span></span><br><span class="line"><span class="comment">//process.nextTick 的回调2</span></span><br><span class="line">	<span class="comment">//清空宏任务</span></span><br><span class="line"><span class="comment">//0 毫秒后到期的定时器回调</span></span><br><span class="line"><span class="comment">//immediate 立即回调</span></span><br><span class="line">  <span class="comment">//第二次事件循环tick</span></span><br><span class="line"><span class="comment">//100 毫秒后到期的定时器回调(初始化事件循环时未到100ms，未将回调放入timer，下次tick才执行)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>同一个promise有<strong>多次同级then调用</strong>，这些then回调都会按顺序放在<strong>同一个微任务执行栈</strong>中依次进行(同级)，但不是等到下次微任务栈才执行下个then。</p>
+</li>
+<li><p><code>ee.emit(&#39;event&#39;)</code>触发<code>e.on(&#39;event&#39;, cb)</code> cb回调属于普通任务，不会进行事件循环等待</p>
+</li>
+</ul>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">event loop</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/06/29/%E8%AF%AD%E8%A8%80/EventLoop/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-游览器/移动端" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1290,125 +1431,6 @@
 
 
   
-    <article id="post-游览器/游览器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2020/10/22/%E6%B8%B8%E8%A7%88%E5%99%A8/%E6%B8%B8%E8%A7%88%E5%99%A8/" target="_blank">游览器机制</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2020/10/22/%E6%B8%B8%E8%A7%88%E5%99%A8/%E6%B8%B8%E8%A7%88%E5%99%A8/" class="archive-article-date">
-        <time datetime="2020-10-22T09:08:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-22</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h1 id="游览器渲染页面过程"><a href="#游览器渲染页面过程" class="headerlink" title="游览器渲染页面过程"></a>游览器渲染页面过程</h1><p>1.浏览器解析html源码，然后创建一个 DOM树。并行请求 css/image/js在DOM树中，每一个HTML标签都有一个对应的节点，并且每一个文本也都会有一个对应的文本节点。DOM树的根节点就是 documentElement，对应的是html标签。</p>
-<p>2.浏览器解析CSS代码，计算出最终的样式数据。构建CSSOM树。对CSS代码中非法的语法它会直接忽略掉。解析CSS的时候会按照如下顺序来定义优先级：浏览器默认设置 &lt; 用户设置 &lt; 外链样式 &lt; 内联样式 &lt; html中的style。</p>
-<p>3.DOM Tree + CSSOM –&gt; 渲染树（rendering tree）。渲染树和DOM树有点像，但是是有区别的。</p>
-<p>DOM树完全和html标签一一对应，但是渲染树会忽略掉不需要渲染的元素，比如head、display:none的元素等。而且一大段文本中的每一个行在渲染树中都是独立的一个节点。渲染树中的每一个节点都存储有对应的css属性。</p>
-<p>4.一旦渲染树创建好了，浏览器就可以根据渲染树直接把页面绘制到屏幕上。</p>
-<p>以上四个步骤并不是一次性顺序完成的。如果DOM或者CSSOM被修改，以上过程会被重复执行。实际上，CSS和JavaScript往往会多次修改DOM或者CSSOM。</p>
-<h1 id="游览器缓存"><a href="#游览器缓存" class="headerlink" title="游览器缓存"></a>游览器缓存</h1><p><strong>强缓存和协商缓存</strong></p>
-<ol>
-<li>浏览器在加载资源时，先根据这个资源的一些<code>http header</code>判断它是否命中强缓存，强缓存如果命中，浏览器直接从自己的缓存中读取资源，不会发请求到服务器。比如某个<code>css</code>文件，如果浏览器在加载它所在的网页时，这个<code>css</code>文件的缓存配置命中了强缓存，浏览器就直接从缓存中加载这个<code>css</code>，连请求都不会发送到网页所在服务器</li>
-<li>当强缓存没有命中的时候，浏览器一定会发送一个请求到服务器，通过服务器端依据资源的另外一些<code>http header</code>验证这个资源是否命中协商缓存，如果协商缓存命中，服务器会将这个请求返回，但是不会返回这个资源的数据，而是告诉客户端可以直接从缓存中加载这个资源，于是浏览器就又会从自己的缓存中去加载这个资源</li>
-<li><strong>强缓存与协商缓存的共同点是</strong>：如果命中，都是从客户端缓存中加载资源，而不是从服务器加载资源数据；区别是：<strong>强缓存不发请求到服务器</strong>，协商缓存会发请求到服务器</li>
-<li>当协商缓存也没有命中的时候，浏览器直接从服务器加载资源数据</li>
-</ol>
-    
-    <a class="article-more-a" href="/2020/10/22/%E6%B8%B8%E8%A7%88%E5%99%A8/%E6%B8%B8%E8%A7%88%E5%99%A8/#more">more >></a>
-    
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">渲染</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">游览器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2020/10/22/%E6%B8%B8%E8%A7%88%E5%99%A8/%E6%B8%B8%E8%A7%88%E5%99%A8/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
@@ -1570,6 +1592,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
               </li>
              
@@ -1578,7 +1608,31 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">部署</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1587,6 +1641,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1630,10 +1696,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">跨域</a>
               </li>
              
@@ -1646,47 +1708,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">npm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">部署</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1694,7 +1716,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">

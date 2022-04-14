@@ -229,6 +229,187 @@
             
 
   
+    <article id="post-语言/typescript" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2021/10/01/%E8%AF%AD%E8%A8%80/typescript/" target="_blank">typescript</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2021/10/01/%E8%AF%AD%E8%A8%80/typescript/" class="archive-article-date">
+        <time datetime="2021-10-01T02:37:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-01</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h2><h3 id="安装和编译"><a href="#安装和编译" class="headerlink" title="安装和编译"></a>安装和编译</h3><ol>
+<li><code>npm instaill -g typescript</code></li>
+<li><code>tsc -v</code> 查看安装</li>
+<li><code>tsc hello.ts</code>编译</li>
+<li><code>tsc</code> 编译当前目录下所有ts文件，可配置tsconfig.json =&gt; outDir输出目录，否则会在所有对应ts的路径下生成js</li>
+<li><code>tsc --watch</code>自动监听变化并编译</li>
+</ol>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><h4 id="类型检测"><a href="#类型检测" class="headerlink" title="类型检测"></a>类型检测</h4><ul>
+<li>类型检测 <code>v: t</code> </li>
+<li>联合类型 <code>v: t1 | t2</code> 表示可以是t1或者t2</li>
+<li>交叉类型<code>v: t1 &amp; t2</code> 表示t1和t2都要满足，若t1、t2有字段类型冲突，该字段为<code>never</code></li>
+<li>类型断言，当编译器根据类型检测判断结果类型可能多个，跟理想类型不符，就容易报错。但是开发者已人为断定结果的类型，知道自己在干嘛，有两种写法：<ul>
+<li><code>&lt;t&gt;v</code></li>
+<li><code>(v as t)</code></li>
+</ul>
+</li>
+<li>参数或属性必定有值断言:  <code>v!: t</code></li>
+<li>类型推断， ts在变量定义时若未声明类型检测，会自动推断出一个类型(未赋值为<code>any</code>)，当类型变化会报错</li>
+</ul>
+<blockquote>
+<p>像new Boolean()这样的内置对象创建出来的值是包装类型，不属于基本类型boolean</p>
+</blockquote>
+<h4 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h4><ul>
+<li><p><code>boolean</code>、<code>number</code>、<code>string</code>、<code>undefined</code>、<code>null</code>; </p>
+<p><code>undefined</code>和<code>null</code>是所有类型的子类型，可以赋值给其他类型 <a href="%E9%9D%9E%E4%B8%A5%E6%A0%BC%E7%B1%BB%E5%9E%8B(tsconfig.json%E4%B8%AD%60strict%60%E4%B8%BAtrue)%E7%94%9F%E6%95%88">^ns</a></p>
+</li>
+<li><p><code>Array</code>；数组内所有元素类型检测:</p>
+<p><code>v: t[]</code>  或 <code>v: Array&lt;t&gt;</code>(泛型)</p>
+</li>
+<li><p><code>symbol</code></p>
+</li>
+<li><p><code>enum</code>枚举类型,支持基于<strong>数字和字符串</strong>的枚举:</p>
+<p>成员名为汉字可能值为undefined</p>
+</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">enum</span> Direction &#123;</span><br><span class="line">  NORTH,</span><br><span class="line">  SOUTH,</span><br><span class="line">  EAST,</span><br><span class="line">  WEST = <span class="number">3</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数字枚举默认初始NORTH为0，SOUTH1这样递增，也可以像WEST一样设置初始值</span></span><br><span class="line"><span class="comment">//字符串枚举则必须手动设置初始值</span></span><br><span class="line"><span class="keyword">let</span> dir: Direction = Direction.NORTH;</span><br><span class="line"><span class="comment">//数字枚举支持成员值到成员名的反向映射:</span></span><br><span class="line"><span class="keyword">let</span> dirName = Direction[<span class="number">0</span>]; <span class="comment">// NORTH</span></span><br><span class="line"><span class="keyword">let</span> dirVal = Direction[<span class="string">&quot;NORTH&quot;</span>]; <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加const修饰成为常量枚举</span></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">enum</span> Direction &#123;</span><br><span class="line">  NORTH,</span><br><span class="line">  SOUTH,</span><br><span class="line">  EAST,</span><br><span class="line">  WEST,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> dir: Direction = Direction.NORTH;</span><br><span class="line"><span class="comment">//编译成es5后：使用内联语法，不会为枚举类型编译生成任何JS</span></span><br><span class="line"><span class="keyword">let</span> dir = <span class="number">0</span> </span><br></pre></td></tr></table></figure>
+
+<p>还有异构枚举:数字和字符串的混合</p>
+<blockquote>
+<p>注意 枚举类型的值并不能用变量动态获取，只能传定值。动态获取应该使用 对象 + 索引签名</p>
+</blockquote>
+<ul>
+<li><p><code>any</code> 允许对此类型的值做任何操作无需任何检查，<strong>允许所有更改</strong></p>
+</li>
+<li><p><code>unknown</code> 与<code>any</code>一样无需任何检查；但<code>unknown</code>类型变量<strong>只能赋值给</strong><code>unknown</code>和<code>any</code>类型；由于类型未知，除赋值外<strong>禁止任何更改</strong></p>
+</li>
+<li><p><code>tuple</code>元组类型  与数组类似，但用于<strong>有限数量</strong>的未命名属性的类型,必须提供每个属性的值。各个元素类型可不同，可通过<code>push</code>等方法新增未知类型元素</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> v: [<span class="built_in">string</span>, <span class="built_in">number</span>]</span><br><span class="line">v = [<span class="string">&#x27;2&#x27;</span>, <span class="number">2</span>]</span><br><span class="line"><span class="comment">//访问方式与数组一致</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>元组和数组类型都可以通过数字索引访问其中一项的类型。还可以通过<code>[number]</code>获取到对应的<strong>联合类型</strong>(数组只有一项类型)</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> arr = <span class="built_in">string</span>[][<span class="number">1</span>] <span class="comment">//string</span></span><br><span class="line"><span class="keyword">type</span> tuple = [<span class="built_in">number</span>, <span class="built_in">string</span>][<span class="number">1</span>] <span class="comment">//string</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> arr = <span class="built_in">string</span>[][<span class="built_in">number</span>] <span class="comment">//string</span></span><br><span class="line"><span class="keyword">type</span> tuple = [<span class="built_in">number</span>, <span class="built_in">string</span>][<span class="built_in">number</span>] <span class="comment">//number | string</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>void</code>表示没有任何类型，与any相反;严格模式下只能为<code>undefined</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明函数返回值为void</span></span><br><span class="line"><span class="comment">//定义函数的()后跟`: t`声明返回值类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">warnUser</span>(<span class="params"></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;This is my warning message&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>object</code>、<code>Object</code>、和<code>&#123;&#125;</code></p>
+<ul>
+<li><p><code>object</code>表示非原始类型</p>
+</li>
+<li><p><code>Object</code>所有 Object 类的实例的类型,由以下两个接口定义:</p>
+<ul>
+<li><p>Object 接口定义了 Object.prototype <strong>原型对象上的属性</strong>；</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Object &#123;</span><br><span class="line">  <span class="title">constructor</span>: <span class="title">Function</span>;</span><br><span class="line">  toString(): <span class="built_in">string</span>;</span><br><span class="line">  toLocaleString(): <span class="built_in">string</span>;</span><br><span class="line">  valueOf(): <span class="built_in">Object</span>;</span><br><span class="line">  hasOwnProperty(v: PropertyKey): <span class="built_in">boolean</span>;</span><br><span class="line">  isPrototypeOf(v: <span class="built_in">Object</span>): <span class="built_in">boolean</span>;</span><br><span class="line">  propertyIsEnumerable(v: PropertyKey): <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ObjectConstructor 接口定义了 Object <strong>类的属性</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> ObjectConstructor &#123;</span><br><span class="line">  <span class="comment">/** Invocation via `new` */</span></span><br><span class="line">  <span class="keyword">new</span>(value?: <span class="built_in">any</span>): <span class="built_in">Object</span>;</span><br><span class="line">  <span class="comment">/** Invocation via function calls */</span></span><br><span class="line">  (value?: <span class="built_in">any</span>): <span class="built_in">any</span>;</span><br><span class="line">  <span class="keyword">readonly</span> prototype: <span class="built_in">Object</span>;</span><br><span class="line">  getPrototypeOf(o: <span class="built_in">any</span>): <span class="built_in">any</span>;</span><br><span class="line">  <span class="comment">// ···</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">var</span> <span class="built_in">Object</span>: ObjectConstructor;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>&#123;&#125;</code>一个空对象，访问其属性会报错，但仍可使用Object接口上的所有方法</p>
+</li>
+</ul>
+</li>
+<li><p><code>never</code>永<strong>不存在值</strong>的类型: 总是会<strong>抛出异常</strong>或根本就<strong>不会有返回值</strong>的函数表达式或箭头函数表达式的返回值。可以赋值给任何类型<a href="%E9%9D%9E%E4%B8%A5%E6%A0%BC%E7%B1%BB%E5%9E%8B(tsconfig.json%E4%B8%AD%60strict%60%E4%B8%BAtrue)%E7%94%9F%E6%95%88">^ns</a></p>
+</li>
+</ul>
+<blockquote>
+<p>Freshness: 对于对象类型，若对字面量进行类型检测，不允许已定义类型外的属性存在。如果不使用字面量而事先定义，则允许</p>
+</blockquote>
+    
+    <a class="article-more-a" href="/2021/10/01/%E8%AF%AD%E8%A8%80/typescript/#more">more >></a>
+    
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">typescript</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2021/10/01/%E8%AF%AD%E8%A8%80/typescript/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-框架/vue3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -411,6 +592,7 @@
 <p><code>-am</code>可以直接提交已追踪的文件，不用再<code>git add</code>，但是新增的文件无法追踪: </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -am <span class="string">&quot;说明&quot;</span></span><br></pre></td></tr></table></figure>
 
+<p><code>--amend</code>修改上次提交记录，进入vim后按下<code>i</code>进入输入模式</p>
 <p>记得设置本地git<strong>用户名和邮箱</strong>:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -552,9 +734,9 @@
 <ul>
 <li><p>node-sass需要与sass-loader版本匹配</p>
 </li>
-<li><p><a href="mailto:&#x6e;&#111;&#100;&#x65;&#x2d;&#x73;&#x61;&#x73;&#x73;&#x40;&#52;&#46;&#x31;&#x34;">&#x6e;&#111;&#100;&#x65;&#x2d;&#x73;&#x61;&#x73;&#x73;&#x40;&#52;&#46;&#x31;&#x34;</a>对应<a href="mailto:&#115;&#97;&#x73;&#115;&#45;&#108;&#111;&#x61;&#100;&#x65;&#114;&#64;&#56;&#x2e;&#120;">&#115;&#97;&#x73;&#115;&#45;&#108;&#111;&#x61;&#100;&#x65;&#114;&#64;&#56;&#x2e;&#120;</a></p>
+<li><p><a href="mailto:&#110;&#111;&#x64;&#101;&#x2d;&#x73;&#97;&#x73;&#x73;&#x40;&#52;&#46;&#49;&#x34;">&#110;&#111;&#x64;&#101;&#x2d;&#x73;&#97;&#x73;&#x73;&#x40;&#52;&#46;&#49;&#x34;</a>对应<a href="mailto:&#115;&#x61;&#115;&#115;&#x2d;&#x6c;&#x6f;&#97;&#100;&#101;&#x72;&#64;&#x38;&#x2e;&#x78;">&#115;&#x61;&#115;&#115;&#x2d;&#x6c;&#x6f;&#97;&#100;&#101;&#x72;&#64;&#x38;&#x2e;&#x78;</a></p>
 <ul>
-<li><a href="mailto:&#110;&#x6f;&#100;&#x65;&#45;&#x73;&#97;&#x73;&#115;&#x40;&#52;&#x2e;&#49;&#51;">&#110;&#x6f;&#100;&#x65;&#45;&#x73;&#97;&#x73;&#115;&#x40;&#52;&#x2e;&#49;&#51;</a>对应<a href="mailto:&#x73;&#x61;&#x73;&#x73;&#45;&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#x40;&#x37;&#46;&#x78;">&#x73;&#x61;&#x73;&#x73;&#45;&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#x40;&#x37;&#46;&#x78;</a></li>
+<li><a href="mailto:&#x6e;&#x6f;&#x64;&#101;&#x2d;&#115;&#97;&#115;&#115;&#64;&#52;&#x2e;&#49;&#x33;">&#x6e;&#x6f;&#x64;&#101;&#x2d;&#115;&#97;&#115;&#115;&#64;&#52;&#x2e;&#49;&#x33;</a>对应<a href="mailto:&#115;&#x61;&#115;&#x73;&#x2d;&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#64;&#55;&#46;&#120;">&#115;&#x61;&#115;&#x73;&#x2d;&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#64;&#55;&#46;&#120;</a></li>
 </ul>
 </li>
 <li><p>node-sass还要与node版本相配，否则会报<code>Error:Can&#39;t find Python executable &quot;python&quot;</code>。与node版本匹配如下表:</p>
@@ -1639,11 +1821,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vue3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vue3</a>
         		</li>
       		
 		</ul>
@@ -1665,147 +1847,6 @@
     
     <p class="article-more-link">
       <a class="article-more-a" href="/2021/06/29/%E6%A1%86%E6%9E%B6/vue-vben-admin/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-语言/EventLoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2021/06/29/%E8%AF%AD%E8%A8%80/EventLoop/" target="_blank">Event Loop</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2021/06/29/%E8%AF%AD%E8%A8%80/EventLoop/" class="archive-article-date">
-        <time datetime="2021-06-29T09:11:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-29</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h2 id="游览器事件循环"><a href="#游览器事件循环" class="headerlink" title="游览器事件循环"></a>游览器事件循环</h2><p><strong>宏任务/微任务</strong></p>
-<p>除了广义的同步任务和异步任务，我们对任务有更精细的定义：</p>
-<ol>
-<li>macro-task(宏任务)：当前<strong>调用栈中执行的任务</strong>称为宏任务。包括：setTimeout、setInterval、setImmediate（浏览器暂时不支持，只有IE10支持，具体可见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setImmediate">MDN</a>）、I/O、UI Rendering。宏任务队列可以有多个</li>
-<li>.micro-task(微任务)： 当前（此次事件循环中）宏任务执行完，在<strong>下一个宏任务开始之前需要执行的任务</strong>为微任务。包括：Promise的then回调、Object.observe(废弃)、MutationObserver</li>
-<li>不同类型的任务会进入对应的Event Queue，宏任务中的事件放在callback queue中，由<strong>事件触发线程维护</strong>；微任务的事件放在微任务队列中，由<strong>js引擎线程维护</strong>。微任务队列只有一个</li>
-</ol>
-<p><strong>什么是event loop</strong></p>
-<ul>
-<li>主线程运行的时候会生成堆（heap）和栈（stack）；</li>
-<li>js 从上到下解析方法，将其中的同步任务按照执行顺序排列到执行栈中；函数开始和结束时，也会进行压栈、出栈操作。</li>
-<li>当程序调用外部的 API 时（比如 ajax、setTimeout 等），会将此类异步任务挂起，继续执行执行栈中的任务。等异步任务返回结果后，再按照顺序排列到事件队列中；</li>
-<li>主线程先将执行栈中的同步任务清空，然后检查事件队列中是否有任务，如果有，就将第一个事件对应的回调推到执行栈中执行，若在执行过程中遇到异步任务，则继续将这个异步任务排列到事件队列中。</li>
-<li>主线程每次将执行栈(main script)清空后，就去事件队列中检查是否有任务，如果有，就每次取出一个推到执行栈中执行，这个循环往复的过程被称为“Event Loop 事件循环”</li>
-</ul>
-<blockquote>
-<p>async函数内await之后的代码相当于在then回调，是微任务</p>
-</blockquote>
-<h2 id="node事件循环"><a href="#node事件循环" class="headerlink" title="node事件循环"></a>node事件循环</h2><p>游览器事件循环根据html5规范，而node事件循环是使用libuv(专注于异步IO)实现。node中的文件操作其实是libuv对操作系统的系统调用。</p>
-<p>node事件循环tick分成很多阶段(宏任务队列)<strong>逐步进行</strong>:</p>
-<ul>
-<li>timers： 定时器相关回调</li>
-<li>pending callback： 一些系统操作的回调，如(tcp错误类型)</li>
-<li>idel,prepare：仅系统内部使用</li>
-<li>poll: 检索新IO事件，执行IO相关回调。<strong>poll</strong>阶段是耗时最多，它会停留，让IO回调尽早响应</li>
-<li>check: 执行setImmediate回调</li>
-<li>close callback：如 socket.on(‘close’，…) 等关闭回调</li>
-</ul>
-<blockquote>
-<p>在初始化事件循环后定时器可能未将回调放入timer(即使定时为0)，此时定时器回调会在下一次tick再执行。而check检测阶段在当前tick会立即执行。</p>
-<p>因此定时器和setImmediate回调执行顺序即使定时器定时为0、代码相同也可能顺序不一致。但是过程还是根据阶段一步步进行的。</p>
-</blockquote>
-<p>练习:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventEmitter = <span class="built_in">require</span>(<span class="string">&#x27;events&#x27;</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EE</span> <span class="keyword">extends</span> <span class="title">EventEmitter</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">const</span> yy = <span class="keyword">new</span> EE()</span><br><span class="line">yy.on(<span class="string">&#x27;event&#x27;</span>, <span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;粗大事啦&#x27;</span>))</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;0 毫秒后到期的定时器回调&#x27;</span>), <span class="number">0</span>)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;100 毫秒后到期的定时器回调&#x27;</span>), <span class="number">100</span>)</span><br><span class="line">setImmediate(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;immediate 立即回调&#x27;</span>))</span><br><span class="line">process.nextTick(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;process.nextTick 的回调&#x27;</span>))</span><br><span class="line"><span class="built_in">Promise</span>.resolve().then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  yy.emit(<span class="string">&#x27;event&#x27;</span>)</span><br><span class="line">  process.nextTick(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;process.nextTick 的回调2&#x27;</span>))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;promise 第一次回调&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&#x27;promise 第二次回调&#x27;</span>))</span><br><span class="line"></span><br><span class="line">  <span class="comment">//第一次事件循环tick</span></span><br><span class="line">    <span class="comment">//第一次清空微任务</span></span><br><span class="line"><span class="comment">//process.nextTick 的回调</span></span><br><span class="line"><span class="comment">//粗大事啦</span></span><br><span class="line"><span class="comment">//promise 第一次回调</span></span><br><span class="line"><span class="comment">//promise 第二次回调</span></span><br><span class="line">    <span class="comment">//第二次清空微任务</span></span><br><span class="line"><span class="comment">//process.nextTick 的回调2</span></span><br><span class="line">	<span class="comment">//清空宏任务</span></span><br><span class="line"><span class="comment">//0 毫秒后到期的定时器回调</span></span><br><span class="line"><span class="comment">//immediate 立即回调</span></span><br><span class="line">  <span class="comment">//第二次事件循环tick</span></span><br><span class="line"><span class="comment">//100 毫秒后到期的定时器回调(初始化事件循环时未到100ms，未将回调放入timer，下次tick才执行)</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>同一个promise有<strong>多次同级then调用</strong>，这些then回调都会按顺序放在<strong>同一个微任务执行栈</strong>中依次进行(同级)，但不是等到下次微任务栈才执行下个then。</p>
-</li>
-<li><p><code>ee.emit(&#39;event&#39;)</code>触发<code>e.on(&#39;event&#39;, cb)</code> cb回调属于普通任务，不会进行事件循环等待</p>
-</li>
-</ul>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">event loop</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2021/06/29/%E8%AF%AD%E8%A8%80/EventLoop/">展开全文 >></a>
     </p>
     
 
@@ -1996,6 +2037,14 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
               </li>
              
@@ -2004,7 +2053,31 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">部署</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2013,6 +2086,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2056,10 +2141,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">跨域</a>
               </li>
              
@@ -2072,47 +2153,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">npm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">部署</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2120,7 +2161,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">
