@@ -292,11 +292,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
         		</li>
       		
 		</ul>
@@ -394,33 +394,71 @@
 </ul>
 </li>
 </ul>
-<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建组件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cpn</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>()</span><br><span class="line">    <span class="comment">// 初始化data</span></span><br><span class="line">    <span class="built_in">this</span>.state.xx = xxx</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 组件方法作为原型方法创建</span></span><br><span class="line">  <span class="function"><span class="title">xxMethod</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> JSX...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建组件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cpn</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>()</span><br><span class="line">    <span class="comment">// 初始化data</span></span><br><span class="line">    <span class="built_in">this</span>.state = &#123;</span><br><span class="line">      xx: xxx</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 组件方法作为原型方法创建</span></span><br><span class="line">  <span class="function"><span class="title">xxMethod</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">      ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> JSX...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>当数据更新后，必须手动调用<code>this.setState(&#123;...&#125;)</code>修改，react才会重新render渲染到界面</li>
-<li>jsx中绑定组件方法执行时，受到react调用了<code>call</code>处理，<code>this</code>指向为空。解决方法:<ul>
+<li><p>当数据更新后，不推荐直接修改state数据源，必须手动调用<code>this.setState(&#123;...&#125;)</code>修改，react才会重新render渲染到界面</p>
+</li>
+<li><p>jsx中事件绑定组件方法执行时，受到react调用了<code>call</code>处理，<code>this</code>指向为空。解决方法:</p>
+<ul>
 <li>绑定时用<code>bind</code>指定<code>this</code> - <code>bind</code>的优先级要高于<code>call</code></li>
 <li>构造器中用<code>bind</code>重新赋值方法</li>
 <li>采用箭头函数定义方法</li>
 <li>绑定时用箭头函数包裹调用(推荐)</li>
 </ul>
 </li>
+<li><p>函数式组件没有状态和生命周期，但是可以用hooks使其有</p>
+</li>
+<li><p>组件父类<code>React.Component</code>已经实现将<code>props</code>自动赋给<code>this</code>，只需要在构造器中调用<code>super(props)</code> 这个操作react内部已经帮我们做了可不写</p>
+</li>
 </ul>
-<h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>本质上是通过babel转换为<code>React.createElement</code>的函数调用。</p>
+<h3 id="数据通信"><a href="#数据通信" class="headerlink" title="数据通信"></a>数据通信</h3><ul>
+<li>父子组件通信通过<code>props</code>向传递数据，子传父可以由父组件向子组件传递方法，子组件调用并传递参数。注意<code>this</code>指向</li>
+<li>跨组件通信使用<code>context</code>：<ul>
+<li><code>React.createContext</code>创建context对象</li>
+<li>context内容都有一个provider组件</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>本质上是通过babel转换为<code>React.createElement(type, props, c1, c2...)</code>的函数调用。</p>
 <p>因此每项都为jsx的数组直接放到jsx<code>&#123;&#125;</code>中会被解析为同级的兄弟元素</p>
 <p>特性：</p>
 <ul>
-<li><p>只能有一个根标签</p>
-</li>
-<li><p>设置class要用<code>className</code></p>
-</li>
-<li><p>添加事件要用<code>onEvent</code></p>
-</li>
-<li><p><code>&#123;&#125;</code>内的<code>undefined</code>、<code>null</code>、<code>boolean</code>类型数据不会显示在界面，而<code>object</code>会报错</p>
-</li>
+<li>只能有一个根标签</li>
+<li>设置class要用<code>className</code></li>
+<li>添加事件要用<code>onEvent</code></li>
+<li><code>&#123;&#125;</code>内的<code>undefined</code>、<code>null</code>、<code>boolean</code>类型数据不会显示在界面，而<code>object</code>会报错</li>
+<li>数组、fragment可使jsx有多个根节点</li>
+<li>属性展开: 在jsx组件上使用<code>&#123;...obj&#125;</code>可将<code>obj</code>对象内部的属性全部传递到子组件</li>
+</ul>
+<h2 id="实现插槽"><a href="#实现插槽" class="headerlink" title="实现插槽"></a>实现插槽</h2><ul>
+<li>可使用<code>props.children</code>来实现插槽，外部组件通过索引获取并放到对应位置。有顺序要求并且不够直观，建议只有一个children时使用</li>
+<li>通过<code>props</code>传递jsx可以实现精准的具名插槽</li>
+</ul>
+<h2 id="portals"><a href="#portals" class="headerlink" title="portals"></a>portals</h2><p>渲染子节点到不同的dom子树</p>
+<p><a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/portals.html#usage">Portals – React (reactjs.org)</a></p>
+<h2 id="校验props"><a href="#校验props" class="headerlink" title="校验props"></a>校验props</h2><p>项目中没有使用flow、ts时，可以用<code>prop-types</code>库来校验props。<code>prop-types</code>在React15.5之前是内置的，现在需要手动引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 所有组件可用</span></span><br><span class="line">Cpn.propTypes = &#123;</span><br><span class="line">  prop1: PropTypes.array, <span class="comment">//数组</span></span><br><span class="line">  prop2: PropTypes.number.isRequired <span class="comment">//number并且必传</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类组件可为其添加propTypes静态属性(static)使用</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><ul>
+<li><code>Mount</code>装载 组件第一次被dom树渲染</li>
+<li><code>Update</code>更新 组件状态变化 程序渲染</li>
+<li><code>Unmount</code>卸载 组件从dom树中被移除 </li>
+</ul>
+<h3 id="生命周期函数"><a href="#生命周期函数" class="headerlink" title="生命周期函数"></a>生命周期函数</h3><ul>
+<li>componentDidMount 组件挂载到dom树后</li>
+<li>componentDidUpdate 更新后</li>
+<li>componentWillUnmount 组件卸载及销毁之前</li>
+</ul>
+<h4 id="不常用"><a href="#不常用" class="headerlink" title="不常用"></a>不常用</h4><ul>
+<li>getDerivedStateFromProps 调用 render 方法之前调用，并且在初始挂载及后续更新时都会被调用。应返回一个对象来更新 state，如果返回 <code>null</code> 则不更新任何内容</li>
+<li>shouldComponentUpdate 返回布尔值决定是否渲染render</li>
+<li>getSnapShotBeforeUpdate 最近一次渲染到dom前，可以获取之前的一些dom信息，返回值会作为componentDidUpdate的参数</li>
 </ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><a target="_blank" rel="noopener" href="https://snippet-generator.app/">snippet generator (snippet-generator.app)</a></p>
 <p>生成各编辑器的代码片段配置</p>
+<h3 id="暴露配置"><a href="#暴露配置" class="headerlink" title="暴露配置"></a>暴露配置</h3><p>将create-react-app隐藏的配置都暴露出来，包括别名配置;暴露后没办法隐藏</p>
+<p>命令行执行:<code>react-scripts eject</code></p>
 
     
 
@@ -1158,11 +1196,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
         		</li>
       		
 		</ul>
@@ -1891,10 +1929,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">pannellum</a>
               </li>
              
@@ -1907,11 +1941,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1919,11 +1949,63 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">打包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1944,50 +2026,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2031,15 +2069,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
