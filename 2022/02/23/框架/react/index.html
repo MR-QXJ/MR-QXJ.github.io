@@ -10,15 +10,15 @@
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="基本必须依赖三个库  react 核心代码  react-dom 使react渲染在不同平台  babel 转换jsx   react-dom默认导出ReactDom对象 方法:  render(content, target) content 渲染的内容(jsx) target 挂载的对象(dom对象)    组件1234567891011121314151617&#x2F;&#x2F; 创建组件class Cpn">
+  <meta name="description" content="基本12# 创建基于ts的react项目npx create-react-app xx --template typescript  详情见https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7081281152069140494 必须依赖三个库  react 核心代码  react-dom 使react渲染在不同平台  babel 转换jsx   react-dom默认导出ReactDom对象 方法:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="react">
 <meta property="og:url" content="https://mr-qxj.github.io/2022/02/23/%E6%A1%86%E6%9E%B6/react/index.html">
 <meta property="og:site_name" content="虫虫窝">
-<meta property="og:description" content="基本必须依赖三个库  react 核心代码  react-dom 使react渲染在不同平台  babel 转换jsx   react-dom默认导出ReactDom对象 方法:  render(content, target) content 渲染的内容(jsx) target 挂载的对象(dom对象)    组件1234567891011121314151617&#x2F;&#x2F; 创建组件class Cpn">
+<meta property="og:description" content="基本12# 创建基于ts的react项目npx create-react-app xx --template typescript  详情见https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7081281152069140494 必须依赖三个库  react 核心代码  react-dom 使react渲染在不同平台  babel 转换jsx   react-dom默认导出ReactDom对象 方法:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-23T06:10:10.000Z">
-<meta property="article:modified_time" content="2022-05-17T09:50:56.676Z">
+<meta property="article:modified_time" content="2022-05-27T09:08:44.439Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="react">
 <meta name="twitter:card" content="summary">
@@ -258,7 +258,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">898字</span>
+      <span class="post-count">1.8k字</span>
     </span>
   </span>
 
@@ -267,7 +267,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">3分</span>
+      <span class="post-count">6分</span>
     </span>
   </span>
 </div>
@@ -278,7 +278,10 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h2 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h2><p>必须依赖三个库</p>
+    <h2 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建基于ts的react项目</span></span><br><span class="line">npx create-react-app xx --template typescript</span><br></pre></td></tr></table></figure>
+
+<p>详情见<a target="_blank" rel="noopener" href="https://juejin.cn/post/7081281152069140494">https://juejin.cn/post/7081281152069140494</a></p>
+<p>必须依赖三个库</p>
 <ul>
 <li><p>react 核心代码</p>
 </li>
@@ -309,17 +312,68 @@
 <li>绑定时用箭头函数包裹调用(推荐)</li>
 </ul>
 </li>
-<li><p>函数式组件没有状态和生命周期，但是可以用hooks使其有</p>
+<li><p>函数式组件没有状态和生命周期，但是可以用hooks解决</p>
 </li>
 <li><p>组件父类<code>React.Component</code>已经实现将<code>props</code>自动赋给<code>this</code>，只需要在构造器中调用<code>super(props)</code> 这个操作react内部已经帮我们做了可不写</p>
 </li>
 </ul>
 <h3 id="数据通信"><a href="#数据通信" class="headerlink" title="数据通信"></a>数据通信</h3><ul>
-<li>父子组件通信通过<code>props</code>向传递数据，子传父可以由父组件向子组件传递方法，子组件调用并传递参数。注意<code>this</code>指向</li>
-<li>跨组件通信使用<code>context</code>：<ul>
-<li><code>React.createContext</code>创建context对象</li>
-<li>context内容都有一个provider组件</li>
+<li><p>父子组件通信通过<code>props</code>向传递数据，子传父可以由父组件向子组件传递方法，子组件调用并传递参数。注意<code>this</code>指向</p>
+</li>
+<li><p>跨组件通信使用<code>context</code> - react v16.3后的版本：</p>
+<ul>
+<li><p><code>React.createContext</code>创建context对象</p>
+</li>
+<li><p>context内容都有一个Provider组件(默认，创建context后直接使用)，运行消费者组件订阅context变化。消费组件作为<code>Context.Provider</code>的后代组件放置。</p>
+</li>
+<li><p><code>Context.Provider</code>接收一个<code>value</code>属性传递给下面的所有消费组件</p>
+</li>
+<li><p><code>Context.Provider</code>可以嵌套，里层会覆盖外层数据</p>
+</li>
+<li><p><code>Context.Provider</code>上的<code>value</code>变化时，所有其下的消费组件会重新渲染。传入的value应该是state或者props才可触发render</p>
+</li>
+<li><p>消费组件使用：</p>
+<ul>
+<li><p>类组件: </p>
+<p><code>组件.contextType = context</code> 或者</p>
+<p><code>static contextType  = context</code></p>
+<p>内部才可以通过<code>this.context</code>访问最近的context数据</p>
+<p>使用ts的话需要在组件内声明context类型:</p>
+<p><code>context!: React.ContextType&lt;typeof MyContext&gt;</code></p>
+</li>
+<li><p>函数式组件内部: </p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//value相当于this.context，当Provider嵌套时，这种写法也要嵌套</span></span><br><span class="line">&lt;Context.consumer&gt;</span><br><span class="line">  &#123;</span><br><span class="line">    value =&gt; &#123;</span><br><span class="line">      <span class="comment">//通过value访问</span></span><br><span class="line">      <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>value.xx<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;      </span><br><span class="line">  &#125;</span><br><span class="line">&lt;/Context.consumer&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="setState"><a href="#setState" class="headerlink" title="setState"></a>setState</h3><p><code>setState</code>使用后不能马上拿到更新后的数据</p>
+<ul>
+<li>定时器、及原生dom事件的回调内，<code>setState</code>与更新后的状态获取是同步的(宏任务)</li>
+<li>组件生命周期和react合成事件内是异步的</li>
+</ul>
+<p><strong>主要原因</strong>：</p>
+<ul>
+<li>性能考虑，避免短期频繁调用render函数</li>
+<li>同步更新state的话，若没有执行完render，state和props不能同步.</li>
+</ul>
+<p><strong>解决方法</strong></p>
+<ul>
+<li><code>setState</code>第二个参数回调(箭头函数)中获取</li>
+<li>生命周期钩子<code>componentDidUpdate</code>中获取</li>
+<li>在<code>setState</code>后的<code>setTimeout</code>内可获取，时间可以为0</li>
+<li>原生dom事件的回调内可获取</li>
+</ul>
+<p><strong>选项合并</strong></p>
+<ul>
+<li><p>调用<code>setState</code>时，第一层未传入的属性不会消失，在源码中通过<code>Object.assign</code>合并了未更改的属性</p>
+</li>
+<li><p>同时调用多次<code>setState</code>，同一个属性会取最后一次设置的值，因为react通过上下文的不同对setState进行同步或批处理。如果希望短期每次设置都以上一次结果继续，传入的第一个参数应该为函数:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.setState(<span class="function">(<span class="params">preState, props</span>) =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//preState保证拿到上次设置的状态</span></span><br><span class="line">    <span class="keyword">return</span> newState</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>本质上是通过babel转换为<code>React.createElement(type, props, c1, c2...)</code>的函数调用。</p>
@@ -328,16 +382,17 @@
 <ul>
 <li>只能有一个根标签</li>
 <li>设置class要用<code>className</code></li>
+<li>设置内联样式可以传入对象，<code>key</code>必须为驼峰</li>
 <li>添加事件要用<code>onEvent</code></li>
 <li><code>&#123;&#125;</code>内的<code>undefined</code>、<code>null</code>、<code>boolean</code>类型数据不会显示在界面，而<code>object</code>会报错</li>
 <li>数组、fragment可使jsx有多个根节点</li>
 <li>属性展开: 在jsx组件上使用<code>&#123;...obj&#125;</code>可将<code>obj</code>对象内部的属性全部传递到子组件</li>
 </ul>
 <h2 id="实现插槽"><a href="#实现插槽" class="headerlink" title="实现插槽"></a>实现插槽</h2><ul>
-<li>可使用<code>props.children</code>来实现插槽，外部组件通过索引获取并放到对应位置。有顺序要求并且不够直观，建议只有一个children时使用</li>
+<li>可使用<code>props.children</code>来实现插槽，容器组件通过索引获取并放到对应位置。有顺序要求并且不够直观，建议只有一个children时使用</li>
 <li>通过<code>props</code>传递jsx可以实现精准的具名插槽</li>
 </ul>
-<h2 id="portals"><a href="#portals" class="headerlink" title="portals"></a>portals</h2><p>渲染子节点到不同的dom子树</p>
+<h2 id="portals"><a href="#portals" class="headerlink" title="portals"></a>portals</h2><p>渲染子节点到不同的dom子树，不管渲染到何处，该节点仍保持与组件上下文的联系</p>
 <p><a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/portals.html#usage">Portals – React (reactjs.org)</a></p>
 <h2 id="校验props"><a href="#校验props" class="headerlink" title="校验props"></a>校验props</h2><p>项目中没有使用flow、ts时，可以用<code>prop-types</code>库来校验props。<code>prop-types</code>在React15.5之前是内置的，现在需要手动引入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 所有组件可用</span></span><br><span class="line">Cpn.propTypes = &#123;</span><br><span class="line">  prop1: PropTypes.array, <span class="comment">//数组</span></span><br><span class="line">  prop2: PropTypes.number.isRequired <span class="comment">//number并且必传</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类组件可为其添加propTypes静态属性(static)使用</span></span><br></pre></td></tr></table></figure>
@@ -352,11 +407,30 @@
 <li>componentDidUpdate 更新后</li>
 <li>componentWillUnmount 组件卸载及销毁之前</li>
 </ul>
-<h4 id="不常用"><a href="#不常用" class="headerlink" title="不常用"></a>不常用</h4><ul>
+<p><strong>不常用</strong></p>
+<ul>
 <li>getDerivedStateFromProps 调用 render 方法之前调用，并且在初始挂载及后续更新时都会被调用。应返回一个对象来更新 state，如果返回 <code>null</code> 则不更新任何内容</li>
 <li>shouldComponentUpdate 返回布尔值决定是否渲染render</li>
 <li>getSnapShotBeforeUpdate 最近一次渲染到dom前，可以获取之前的一些dom信息，返回值会作为componentDidUpdate的参数</li>
 </ul>
+<h2 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h2><p>react diff对于虚拟dom的比较优化(相较于全量遍历):</p>
+<ul>
+<li>只<strong>同级比较</strong></li>
+<li>不同<strong>节点类型</strong>产生不同<strong>树结构</strong></li>
+<li><code>key</code>指定节点在不同渲染下<strong>保持稳定</strong><ul>
+<li>默认情况下回同时遍历新旧树，发现<strong>差异</strong>时生成一个mutation，<strong>后续所有</strong>节点都会生成mutation，会造成一定性能问题</li>
+<li>有key时，通过key比对新建节点，不会在有差异后全部都生成mutation，只会<strong>移动节点位置</strong></li>
+<li>因此 :<ul>
+<li>在数组尾部添加数据，key的意义不大</li>
+<li>key不能直接放<code>Math.random</code>随机数，每次render都会生成新的，没有意义</li>
+<li>数组index会根据内容数量发生变化，对性能优化意义不大</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>节点<strong>元素不同</strong>时，直接拆卸原有的树<strong>创建新树</strong>。元素<strong>相同</strong>时保留节点并比对更新有变化的属性</li>
+</ul>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="render渲染"><a href="#render渲染" class="headerlink" title="render渲染"></a>render渲染</h3><p>默认情况下，组件的<code>state</code>发生改变重新render时，不论是否使用组件的<code>state</code>作为<code>prop</code>，下面的所有子组件都会重新<code>render</code>，浪费性能</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><a target="_blank" rel="noopener" href="https://snippet-generator.app/">snippet generator (snippet-generator.app)</a></p>
 <p>生成各编辑器的代码片段配置</p>
 <h3 id="暴露配置"><a href="#暴露配置" class="headerlink" title="暴露配置"></a>暴露配置</h3><p>将create-react-app隐藏的配置都暴露出来，包括别名配置;暴露后没办法隐藏</p>
@@ -549,7 +623,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#react-dom"><span class="toc-number">1.1.</span> <span class="toc-text">react-dom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">数据通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSX"><span class="toc-number">2.</span> <span class="toc-text">JSX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%8F%92%E6%A7%BD"><span class="toc-number">3.</span> <span class="toc-text">实现插槽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#portals"><span class="toc-number">4.</span> <span class="toc-text">portals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8Cprops"><span class="toc-number">5.</span> <span class="toc-text">校验props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">6.</span> <span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.</span> <span class="toc-text">生命周期函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E5%B8%B8%E7%94%A8"><span class="toc-number">6.1.1.</span> <span class="toc-text">不常用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">7.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E9%9C%B2%E9%85%8D%E7%BD%AE"><span class="toc-number">7.1.</span> <span class="toc-text">暴露配置</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#react-dom"><span class="toc-number">1.1.</span> <span class="toc-text">react-dom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">数据通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setState"><span class="toc-number">1.4.</span> <span class="toc-text">setState</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSX"><span class="toc-number">2.</span> <span class="toc-text">JSX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%8F%92%E6%A7%BD"><span class="toc-number">3.</span> <span class="toc-text">实现插槽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#portals"><span class="toc-number">4.</span> <span class="toc-text">portals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8Cprops"><span class="toc-number">5.</span> <span class="toc-text">校验props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">6.</span> <span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-number">6.1.</span> <span class="toc-text">生命周期函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#diff"><span class="toc-number">7.</span> <span class="toc-text">diff</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">8.</span> <span class="toc-text">性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#render%E6%B8%B2%E6%9F%93"><span class="toc-number">8.1.</span> <span class="toc-text">render渲染</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">9.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E9%9C%B2%E9%85%8D%E7%BD%AE"><span class="toc-number">9.1.</span> <span class="toc-text">暴露配置</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -697,10 +771,6 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">pannellum</a>
               </li>
              
@@ -713,10 +783,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
@@ -725,7 +791,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -737,7 +807,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -745,7 +827,35 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">跨域</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vue</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -758,26 +868,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -801,43 +891,31 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">跨域</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">node</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -846,10 +924,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
