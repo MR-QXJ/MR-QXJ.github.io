@@ -292,11 +292,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
         		</li>
       		
 		</ul>
@@ -438,13 +438,20 @@
 <p>内部才可以通过<code>this.context</code>访问最近的context数据</p>
 <p>使用ts的话需要在组件内声明context类型:</p>
 <p><code>context!: React.ContextType&lt;typeof MyContext&gt;</code></p>
+<p>类组件嵌套多个<code>context</code>只有最近有个生效，除非像函数式组件原因使用<code>consumer</code></p>
 </li>
 <li><p>函数式组件内部: </p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//value相当于this.context，当Provider嵌套时，这种写法也要嵌套</span></span><br><span class="line">&lt;Context.consumer&gt;</span><br><span class="line">  &#123;</span><br><span class="line">    value =&gt; &#123;</span><br><span class="line">      <span class="comment">//通过value访问</span></span><br><span class="line">      <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>value.xx<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    &#125;      </span><br><span class="line">  &#125;</span><br><span class="line">&lt;/Context.consumer&gt;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 </li>
+</ul>
+</li>
+<li><p>同样可以用事件总线进行跨组件同学，<strong>events</strong>用的多。通过<code>EventEmitter</code>构造函数实例<code>eventBus</code></p>
+<ul>
+<li><code>eventBus.emit</code> 发送事件</li>
+<li><code>eventBus.addListener</code> 监听事件</li>
+<li><code>eventBus.removeListener</code> 移除监听</li>
 </ul>
 </li>
 </ul>
@@ -474,6 +481,11 @@
 
 </li>
 </ul>
+<p><strong>数组修改</strong></p>
+<blockquote>
+<p>在数组内的数据发生变动时，我们习惯用<code>push</code>、<code>splice</code>等方法去修改，但直接对<code>state</code>数据使用这些方法会影响数据的不可变性。</p>
+</blockquote>
+<p>通常使用<code>[...arr]</code>等浅拷贝创建新变量，对新变量操作后进行<code>setState</code></p>
 <h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>本质上是通过babel转换为<code>React.createElement(type, props, c1, c2...)</code>的函数调用。</p>
 <p>因此每项都为jsx的数组直接放到jsx<code>&#123;&#125;</code>中会被解析为同级的兄弟元素</p>
 <p>特性：</p>
@@ -492,6 +504,23 @@
 </ul>
 <h2 id="portals"><a href="#portals" class="headerlink" title="portals"></a>portals</h2><p>渲染子节点到不同的dom子树，不管渲染到何处，该节点仍保持与组件上下文的联系</p>
 <p><a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/portals.html#usage">Portals – React (reactjs.org)</a></p>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p>用于获取组件对象或dom</p>
+<ul>
+<li><p>向目标jsx添加<code>ref</code>属性，值可以是:</p>
+<ul>
+<li><strong>字符串</strong> 通过<code>this.refs.xx</code>获取</li>
+<li><strong>对象</strong> 传入通过<code>createRef</code>创建的对象，通过对象的<code>current</code>属性获取</li>
+<li><strong>函数</strong> 传入回调函数，通过函数参数拿到元素</li>
+</ul>
+</li>
+<li><p>由于函数式组件不会创建实例，<code>ref</code>拿不到组件对象，可通过<code>React.forwardRef</code> (还是拿不到函数式组件本身对象，因为没有):</p>
+<ul>
+<li><code>forwardRef</code>接收render函数创建函数式组件，有<code>props</code>、<code>ref</code>两个参数</li>
+<li>可向函数组件内的任意内容传入<code>ref</code>属性，值为render函数第二个参数。</li>
+<li>之后在父组件就可以正常用<code>ref</code>获取函数式组件中的任意dom或组件对象(非函数式)</li>
+</ul>
+</li>
+</ul>
 <h2 id="校验props"><a href="#校验props" class="headerlink" title="校验props"></a>校验props</h2><p>项目中没有使用flow、ts时，可以用<code>prop-types</code>库来校验props。<code>prop-types</code>在React15.5之前是内置的，现在需要手动引入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 所有组件可用</span></span><br><span class="line">Cpn.propTypes = &#123;</span><br><span class="line">  prop1: PropTypes.array, <span class="comment">//数组</span></span><br><span class="line">  prop2: PropTypes.number.isRequired <span class="comment">//number并且必传</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类组件可为其添加propTypes静态属性(static)使用</span></span><br></pre></td></tr></table></figure>
 
@@ -528,7 +557,18 @@
 </li>
 <li>节点<strong>元素不同</strong>时，直接拆卸原有的树<strong>创建新树</strong>。元素<strong>相同</strong>时保留节点并比对更新有变化的属性</li>
 </ul>
-<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="render渲染"><a href="#render渲染" class="headerlink" title="render渲染"></a>render渲染</h3><p>默认情况下，组件的<code>state</code>发生改变重新render时，不论是否使用组件的<code>state</code>作为<code>prop</code>，下面的所有子组件都会重新<code>render</code>，浪费性能</p>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="render渲染"><a href="#render渲染" class="headerlink" title="render渲染"></a>render渲染</h3><blockquote>
+<p>默认情况下，组件的<code>state</code>发生改变重新render时，不论是否使用组件的<code>state</code>作为<code>prop</code>，下面的所有子组件都会重新<code>render</code>，浪费性能</p>
+</blockquote>
+<p>优化方法如下：</p>
+<ul>
+<li><code>sholdComponentUpdate(newProps, newState)</code>在<code>state</code>更新前触发，返回布尔值决定是否调用<code>render</code>。判断时需要对比函数参数中的新数据与当前的<code>state</code>，因此需要保持数据的的不可变性，否则无法判断变化</li>
+<li>类组件使用<code>react.PureComponent</code>代替<code>react.Component</code>，内部会自动比对<code>state</code>和<code>props</code>更新决定是否<code>render</code></li>
+<li>函数式组件传入<code>memo</code>函数，返回的组件也可达到<code>PureComponent</code>的效果<blockquote>
+<p>注意<code>sholdComponentUpdate</code>中使用深层比较或<code>JSON.stringify</code>会比较耗费性能</p>
+</blockquote>
+</li>
+</ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><a target="_blank" rel="noopener" href="https://snippet-generator.app/">snippet generator (snippet-generator.app)</a></p>
 <p>生成各编辑器的代码片段配置</p>
 <h3 id="暴露配置"><a href="#暴露配置" class="headerlink" title="暴露配置"></a>暴露配置</h3><p>将create-react-app隐藏的配置都暴露出来，包括别名配置;暴露后没办法隐藏</p>
@@ -1270,11 +1310,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
         		</li>
       		
 		</ul>
@@ -2007,18 +2047,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">pannellum</a>
               </li>
              
@@ -2039,7 +2067,75 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2052,6 +2148,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2079,71 +2179,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">部署</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">npm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2152,6 +2188,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
