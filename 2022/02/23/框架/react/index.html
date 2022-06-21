@@ -18,7 +18,7 @@
 <meta property="og:description" content="基本12# 创建基于ts的react项目npx create-react-app xx --template typescript  详情见https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7081281152069140494 必须依赖三个库  react 核心代码  react-dom 使react渲染在不同平台  babel 转换jsx   react-dom默认导出ReactDom对象 方法:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-23T06:10:10.000Z">
-<meta property="article:modified_time" content="2022-06-21T08:09:28.937Z">
+<meta property="article:modified_time" content="2022-06-21T08:16:56.664Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="react">
 <meta name="twitter:card" content="summary">
@@ -258,7 +258,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">2.2k字</span>
+      <span class="post-count">2.3k字</span>
     </span>
   </span>
 
@@ -415,7 +415,7 @@
 <li><strong>函数</strong> 传入回调函数，通过函数参数拿到元素</li>
 </ul>
 </li>
-<li><p>由于函数式组件不会创建实例，<code>ref</code>拿不到组件对象，可通过<code>React.forwardRef</code> (还是拿不到函数式组件本身对象，因为没有):</p>
+<li><p>由于函数式组件不会创建实例，<code>ref</code>拿不到组件对象，可通过<code>React.forwardRef</code> 传递内部的ref(还是拿不到函数式组件本身对象，因为没有):</p>
 <ul>
 <li><code>forwardRef</code>接收render函数创建函数式组件，有<code>props</code>、<code>ref</code>两个参数</li>
 <li>可向函数组件内的任意内容传入<code>ref</code>属性，值为render函数第二个参数。</li>
@@ -811,10 +811,6 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">pannellum</a>
               </li>
              
@@ -835,6 +831,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
@@ -847,31 +847,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -919,15 +899,35 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">继承</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">原型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
