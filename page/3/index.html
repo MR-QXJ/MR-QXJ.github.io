@@ -914,6 +914,35 @@
 <blockquote>
 <p>SVG 2删除了对<code>xlink</code>命名空间的需要，所以不<code>xlink:href</code>应该使用<code>href</code>。 </p>
 </blockquote>
+<h3 id="虚拟列表"><a href="#虚拟列表" class="headerlink" title="虚拟列表"></a>虚拟列表</h3><p>最近使用两款基于vue的虚拟列表组件来优化大数据的渲染问题，但都有各自的优缺点:</p>
+<h4 id="vue-virtual-scroll-list"><a href="#vue-virtual-scroll-list" class="headerlink" title="vue-virtual-scroll-list"></a>vue-virtual-scroll-list</h4><p><a target="_blank" rel="noopener" href="https://github.com/tangbc/vue-virtual-scroll-list">tangbc/vue-virtual-scroll-list: ⚡️A vue component support big amount data list with high render performance and efficient. (github.com)</a></p>
+<ul>
+<li>该组件需要将使用的每一行组件以属性方式传入，行组件的prop要通过<code>extra-props</code>对象方式传入</li>
+<li><code>keeps</code>约束每次实际渲染的条数，默认30。数据量大时滚动留白时间较久，略卡</li>
+<li>每行高度需要一致，否则容易错乱，通过<code>estimate-size</code>预设每行高</li>
+<li>有ts支持</li>
+</ul>
+<h4 id="vue-virtual-scroller"><a href="#vue-virtual-scroller" class="headerlink" title="vue-virtual-scroller"></a>vue-virtual-scroller</h4><p><a target="_blank" rel="noopener" href="https://github.com/Akryum/vue-virtual-scroller#dynamicscroller">Akryum/vue-virtual-scroller: ⚡️ Blazing fast scrolling for any amount of data (github.com)</a></p>
+<ul>
+<li><p>每行组件通过插槽传入，更方便</p>
+</li>
+<li><p>只需设置<code>min-item-size</code>设置每行最小高度，会自动计算行高，或者在每一项数据中手动设置<code>size</code></p>
+</li>
+<li><p>每次实际渲染量由组件自动计算，不能手动设置。但留白和性能相比<strong>vue-virtual-scroll-list</strong>更优</p>
+</li>
+<li><p>没有ts支持和<code>@/types</code>下载，只能定义声明文件:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="built_in">module</span> <span class="string">&#x27;vue-virtual-scroller&#x27;</span> &#123;</span><br><span class="line">	<span class="keyword">import</span> Vue, &#123; ComponentOptions, PluginObject, Component &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line">	<span class="keyword">interface</span> PluginOptions &#123;</span><br><span class="line">		installComponents?: <span class="built_in">boolean</span>;</span><br><span class="line">		componentsPrefix?: <span class="built_in">string</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> plugin: PluginObject&lt;PluginOptions&gt; &amp; &#123; <span class="attr">version</span>: <span class="built_in">string</span> &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">export</span> <span class="keyword">const</span> RecycleScroller: Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>&gt;;</span><br><span class="line">	<span class="keyword">export</span> <span class="keyword">const</span> DynamicScroller: Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>&gt;;</span><br><span class="line">	<span class="keyword">export</span> <span class="keyword">const</span> DynamicScrollerItem: Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>, <span class="built_in">any</span>&gt;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">IdState</span>(<span class="params">options?: &#123; idProp?: (vm: <span class="built_in">any</span>) =&gt; <span class="built_in">any</span> &#125;</span>): <span class="title">ComponentOptions</span>&lt;<span class="title">Vue</span>&gt; | <span class="title">typeof</span> <span class="title">Vue</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">export</span> <span class="keyword">default</span> plugin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每次内容渲染会重新触发行组件内watch，需要注意</p>
+</li>
+<li><p>每行的dom会被复用，有输入框焦点问题:</p>
+<p>滚动后当前焦点的输入框及内容会被使用到后续渲染的行中，导致显示重复。官方暂时没有修复这个问题，自行处理方法如下</p>
+<ul>
+<li>滚动需要手动失去焦点</li>
+<li>每滚动渲染会触发每行的watch，在这当中重新设置输入框文本</li>
+</ul>
+</li>
+</ul>
 
     
 
@@ -1564,6 +1593,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
@@ -1573,10 +1606,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">其他</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1592,18 +1621,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">react</a>
               </li>
              
@@ -1616,11 +1633,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1660,18 +1689,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">跨域</a>
               </li>
              
@@ -1681,6 +1698,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1708,11 +1737,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
               </li>
              
               <li class="article-tag-list-item">

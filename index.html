@@ -593,8 +593,13 @@
 <p><code>styled components</code> 、<code>emotion</code></p>
 <p><code>glamorous</code>已经很久不维护了</p>
 </blockquote>
+<p>利用了es6中使用模板字符串方式调用函数:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数参数可获取拆分后的字符串以及插值内容进行处理</span></span><br><span class="line">fn<span class="string">`str`</span></span><br></pre></td></tr></table></figure>
+
 <p>以<code>styled-components</code>为例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import styled from &#39;styled-components&#39;</span><br><span class="line">interface styleWrap &#123;</span><br><span class="line">  bgc?: string</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; styled.xx与styled(xx)相同</span><br><span class="line">&#x2F;&#x2F; 表示该容器以xx渲染，可以是组件或标签</span><br><span class="line">const Wrap &#x3D; styled.main&lt;styleWrap&gt;&#96;</span><br><span class="line">  background: $&#123;props  &#x3D;&gt; props.bgc || &#39;#f6f6f6&#39;&#125;;</span><br><span class="line">&#96;</span><br><span class="line">&#x2F;&#x2F; 继承Wrap,内部还可以跟选择器</span><br><span class="line">const WrapExt&#x3D; styled(Wrap)&#96;</span><br><span class="line">  font-size: 22px;</span><br><span class="line">  .red &#123;</span><br><span class="line">    color: red;</span><br><span class="line">  &#125;</span><br><span class="line">&#96;</span><br><span class="line">class P extends PureComponent&lt;Props, State&gt; &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    &#x2F;&#x2F; 传递prop自定义背景色</span><br><span class="line">    return (&lt;WrapExt bgc&#x3D;&quot;#f60&quot;&gt;</span><br><span class="line">      &lt;div className&#x3D;&quot;red&quot;&gt;</span><br><span class="line">        ...</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;WrapExt&gt;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import styled from &#39;styled-components&#39;</span><br><span class="line">interface styleWrap &#123;</span><br><span class="line">  bgc?: string</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; styled.xx与styled(xx)相同</span><br><span class="line">&#x2F;&#x2F; 表示该容器以xx渲染，可以是组件或标签，组件只能通过函数调用传入</span><br><span class="line">const Wrap &#x3D; styled.main&lt;styleWrap&gt;&#96;</span><br><span class="line">  background: $&#123;props  &#x3D;&gt; props.bgc || &#39;#f6f6f6&#39;&#125;;</span><br><span class="line">&#96;</span><br><span class="line">&#x2F;&#x2F; 继承Wrap,内部还可以跟选择器</span><br><span class="line">&#x2F;&#x2F; attrs可以给标签追加attr属性</span><br><span class="line">&#x2F;&#x2F; attrs与标签上添加的属性都会被插值参数props接收</span><br><span class="line">const WrapExt&#x3D; styled(Wrap).attrs(&#123;className: &#39;wrap&#39;&#125;)&#96;</span><br><span class="line">  font-size: 22px;</span><br><span class="line">  .red &#123;</span><br><span class="line">    color: red;</span><br><span class="line">  &#125;</span><br><span class="line">&#96;</span><br><span class="line">class P extends PureComponent&lt;Props, State&gt; &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    &#x2F;&#x2F; 传递prop自定义背景色</span><br><span class="line">    return (&lt;WrapExt bgc&#x3D;&quot;#f60&quot;&gt;</span><br><span class="line">      &lt;div className&#x3D;&quot;red&quot;&gt;</span><br><span class="line">        ...</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;WrapExt&gt;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//提供组件`ThemeProvider`设置主题样式</span></span><br><span class="line"><span class="keyword">import</span> styled, &#123; ThemeProvider &#125; <span class="keyword">from</span> <span class="string">&#x27;styled-components&#x27;</span></span><br><span class="line"><span class="keyword">const</span> StyledCpn = styled.div<span class="string">`</span></span><br><span class="line"><span class="string">  color: <span class="subst">$&#123;props =&gt; props.theme.themeColor&#125;</span></span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cpn</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="name">ThemeProvider</span> <span class="attr">theme</span>=<span class="string">&#123;themeColor:</span> &#x27;<span class="attr">red</span>&#x27;&#125;&gt;</span></span></span><br><span class="line">    &lt;StyledCpn&gt;</span><br><span class="line">    ...</span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">StyledCpn</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">ThemeProvider</span>&gt;</span></span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -2103,6 +2108,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
@@ -2112,10 +2121,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">其他</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2131,18 +2136,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">react</a>
               </li>
              
@@ -2155,11 +2148,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2199,18 +2204,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">跨域</a>
               </li>
              
@@ -2220,6 +2213,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2247,11 +2252,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
               </li>
              
               <li class="article-tag-list-item">
