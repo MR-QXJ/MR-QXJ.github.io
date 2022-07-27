@@ -914,15 +914,15 @@
 <blockquote>
 <p>SVG 2删除了对<code>xlink</code>命名空间的需要，所以不<code>xlink:href</code>应该使用<code>href</code>。 </p>
 </blockquote>
-<h3 id="虚拟列表"><a href="#虚拟列表" class="headerlink" title="虚拟列表"></a>虚拟列表</h3><p>最近使用两款基于vue的虚拟列表组件来优化大数据的渲染问题，但都有各自的优缺点:</p>
-<h4 id="vue-virtual-scroll-list"><a href="#vue-virtual-scroll-list" class="headerlink" title="vue-virtual-scroll-list"></a>vue-virtual-scroll-list</h4><p><a target="_blank" rel="noopener" href="https://github.com/tangbc/vue-virtual-scroll-list">tangbc/vue-virtual-scroll-list: ⚡️A vue component support big amount data list with high render performance and efficient. (github.com)</a></p>
+<h2 id="虚拟列表"><a href="#虚拟列表" class="headerlink" title="虚拟列表"></a>虚拟列表</h2><p>最近使用两款基于vue的虚拟列表组件来优化大数据的渲染问题，但都有各自的优缺点:</p>
+<h3 id="vue-virtual-scroll-list"><a href="#vue-virtual-scroll-list" class="headerlink" title="vue-virtual-scroll-list"></a>vue-virtual-scroll-list</h3><p><a target="_blank" rel="noopener" href="https://github.com/tangbc/vue-virtual-scroll-list">tangbc/vue-virtual-scroll-list: ⚡️A vue component support big amount data list with high render performance and efficient. (github.com)</a></p>
 <ul>
 <li>该组件需要将使用的每一行组件以属性方式传入，行组件的prop要通过<code>extra-props</code>对象方式传入</li>
 <li><code>keeps</code>约束每次实际渲染的条数，默认30。数据量大时滚动留白时间较久，略卡</li>
 <li>每行高度需要一致，否则容易错乱，通过<code>estimate-size</code>预设每行高</li>
 <li>有ts支持</li>
 </ul>
-<h4 id="vue-virtual-scroller"><a href="#vue-virtual-scroller" class="headerlink" title="vue-virtual-scroller"></a>vue-virtual-scroller</h4><p><a target="_blank" rel="noopener" href="https://github.com/Akryum/vue-virtual-scroller#dynamicscroller">Akryum/vue-virtual-scroller: ⚡️ Blazing fast scrolling for any amount of data (github.com)</a></p>
+<h3 id="vue-virtual-scroller"><a href="#vue-virtual-scroller" class="headerlink" title="vue-virtual-scroller"></a>vue-virtual-scroller</h3><p><a target="_blank" rel="noopener" href="https://github.com/Akryum/vue-virtual-scroller#dynamicscroller">Akryum/vue-virtual-scroller: ⚡️ Blazing fast scrolling for any amount of data (github.com)</a></p>
 <ul>
 <li><p>每行组件通过插槽传入，更方便</p>
 </li>
@@ -936,13 +936,21 @@
 <li><p>每次内容渲染会重新触发行组件内watch，需要注意</p>
 </li>
 <li><p>每行的dom会被复用，有输入框焦点问题:</p>
-<p>滚动后当前焦点的输入框及内容会被使用到后续渲染的行中，导致显示重复。官方暂时没有修复这个问题，自行处理方法如下</p>
+<p>滚动后当前焦点的输入框及内容会被使用到后续渲染的行中，导致显示重复。官方暂时没有修复这个问题，处理方法如下</p>
 <ul>
-<li>滚动需要手动失去焦点</li>
-<li>每滚动渲染会触发每行的watch，在这当中重新设置输入框文本</li>
+<li><p>暴力解决方法</p>
+<p>滚动需要手动失去焦点</p>
+<p>每滚动渲染会触发每行的watch，在这当中重新设置输入框文本</p>
+</li>
+<li><p>通过该库提供的mixin<code>IdState</code>标识每行组件</p>
+</li>
 </ul>
 </li>
 </ul>
+<blockquote>
+<p>在使用虚拟列表处理大数据量时，由于产品要求，需要对特定行做<code>translate</code>偏移同步外部滚动条。使用<code>props</code>+<code>:style</code>，事件监听，Event等动态修改样式时会卡顿，猜测是由于数据过多，参数响应到每行组件有时间差，导致渲染不同步造成。</p>
+<p>使用css3变量，在虚拟列表外层定义动态的<code>translate</code>变量，特定行使用该变量值解决，这样传参就不会有时间差了</p>
+</blockquote>
 
     
 
@@ -1593,11 +1601,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1618,6 +1626,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">全景图</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1645,34 +1661,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
@@ -1689,18 +1677,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">跨域</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">node</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
               </li>
              
@@ -1713,11 +1689,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">跨域</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vue</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1733,7 +1729,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1742,10 +1754,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">

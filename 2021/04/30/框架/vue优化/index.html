@@ -18,7 +18,7 @@
 <meta property="og:description" content="样式穿透在vue中定义scoped后样式产生作用域，但是一些ui组件需要我们局部修改样式，在scoped内修改经常不生效。除了新增一个没有scoped的style标签外，还可以选择穿透scoped：  老写法 1.parent &gt;&gt;&gt; .ui-component  有些Sass 之类的预处理器无法正确解析 &gt;&gt;&gt;。更建议使用 &#x2F;deep&#x2F;或::v-deep :">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-30T08:26:25.000Z">
-<meta property="article:modified_time" content="2022-07-21T07:15:04.215Z">
+<meta property="article:modified_time" content="2022-07-27T01:50:20.812Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="vue优化">
 <meta name="twitter:card" content="summary">
@@ -258,7 +258,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">2.4k字</span>
+      <span class="post-count">2.6k字</span>
     </span>
   </span>
 
@@ -267,7 +267,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">10分</span>
+      <span class="post-count">11分</span>
     </span>
   </span>
 </div>
@@ -388,15 +388,15 @@
 <blockquote>
 <p>SVG 2删除了对<code>xlink</code>命名空间的需要，所以不<code>xlink:href</code>应该使用<code>href</code>。 </p>
 </blockquote>
-<h3 id="虚拟列表"><a href="#虚拟列表" class="headerlink" title="虚拟列表"></a>虚拟列表</h3><p>最近使用两款基于vue的虚拟列表组件来优化大数据的渲染问题，但都有各自的优缺点:</p>
-<h4 id="vue-virtual-scroll-list"><a href="#vue-virtual-scroll-list" class="headerlink" title="vue-virtual-scroll-list"></a>vue-virtual-scroll-list</h4><p><a target="_blank" rel="noopener" href="https://github.com/tangbc/vue-virtual-scroll-list">tangbc/vue-virtual-scroll-list: ⚡️A vue component support big amount data list with high render performance and efficient. (github.com)</a></p>
+<h2 id="虚拟列表"><a href="#虚拟列表" class="headerlink" title="虚拟列表"></a>虚拟列表</h2><p>最近使用两款基于vue的虚拟列表组件来优化大数据的渲染问题，但都有各自的优缺点:</p>
+<h3 id="vue-virtual-scroll-list"><a href="#vue-virtual-scroll-list" class="headerlink" title="vue-virtual-scroll-list"></a>vue-virtual-scroll-list</h3><p><a target="_blank" rel="noopener" href="https://github.com/tangbc/vue-virtual-scroll-list">tangbc/vue-virtual-scroll-list: ⚡️A vue component support big amount data list with high render performance and efficient. (github.com)</a></p>
 <ul>
 <li>该组件需要将使用的每一行组件以属性方式传入，行组件的prop要通过<code>extra-props</code>对象方式传入</li>
 <li><code>keeps</code>约束每次实际渲染的条数，默认30。数据量大时滚动留白时间较久，略卡</li>
 <li>每行高度需要一致，否则容易错乱，通过<code>estimate-size</code>预设每行高</li>
 <li>有ts支持</li>
 </ul>
-<h4 id="vue-virtual-scroller"><a href="#vue-virtual-scroller" class="headerlink" title="vue-virtual-scroller"></a>vue-virtual-scroller</h4><p><a target="_blank" rel="noopener" href="https://github.com/Akryum/vue-virtual-scroller#dynamicscroller">Akryum/vue-virtual-scroller: ⚡️ Blazing fast scrolling for any amount of data (github.com)</a></p>
+<h3 id="vue-virtual-scroller"><a href="#vue-virtual-scroller" class="headerlink" title="vue-virtual-scroller"></a>vue-virtual-scroller</h3><p><a target="_blank" rel="noopener" href="https://github.com/Akryum/vue-virtual-scroller#dynamicscroller">Akryum/vue-virtual-scroller: ⚡️ Blazing fast scrolling for any amount of data (github.com)</a></p>
 <ul>
 <li><p>每行组件通过插槽传入，更方便</p>
 </li>
@@ -410,13 +410,21 @@
 <li><p>每次内容渲染会重新触发行组件内watch，需要注意</p>
 </li>
 <li><p>每行的dom会被复用，有输入框焦点问题:</p>
-<p>滚动后当前焦点的输入框及内容会被使用到后续渲染的行中，导致显示重复。官方暂时没有修复这个问题，自行处理方法如下</p>
+<p>滚动后当前焦点的输入框及内容会被使用到后续渲染的行中，导致显示重复。官方暂时没有修复这个问题，处理方法如下</p>
 <ul>
-<li>滚动需要手动失去焦点</li>
-<li>每滚动渲染会触发每行的watch，在这当中重新设置输入框文本</li>
+<li><p>暴力解决方法</p>
+<p>滚动需要手动失去焦点</p>
+<p>每滚动渲染会触发每行的watch，在这当中重新设置输入框文本</p>
+</li>
+<li><p>通过该库提供的mixin<code>IdState</code>标识每行组件</p>
+</li>
 </ul>
 </li>
 </ul>
+<blockquote>
+<p>在使用虚拟列表处理大数据量时，由于产品要求，需要对特定行做<code>translate</code>偏移同步外部滚动条。使用<code>props</code>+<code>:style</code>，事件监听，Event等动态修改样式时会卡顿，猜测是由于数据过多，参数响应到每行组件有时间差，导致渲染不同步造成。</p>
+<p>使用css3变量，在虚拟列表外层定义动态的<code>translate</code>变量，特定行使用该变量值解决，这样传参就不会有时间差了</p>
+</blockquote>
 
     
 
@@ -605,7 +613,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F%E7%A9%BF%E9%80%8F"><span class="toc-number">1.</span> <span class="toc-text">样式穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2%E5%90%8C%E8%B7%AF%E7%94%B1%E6%8A%A5%E9%94%99"><span class="toc-number">2.</span> <span class="toc-text">防止同路由报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keep-alive"><span class="toc-number">3.</span> <span class="toc-text">keep-alive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E7%BB%84%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">递归组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8C%85"><span class="toc-number">5.</span> <span class="toc-text">打包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.</span> <span class="toc-text">静态路径问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.2.</span> <span class="toc-text">请求路径问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.3.</span> <span class="toc-text">history模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%96%87%E4%BB%B6"><span class="toc-number">5.4.</span> <span class="toc-text">环境变量文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E6%89%93%E5%8C%85%E4%B8%89%E6%96%B9%E5%BA%93-cdn%E5%BC%95%E5%85%A5"><span class="toc-number">5.5.</span> <span class="toc-text">忽略打包三方库 + cdn引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E5%8C%96%E4%BD%BF%E7%94%A8SVG%E5%9B%BE%E6%A0%87"><span class="toc-number">5.6.</span> <span class="toc-text">工程化使用SVG图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8"><span class="toc-number">5.7.</span> <span class="toc-text">虚拟列表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vue-virtual-scroll-list"><span class="toc-number">5.7.1.</span> <span class="toc-text">vue-virtual-scroll-list</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vue-virtual-scroller"><span class="toc-number">5.7.2.</span> <span class="toc-text">vue-virtual-scroller</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F%E7%A9%BF%E9%80%8F"><span class="toc-number">1.</span> <span class="toc-text">样式穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2%E5%90%8C%E8%B7%AF%E7%94%B1%E6%8A%A5%E9%94%99"><span class="toc-number">2.</span> <span class="toc-text">防止同路由报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keep-alive"><span class="toc-number">3.</span> <span class="toc-text">keep-alive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E7%BB%84%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">递归组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8C%85"><span class="toc-number">5.</span> <span class="toc-text">打包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.</span> <span class="toc-text">静态路径问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="toc-number">5.2.</span> <span class="toc-text">请求路径问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.3.</span> <span class="toc-text">history模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%96%87%E4%BB%B6"><span class="toc-number">5.4.</span> <span class="toc-text">环境变量文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E6%89%93%E5%8C%85%E4%B8%89%E6%96%B9%E5%BA%93-cdn%E5%BC%95%E5%85%A5"><span class="toc-number">5.5.</span> <span class="toc-text">忽略打包三方库 + cdn引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E5%8C%96%E4%BD%BF%E7%94%A8SVG%E5%9B%BE%E6%A0%87"><span class="toc-number">5.6.</span> <span class="toc-text">工程化使用SVG图标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8"><span class="toc-number">6.</span> <span class="toc-text">虚拟列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-virtual-scroll-list"><span class="toc-number">6.1.</span> <span class="toc-text">vue-virtual-scroll-list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-virtual-scroller"><span class="toc-number">6.2.</span> <span class="toc-text">vue-virtual-scroller</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -753,11 +761,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -778,6 +786,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">全景图</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -805,34 +821,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
@@ -849,18 +837,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">跨域</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">node</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
               </li>
              
@@ -873,11 +849,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">跨域</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vue</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -893,7 +889,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -902,10 +914,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
