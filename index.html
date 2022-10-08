@@ -229,124 +229,6 @@
             
 
   
-    <article id="post-打包/vite2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-  
-  
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/2022/03/14/%E6%89%93%E5%8C%85/vite2/" target="_blank">vite2</a>
-  
-    </h1>
-  
-
-
-  
-  
-<a href="/2022/03/14/%E6%89%93%E5%8C%85/vite2/" class="archive-article-date">
-        <time datetime="2022-03-14T02:03:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-14</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><ul>
-<li><p>配置sass</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不需要其他配置</span></span><br><span class="line">npm install <span class="literal">-D</span> sass sass<span class="literal">-loader</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h3><ul>
-<li><p>在标签上直接使用url图片路径，开发环境没问题，但是打包时报错</p>
-<p>详见vite官方文档 <a target="_blank" rel="noopener" href="https://cn.vitejs.dev/guide/assets.html">静态资源处理 | Vite 官方中文文档 (vitejs.dev)</a></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用import导入，并作为路径在模板使用</span></span><br><span class="line"><span class="keyword">import</span> logoUrl <span class="keyword">from</span> <span class="string">&#x27;@/assets/img/logo.svg&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> defineComponent(&#123;</span><br><span class="line">  <span class="function"><span class="title">setup</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      logoUrl,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<h3 id="import-meta"><a href="#import-meta" class="headerlink" title="import.meta"></a>import.meta</h3><ul>
-<li>环境变量在<code>import.meta.env</code>，相当于<code>process.env</code>(node)</li>
-<li>动态处理文件，使用<code>import.meta.globEager</code>，类似于<code>require.context</code></li>
-</ul>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-    
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2022/03/14/%E6%89%93%E5%8C%85/vite2/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-框架/react" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -355,7 +237,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/2022/02/23/%E6%A1%86%E6%9E%B6/react/" target="_blank">react</a>
+	  <a class="article-title" href="/2022/09/23/%E6%A1%86%E6%9E%B6/react/" target="_blank">react</a>
   
     </h1>
   
@@ -363,8 +245,8 @@
 
   
   
-<a href="/2022/02/23/%E6%A1%86%E6%9E%B6/react/" class="archive-article-date">
-        <time datetime="2022-02-23T06:10:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-02-23</time>
+<a href="/2022/09/23/%E6%A1%86%E6%9E%B6/react/" class="archive-article-date">
+        <time datetime="2022-09-23T06:10:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-23</time>
 </a>
 
   
@@ -609,6 +491,69 @@
 <p>2.增加了额外的层</p>
 <p>3.自动生成的选择器影响可读性</p>
 </blockquote>
+<h2 id="过渡动画"><a href="#过渡动画" class="headerlink" title="过渡动画"></a>过渡动画</h2><p>安装<strong>react-transition-group</strong>实现过渡动画，内部包含四个组件:</p>
+<ul>
+<li><p><code>Transition</code> 支持平台无关</p>
+</li>
+<li><p><code>CSSTransition</code> 最常用，基于<code>Transition</code>;有<strong>apprear</strong>、<strong>enter</strong>、<strong>exit</strong>三个状态；对应以下<strong>class</strong>(例<code>classNames</code>为xx)：</p>
+<ul>
+<li>开始状态: <code>xx-appear</code>、<code>xx-enter</code>、<code>xx-exit</code></li>
+<li>执行状态: <code>xx-appear-active</code>、<code>xx-enter-active</code>、<code>xx-exit-active</code></li>
+<li>执行结束: <code>xx-appear-done</code>、<code>xx-enter-done</code>、<code>xx-exit-done</code></li>
+</ul>
+<p><strong>常用属性</strong>:</p>
+<ul>
+<li><code>in</code> 切换显示/离场</li>
+<li><code>timeout</code> 动画class切换时间</li>
+<li><code>classNames</code> class类名前缀</li>
+<li><code>unmountOnExit</code> 退出后协助组件</li>
+<li><code>appear</code> 首次加载后立即执行一次转换，再通过样式设置默认显示时(<code>in=true</code>)进入的默认动画</li>
+</ul>
+</li>
+<li><p><code>SwitchTransition</code> 两组件显示切换，内部包裹<code>CSSTransition</code>并添加<code>key</code>，只能有一个子节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">render(): ReactNode &#123;</span><br><span class="line">  const &#123;show&#125; &#x3D; this.state;</span><br><span class="line">  const A &#x3D; &lt;CSSTransition key&#x3D;&quot;about&quot; classNames&#x3D;&quot;my&quot; timeout&#x3D;&#123;100&#125;&gt;&lt;About&#x2F;&gt;&lt;&#x2F;CSSTransition&gt; </span><br><span class="line">  const P &#x3D; &lt;CSSTransition key&#x3D;&quot;profile&quot; classNames&#x3D;&quot;my&quot; timeout&#x3D;&#123;100&#125;&gt;&lt;Profile&#x2F;&gt;&lt;&#x2F;CSSTransition&gt; </span><br><span class="line">        </span><br><span class="line">  return </span><br><span class="line">    &lt;SwitchTransition mode&#x3D;&quot;out-in&quot;&gt;</span><br><span class="line">      &#123;show ? A : P&#125;</span><br><span class="line">    &lt;&#x2F;SwitchTransition&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>常用属性:</strong></p>
+<ul>
+<li><code>mode</code>切换插入模式: <code>out-in</code>、<code>in-out</code></li>
+</ul>
+</li>
+<li><p><code>TransitionGroup</code>: 将多个动画组件包裹，分组，也需要<code>key</code>。可以有多个子节点</p>
+</li>
+</ul>
+<blockquote>
+<p><code>TransitionGroup</code>与<code>SwitchTransition</code>内部的<code>CSSTransition</code>不用再添加<code>in</code>属性，控制渲染的切换即可</p>
+</blockquote>
+<h2 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a>Redux</h2><h3 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h3><ul>
+<li>确定的输入产生确定的输出。有依赖外部的数据，需要其不可变以保证确定的输出</li>
+<li>无副作用</li>
+</ul>
+<h3 id="三大原则"><a href="#三大原则" class="headerlink" title="三大原则"></a>三大原则</h3><ul>
+<li><strong>数据源单一</strong>，整个应用只创建一个<strong>store</strong>，其中只需要一个<code>state</code>对象树管理所有状态</li>
+<li><strong>state只读</strong>，只能通过<code>action</code>修改</li>
+<li><strong>使用纯函数reducer联系action与state</strong>，可以将reducer拆分成多个小的reducers分别操作state tree的一部分</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li><p><code>createStore(reducer(state, action)=&gt;&#123;...&#125;)</code>创建store,其中<strong>reducer</strong>:</p>
+<ul>
+<li><p>必须是纯函数</p>
+</li>
+<li><p>将state与action结合返回新的state</p>
+</li>
+</ul>
+</li>
+<li><p>通过<code>store.subscribe(callback)</code>订阅store的变更(<code>subscribe</code>返回函数，调用即可取消订阅)</p>
+<ul>
+<li>一般在<strong>componentDidMount</strong>订阅，<strong>componentWillUnmount</strong>取消</li>
+<li>在<code>subscribe</code>回调中通过<code>store.getState()</code>拿到最新的状态并<code>setState</code>更新组件</li>
+</ul>
+</li>
+<li><p><strong>创建action对象</strong>(一般通过工厂函数返回，有不同是type属性标识不同的变更操作)，通过<code>store.dispatch(action)</code>派发</p>
+</li>
+</ul>
+<blockquote>
+<p>4.2版本后createStore已弃用，官方建议迁移到Redux Toolkit</p>
+</blockquote>
 <h2 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h2><p>react diff对于虚拟dom的比较优化(相较于全量遍历):</p>
 <ul>
 <li>只<strong>同级比较</strong></li>
@@ -702,7 +647,125 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/2022/02/23/%E6%A1%86%E6%9E%B6/react/">展开全文 >></a>
+      <a class="article-more-a" href="/2022/09/23/%E6%A1%86%E6%9E%B6/react/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-打包/vite2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2022/03/14/%E6%89%93%E5%8C%85/vite2/" target="_blank">vite2</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2022/03/14/%E6%89%93%E5%8C%85/vite2/" class="archive-article-date">
+        <time datetime="2022-03-14T02:03:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-03-14</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><ul>
+<li><p>配置sass</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不需要其他配置</span></span><br><span class="line">npm install <span class="literal">-D</span> sass sass<span class="literal">-loader</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="静态资源"><a href="#静态资源" class="headerlink" title="静态资源"></a>静态资源</h3><ul>
+<li><p>在标签上直接使用url图片路径，开发环境没问题，但是打包时报错</p>
+<p>详见vite官方文档 <a target="_blank" rel="noopener" href="https://cn.vitejs.dev/guide/assets.html">静态资源处理 | Vite 官方中文文档 (vitejs.dev)</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用import导入，并作为路径在模板使用</span></span><br><span class="line"><span class="keyword">import</span> logoUrl <span class="keyword">from</span> <span class="string">&#x27;@/assets/img/logo.svg&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> defineComponent(&#123;</span><br><span class="line">  <span class="function"><span class="title">setup</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      logoUrl,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="import-meta"><a href="#import-meta" class="headerlink" title="import.meta"></a>import.meta</h3><ul>
+<li>环境变量在<code>import.meta.env</code>，相当于<code>process.env</code>(node)</li>
+<li>动态处理文件，使用<code>import.meta.globEager</code>，类似于<code>require.context</code></li>
+</ul>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/技术笔记//" class="article-tag-list-link color5">技术笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2022/03/14/%E6%89%93%E5%8C%85/vite2/">展开全文 >></a>
     </p>
     
 
@@ -1402,11 +1465,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">打包</a>
         		</li>
       		
 		</ul>
@@ -2135,6 +2198,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
@@ -2143,7 +2210,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2159,19 +2230,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vite</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2179,35 +2242,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2216,6 +2259,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2228,6 +2275,38 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2251,27 +2330,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">npm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">部署</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2280,10 +2347,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">

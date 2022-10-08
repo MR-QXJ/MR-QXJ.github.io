@@ -740,9 +740,9 @@
 <ul>
 <li><p>node-sass需要与sass-loader版本匹配</p>
 </li>
-<li><p><a href="mailto:&#110;&#111;&#x64;&#x65;&#45;&#115;&#97;&#115;&#115;&#x40;&#x34;&#46;&#x31;&#x34;">&#110;&#111;&#x64;&#x65;&#45;&#115;&#97;&#115;&#115;&#x40;&#x34;&#46;&#x31;&#x34;</a>对应<a href="mailto:&#x73;&#97;&#115;&#115;&#45;&#108;&#x6f;&#97;&#100;&#x65;&#x72;&#x40;&#56;&#x2e;&#x78;">&#x73;&#97;&#115;&#115;&#45;&#108;&#x6f;&#97;&#100;&#x65;&#x72;&#x40;&#56;&#x2e;&#x78;</a></p>
+<li><p><a href="mailto:&#110;&#111;&#x64;&#x65;&#45;&#115;&#97;&#115;&#x73;&#64;&#52;&#46;&#x31;&#x34;">&#110;&#111;&#x64;&#x65;&#45;&#115;&#97;&#115;&#x73;&#64;&#52;&#46;&#x31;&#x34;</a>对应<a href="mailto:&#115;&#97;&#x73;&#x73;&#45;&#x6c;&#111;&#97;&#x64;&#101;&#114;&#x40;&#56;&#46;&#120;">&#115;&#97;&#x73;&#x73;&#45;&#x6c;&#111;&#97;&#x64;&#101;&#114;&#x40;&#56;&#46;&#120;</a></p>
 <ul>
-<li><a href="mailto:&#x6e;&#111;&#100;&#101;&#x2d;&#115;&#97;&#115;&#115;&#64;&#x34;&#46;&#49;&#x33;">&#x6e;&#111;&#100;&#101;&#x2d;&#115;&#97;&#115;&#115;&#64;&#x34;&#46;&#49;&#x33;</a>对应<a href="mailto:&#115;&#97;&#115;&#x73;&#45;&#x6c;&#x6f;&#x61;&#100;&#x65;&#x72;&#64;&#55;&#46;&#x78;">&#115;&#97;&#115;&#x73;&#45;&#x6c;&#x6f;&#x61;&#100;&#x65;&#x72;&#64;&#55;&#46;&#x78;</a></li>
+<li><a href="mailto:&#x6e;&#111;&#100;&#x65;&#45;&#x73;&#97;&#x73;&#x73;&#x40;&#52;&#x2e;&#x31;&#x33;">&#x6e;&#111;&#100;&#x65;&#45;&#x73;&#97;&#x73;&#x73;&#x40;&#52;&#x2e;&#x31;&#x33;</a>对应<a href="mailto:&#115;&#x61;&#115;&#115;&#45;&#x6c;&#111;&#97;&#100;&#x65;&#114;&#x40;&#x37;&#46;&#x78;">&#115;&#x61;&#115;&#115;&#45;&#x6c;&#111;&#97;&#100;&#x65;&#114;&#x40;&#x37;&#46;&#x78;</a></li>
 </ul>
 </li>
 <li><p>node-sass还要与node版本相配，否则会报<code>Error:Can&#39;t find Python executable &quot;python&quot;</code>。与node版本匹配如下表:</p>
@@ -1380,6 +1380,12 @@
 </ol>
 </li>
 </ul>
+<p><strong>旧版支持ESM</strong></p>
+<p>旧版的node并不支持esmodule，需要进行以下操作:</p>
+<ol>
+<li>在package.json中增加<code>type: &#39;mode&#39;</code></li>
+<li><em>13.2.x</em>之前还需要在执行node命令时加上<code>--experimental-modules</code></li>
+</ol>
 <h2 id="express"><a href="#express" class="headerlink" title="express"></a>express</h2><p>express核心是中间件，中间件的本质就是回调函数</p>
 <p><strong>express-generator</strong>是exporess脚手架: <code>express [projectName]</code>创建项目</p>
 <h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
@@ -1827,11 +1833,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vue3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vite</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">vue3</a>
         		</li>
       		
 		</ul>
@@ -2019,6 +2025,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
@@ -2027,7 +2037,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git加速</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2043,19 +2057,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">vite</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2063,35 +2069,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2100,6 +2086,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2112,6 +2102,38 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2135,27 +2157,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">npm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">私有仓库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">verdaccio</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">部署</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2164,10 +2174,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
