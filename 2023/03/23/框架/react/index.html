@@ -18,7 +18,7 @@
 <meta property="og:description" content="基本12# 创建基于ts的react项目npx create-react-app xx --template typescript  详情见https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7081281152069140494 必须依赖三个库  react 核心代码  react-dom 使react渲染在不同平台  babel 转换jsx   react-dom默认导出ReactDom对象 方法:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-23T06:10:10.000Z">
-<meta property="article:modified_time" content="2023-04-19T06:30:26.489Z">
+<meta property="article:modified_time" content="2023-07-01T08:53:43.562Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="react">
 <meta name="twitter:card" content="summary">
@@ -258,7 +258,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">4.7k字</span>
+      <span class="post-count">5.3k字</span>
     </span>
   </span>
 
@@ -267,7 +267,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">19分</span>
+      <span class="post-count">21分</span>
     </span>
   </span>
 </div>
@@ -389,6 +389,10 @@
 <p>在数组内的数据发生变动时，我们习惯用<code>push</code>、<code>splice</code>等方法去修改，但直接对<code>state</code>数据使用这些方法会影响数据的不可变性。</p>
 </blockquote>
 <p>通常使用<code>[...arr]</code>等浅拷贝创建新变量，对新变量操作后进行<code>setState</code></p>
+<h3 id="hooks"><a href="#hooks" class="headerlink" title="hooks"></a>hooks</h3><p>新版react自身提供一些hooks方便函数式组件的编写</p>
+<ul>
+<li><code>useState</code> 自定义组件state，第二个参数函数修改</li>
+</ul>
 <h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>本质上是通过babel转换为<code>React.createElement(type, props, c1, c2...)</code>的函数调用。</p>
 <p>因此每项都为jsx的数组直接放到jsx<code>&#123;&#125;</code>中会被解析为同级的兄弟元素</p>
 <p>特性：</p>
@@ -639,6 +643,61 @@
 <blockquote>
 <p>注意: mySaga内takLatest、takeEvery等type不能与回调内put的type相等，否则回死循环</p>
 </blockquote>
+<h2 id="React-Router"><a href="#React-Router" class="headerlink" title="React-Router"></a>React-Router</h2><p>react-router-dom提供如下组件</p>
+<ul>
+<li><p>BrowserRouter/HashRouter</p>
+<ul>
+<li>包含对路径改变的监听，并传递给子组件</li>
+<li>BrowserRouter - history模式</li>
+<li>HashRouter - hash模式</li>
+</ul>
+</li>
+<li><p>Link/NavLink</p>
+<ul>
+<li>通常使用Link进行跳转，会被渲染为a标签</li>
+<li>NavLink在Link基础上增加了样式属性，便于修改激活样式</li>
+<li>to属性：设置跳转目标路径 可传路径string或object(其中<code>state</code>方便传递复杂参数，通过<code>props.location.state获取</code>)</li>
+</ul>
+</li>
+<li><p>Route 用于路径的匹配，属性如下：</p>
+<ul>
+<li>path :设置匹配到的路径, 支持<code>:xx</code>设置动态路由参数，不设置path相当于<code>*</code>全匹配</li>
+<li>component: 设置匹配到渲染的组件 </li>
+<li>exact: 精准匹配，只有完全一致的路径才会渲染</li>
+</ul>
+<p>Route渲染的组件内可以再使用Route进行嵌套添加子路由</p>
+<p>通过Route渲染的组件会传入3个<code>prop</code>:</p>
+<ul>
+<li>history</li>
+<li>location 包含query、state等参数</li>
+<li>match 包含param参数</li>
+</ul>
+<blockquote>
+<p>通过withRouter(cmp)创建的高阶组件，其中也会有这三个prop</p>
+<p>需要先用<code>BrowserRouter/HashRouter</code>包裹才能用withRouter</p>
+</blockquote>
+</li>
+<li><p>Switch 将多个Route放到Switch种只会从上往下渲染匹配的第一个(排他)</p>
+</li>
+<li><p>Redirect 该组件渲染时，会跳转到<code>to</code>属性指定的路由</p>
+</li>
+</ul>
+<h3 id="vue-router-config"><a href="#vue-router-config" class="headerlink" title="vue-router-config"></a>vue-router-config</h3><p>实现类似vue-router的集中路由管理</p>
+<ul>
+<li>提供<code>renderRoutes(routes)</code>函数，返回高阶组件代替<code>Switch</code>、<code>Route</code></li>
+<li>routes可嵌套属性注册子路由，子路由组件通过<code>props.route</code>拿到当前父路由再通过<code>renderRoutes(childRoutes)</code>渲染</li>
+<li>提供辅助函数<code>matchRoutes</code>匹配获取指定的route信息</li>
+</ul>
+<h3 id="v6版本变动、hooks"><a href="#v6版本变动、hooks" class="headerlink" title="v6版本变动、hooks"></a>v6版本变动、hooks</h3><p>react-router-dom v6版本有如下更新</p>
+<ol>
+<li>Switch替换成了Routes；</li>
+<li>Route去除exact；</li>
+<li>Route中统一使用element属性，去掉原来的component和render</li>
+<li>useNavigate取代useHistory;</li>
+<li>可以省略path前的/</li>
+</ol>
+<p>因此不兼容vue-router-config了，但通过<code>useRoutes</code>本身已支持集中管理</p>
+<p>V6舍弃了class组件的一些支持，需要使用hooks</p>
 <h2 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h2><p>react diff对于虚拟dom的比较优化(相较于全量遍历):</p>
 <ul>
 <li>只<strong>同级比较</strong></li>
@@ -695,6 +754,8 @@
 <blockquote>
 <p>进行上述基本操作后即可开始配置:  如继续引入craco-less修改antd主题</p>
 </blockquote>
+<h3 id="单项数据流"><a href="#单项数据流" class="headerlink" title="单项数据流"></a>单项数据流</h3><p>redux、vux、react和vue组件内都推荐单向数据流利于维护，不直接在</p>
+<p>子级修改上级的状态</p>
 
     
 
@@ -874,7 +935,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#react-dom"><span class="toc-number">1.1.</span> <span class="toc-text">react-dom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">数据通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setState"><span class="toc-number">1.4.</span> <span class="toc-text">setState</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSX"><span class="toc-number">2.</span> <span class="toc-text">JSX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95"><span class="toc-number">3.</span> <span class="toc-text">表单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">受控组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">3.2.</span> <span class="toc-text">非受控组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%8F%92%E6%A7%BD"><span class="toc-number">4.</span> <span class="toc-text">实现插槽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#portals"><span class="toc-number">5.</span> <span class="toc-text">portals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ref"><span class="toc-number">6.</span> <span class="toc-text">ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8Cprops"><span class="toc-number">7.</span> <span class="toc-text">校验props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">8.</span> <span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-number">8.1.</span> <span class="toc-text">生命周期函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F"><span class="toc-number">9.</span> <span class="toc-text">严格模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F"><span class="toc-number">10.</span> <span class="toc-text">样式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#css-modules"><span class="toc-number">10.1.</span> <span class="toc-text">css modules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css-in-js"><span class="toc-number">10.2.</span> <span class="toc-text">css in js</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB"><span class="toc-number">11.</span> <span class="toc-text">过渡动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux"><span class="toc-number">12.</span> <span class="toc-text">Redux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%AF%E5%87%BD%E6%95%B0"><span class="toc-number">12.1.</span> <span class="toc-text">纯函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="toc-number">12.2.</span> <span class="toc-text">三大原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">12.3.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#react-redux"><span class="toc-number">12.4.</span> <span class="toc-text">react-redux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5action"><span class="toc-number">12.5.</span> <span class="toc-text">异步action</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#redux-thunk"><span class="toc-number">12.5.1.</span> <span class="toc-text">redux-thunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redux-saga"><span class="toc-number">12.5.2.</span> <span class="toc-text">redux-saga</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#diff"><span class="toc-number">13.</span> <span class="toc-text">diff</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">14.</span> <span class="toc-text">性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#render%E6%B8%B2%E6%9F%93"><span class="toc-number">14.1.</span> <span class="toc-text">render渲染</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">15.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CRA%E9%85%8D%E7%BD%AE"><span class="toc-number">15.1.</span> <span class="toc-text">CRA配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eject"><span class="toc-number">15.1.1.</span> <span class="toc-text">eject</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#craco"><span class="toc-number">15.1.2.</span> <span class="toc-text">craco</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">基本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#react-dom"><span class="toc-number">1.1.</span> <span class="toc-text">react-dom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">数据通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setState"><span class="toc-number">1.4.</span> <span class="toc-text">setState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hooks"><span class="toc-number">1.5.</span> <span class="toc-text">hooks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSX"><span class="toc-number">2.</span> <span class="toc-text">JSX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95"><span class="toc-number">3.</span> <span class="toc-text">表单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">受控组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="toc-number">3.2.</span> <span class="toc-text">非受控组件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%8F%92%E6%A7%BD"><span class="toc-number">4.</span> <span class="toc-text">实现插槽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#portals"><span class="toc-number">5.</span> <span class="toc-text">portals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ref"><span class="toc-number">6.</span> <span class="toc-text">ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8Cprops"><span class="toc-number">7.</span> <span class="toc-text">校验props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">8.</span> <span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-number">8.1.</span> <span class="toc-text">生命周期函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F"><span class="toc-number">9.</span> <span class="toc-text">严格模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F"><span class="toc-number">10.</span> <span class="toc-text">样式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#css-modules"><span class="toc-number">10.1.</span> <span class="toc-text">css modules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css-in-js"><span class="toc-number">10.2.</span> <span class="toc-text">css in js</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1%E5%8A%A8%E7%94%BB"><span class="toc-number">11.</span> <span class="toc-text">过渡动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux"><span class="toc-number">12.</span> <span class="toc-text">Redux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%AF%E5%87%BD%E6%95%B0"><span class="toc-number">12.1.</span> <span class="toc-text">纯函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="toc-number">12.2.</span> <span class="toc-text">三大原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">12.3.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#react-redux"><span class="toc-number">12.4.</span> <span class="toc-text">react-redux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5action"><span class="toc-number">12.5.</span> <span class="toc-text">异步action</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#redux-thunk"><span class="toc-number">12.5.1.</span> <span class="toc-text">redux-thunk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redux-saga"><span class="toc-number">12.5.2.</span> <span class="toc-text">redux-saga</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#React-Router"><span class="toc-number">13.</span> <span class="toc-text">React-Router</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-router-config"><span class="toc-number">13.1.</span> <span class="toc-text">vue-router-config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#v6%E7%89%88%E6%9C%AC%E5%8F%98%E5%8A%A8%E3%80%81hooks"><span class="toc-number">13.2.</span> <span class="toc-text">v6版本变动、hooks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#diff"><span class="toc-number">14.</span> <span class="toc-text">diff</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">15.</span> <span class="toc-text">性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#render%E6%B8%B2%E6%9F%93"><span class="toc-number">15.1.</span> <span class="toc-text">render渲染</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">16.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CRA%E9%85%8D%E7%BD%AE"><span class="toc-number">16.1.</span> <span class="toc-text">CRA配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eject"><span class="toc-number">16.1.1.</span> <span class="toc-text">eject</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#craco"><span class="toc-number">16.1.2.</span> <span class="toc-text">craco</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">16.2.</span> <span class="toc-text">单项数据流</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -1022,11 +1083,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1050,6 +1119,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
               </li>
              
@@ -1058,23 +1131,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1090,10 +1151,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">继承</a>
               </li>
              
@@ -1102,15 +1159,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1122,7 +1171,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
               <li class="article-tag-list-item">

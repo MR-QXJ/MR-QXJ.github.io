@@ -419,6 +419,12 @@
 <p>具体方式见文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/82660552">微信小程序自定义tabbar</a></p>
 </li>
 </ul>
+<h3 id="更新机制"><a href="#更新机制" class="headerlink" title="更新机制"></a>更新机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function updateProcess() &#123;</span><br><span class="line">	const updateManager &#x3D; wx.getUpdateManager()</span><br><span class="line">	updateManager.onUpdateReady(function () &#123;</span><br><span class="line">	  wx.showModal(&#123;</span><br><span class="line">	    title: &#39;更新提示&#39;,</span><br><span class="line">        content: &#39;发现新功能，请更新使用&#39;,</span><br><span class="line">        showCancel: false,</span><br><span class="line">	    success(&#123;confirm&#125;) &#123;</span><br><span class="line">	      if (confirm) &#123;</span><br><span class="line">	        &#x2F;&#x2F;新的版本已经下载好，调用 applyUpdate 应用新版本并重启</span><br><span class="line">	        updateManager.applyUpdate()</span><br><span class="line">	      &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	  &#125;)</span><br><span class="line">	&#125;);</span><br><span class="line">	updateManager.onUpdateFailed(function () &#123;</span><br><span class="line">	  &#x2F;&#x2F; 新版本下载失败</span><br><span class="line">		wx.showModal(&#123;</span><br><span class="line">		  title: &#39;已经有新版本咯~&#39;,</span><br><span class="line">		  content: &#39;请您删除当前小程序，重新搜索打开呦~&#39;</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;);</span><br><span class="line">  &#x2F;&#x2F; 打印版本信息</span><br><span class="line">  updateManager.onCheckForUpdate(function (res) &#123;</span><br><span class="line">    &#x2F;&#x2F; 请求完新版本信息的回调</span><br><span class="line">    console.log(&#39;是否有更新&#39;, res.hasUpdate)</span><br><span class="line">  &#125;);</span><br><span class="line">  const account &#x3D; wx.getAccountInfoSync();</span><br><span class="line">  console.log(&#39;当前版本信息&#39;, account.miniProgram);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>推荐将更新逻辑放到App的onShow，而非onLaunch，否则在后台的小程序重新扫码进入不会触发</li>
+<li>还要注意，旧版本没有增加更新检测的，更新后仍然不能检测，及时新代码中有</li>
+</ul>
 <h2 id="h5"><a href="#h5" class="headerlink" title="h5"></a>h5</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.mob.com/download ">MobTech集成网站分享到各个第三方平台</a></li>
 </ul>
@@ -441,7 +447,7 @@
 <li><p>弹出层出现时就给body<code>fixed </code>，但这种方式会导致整个页面瞬间到达顶部，需要先获取body原本的<code>scrollTop</code>动态赋值给<code>top</code>（为负数才是下滚）。结束时记得把<code>scrollTop</code>给回去</p>
 <ul>
 <li><pre><code>document.documentElement.scrollTop || document.body.scrollTop
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 在移动端可以更简便地使用&#96;document.scrollingElement.scrollTop&#96;代替上面方式获取到滚动属性</span><br><span class="line"></span><br><span class="line">- 弹出层出现时给后方元素加上如下设置，结束时赋值为空即可：</span><br><span class="line">  </span><br><span class="line">  &#96;&#96;&#96;js</span><br><span class="line">  document.scrollingElement.style.height &#x3D; &#39;100vh&#39;</span><br><span class="line">document.scrollingElement.style.overflow &#x3D; &#39;hidden&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 在移动端可以更简便地使用&#96;document.scrollingElement.scrollTop&#96;代替上面方式获取到滚动属性</span><br><span class="line"></span><br><span class="line">- 弹出层出现时给后方元素加上如下设置，结束时赋值为空即可：</span><br><span class="line">  </span><br><span class="line">  &#96;&#96;&#96;js</span><br><span class="line">  document.scrollingElement.style.height &#x3D; &#39;100vh&#39;</span><br><span class="line">  document.scrollingElement.style.overflow &#x3D; &#39;hidden&#39;</span><br></pre></td></tr></table></figure>
 
 </code></pre>
 </li>
@@ -466,15 +472,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">游览器</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">微信小程序</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">h5</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">游览器</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1601,11 +1607,19 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">git加速</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">git归纳</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1629,6 +1643,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
               </li>
              
@@ -1637,23 +1655,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1669,10 +1675,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">继承</a>
               </li>
              
@@ -1681,15 +1683,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+                <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1701,7 +1695,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
               </li>
              
               <li class="article-tag-list-item">
