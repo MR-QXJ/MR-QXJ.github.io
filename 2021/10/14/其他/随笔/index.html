@@ -10,15 +10,15 @@
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="随笔使用node.js的process内置模块和fs文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码) js 对象合并技巧 若字段相等则会都被后一个的值覆盖  Object.assign(obj1, obj2)参数为简单类型则深拷贝，引用类型则浅拷贝。 &amp;#123;...obj1, ...obj2&amp;#125">
+  <meta name="description" content="随笔使用node.js的process内置模块和fs文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码) js技巧 对象合并技巧 若字段相等则会都被后一个的值覆盖  Object.assign(obj1, obj2)参数为简单类型则深拷贝，引用类型则浅拷贝。 &amp;#123;...obj1, ...obj2&amp;#1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="随笔">
 <meta property="og:url" content="https://mr-qxj.github.io/2021/10/14/%E5%85%B6%E4%BB%96/%E9%9A%8F%E7%AC%94/index.html">
 <meta property="og:site_name" content="虫虫窝">
-<meta property="og:description" content="随笔使用node.js的process内置模块和fs文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码) js 对象合并技巧 若字段相等则会都被后一个的值覆盖  Object.assign(obj1, obj2)参数为简单类型则深拷贝，引用类型则浅拷贝。 &amp;#123;...obj1, ...obj2&amp;#125">
+<meta property="og:description" content="随笔使用node.js的process内置模块和fs文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码) js技巧 对象合并技巧 若字段相等则会都被后一个的值覆盖  Object.assign(obj1, obj2)参数为简单类型则深拷贝，引用类型则浅拷贝。 &amp;#123;...obj1, ...obj2&amp;#1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-10-14T06:39:43.000Z">
-<meta property="article:modified_time" content="2022-03-23T02:29:24.842Z">
+<meta property="article:modified_time" content="2024-06-20T06:47:06.667Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="其他">
 <meta property="article:tag" content="随笔">
@@ -259,7 +259,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">7.7k字</span>
+      <span class="post-count">8.1k字</span>
     </span>
   </span>
 
@@ -268,7 +268,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">34分</span>
+      <span class="post-count">37分</span>
     </span>
   </span>
 </div>
@@ -280,7 +280,7 @@
   <div class="article-entry" itemprop="articleBody">
     
     <h1 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h1><p>使用node.js的<code>process</code>内置模块和<code>fs</code>文件模块创建了建议的命令行工具，能快速创建私人定制的h5项目(使用rem适配 + zepto.js + swiper.js + h5兼容代码)</p>
-<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><ul>
+<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
 <li><p>对象合并技巧</p>
 <p>若字段相等则会都被后一个的值覆盖</p>
 <ul>
@@ -453,6 +453,8 @@
 
 </li>
 </ul>
+<h3 id="pdf转图片"><a href="#pdf转图片" class="headerlink" title="pdf转图片"></a>pdf转图片</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2.9.359以上版本才修复显示签章的技术问题，当前使用2.12.313</span></span><br><span class="line"><span class="comment">// 2.8.335之后引入报错，可以尝试从legacy目录</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> PDFJS <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist/legacy/build/pdf&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> PDFJSWorker <span class="keyword">from</span> <span class="string">&#x27;pdfjs-dist/legacy/build/pdf.worker.entry.js&#x27;</span>;</span><br><span class="line">PDFJS.GlobalWorkerOptions.workerSrc = PDFJSWorker;</span><br><span class="line"><span class="comment">// 使用vue-pdf处理字体缺失导致内容不显示</span></span><br><span class="line"><span class="keyword">import</span> CMapReaderFactory <span class="keyword">from</span> <span class="string">&quot;vue-pdf/src/CMapReaderFactory.js&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// pdf地址转图片</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">pdf2ImgUrl</span>(<span class="params">preUrl</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!preUrl) <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(preUrl);</span><br><span class="line">        <span class="keyword">const</span> contentType = response.headers.get(<span class="string">&#x27;Content-Type&#x27;</span>) || <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        <span class="keyword">const</span> pdf = contentType.indexOf(<span class="string">&#x27;application/pdf&#x27;</span>) &gt; -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (!pdf) <span class="keyword">return</span> preUrl;</span><br><span class="line">        <span class="keyword">const</span> stream = <span class="keyword">await</span> response.blob();</span><br><span class="line">        <span class="keyword">const</span> rawFile = <span class="keyword">new</span> File([stream], <span class="string">&#x27;viewer.pdf&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> pdfUrl = URL.createObjectURL(rawFile); <span class="comment">// 将File对象转换为URL对象</span></span><br><span class="line">        <span class="keyword">const</span> &#123;pdfInstance, pdfPages&#125; = <span class="keyword">await</span> getPdfInfo(&#123; <span class="attr">url</span>: pdfUrl, CMapReaderFactory &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> createCanvas(pdfInstance, pdfPages);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">&#x27;Error fetching file:&#x27;</span>, error);</span><br><span class="line">        <span class="keyword">return</span> preUrl;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getPdfInfo</span>(<span class="params">cMapReaderFactory</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> loadingTask = PDFJS.getDocument(cMapReaderFactory);</span><br><span class="line">    <span class="keyword">const</span> pdfInfo = <span class="keyword">await</span> loadingTask.promise; <span class="comment">// 获取pdf实例</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        pdfInstance: pdfInfo,</span><br><span class="line">        pdfPages: pdfInfo.numPages</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 整合每页pdf合并成一张图片</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">createCanvas</span>(<span class="params">pdfInstance, pdfPages</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> screenshots = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= pdfPages; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> page = <span class="keyword">await</span> pdfInstance.getPage(i);</span><br><span class="line">        <span class="keyword">const</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> viewport = page.getViewport(&#123; <span class="attr">scale</span>: <span class="number">2</span> &#125;);</span><br><span class="line"></span><br><span class="line">        canvas.width = viewport.width;</span><br><span class="line">        canvas.height = viewport.height;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> ctx = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> renderTask = page.render(&#123; <span class="attr">canvasContext</span>: ctx, <span class="attr">viewport</span>: viewport &#125;);</span><br><span class="line">        <span class="keyword">await</span> renderTask.promise;</span><br><span class="line"></span><br><span class="line">        screenshots.push(canvas);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> combinedCanvas = <span class="built_in">document</span>.createElement(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line">    combinedCanvas.width = <span class="built_in">Math</span>.max(</span><br><span class="line">      ...screenshots.map(<span class="function">(<span class="params">shot</span>) =&gt;</span> shot.width)</span><br><span class="line">    );</span><br><span class="line">    combinedCanvas.height = screenshots.reduce(</span><br><span class="line">      (sum, shot) =&gt; sum + shot.height,</span><br><span class="line">      <span class="number">0</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> yPosition = <span class="number">0</span>;</span><br><span class="line">    screenshots.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">shot</span>) </span>&#123;</span><br><span class="line">      combinedCanvas.getContext(<span class="string">&quot;2d&quot;</span>).drawImage(shot, <span class="number">0</span>, yPosition);</span><br><span class="line">      yPosition += shot.height;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> imgData = combinedCanvas.toDataURL(<span class="string">&#x27;image/jpeg&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> imgData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><h3 id="扩散动画"><a href="#扩散动画" class="headerlink" title="扩散动画"></a>扩散动画</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&amp;<span class="selector-class">.active</span> <span class="selector-class">.circle</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">30%</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">260px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">260px</span>;</span><br><span class="line">  <span class="attribute">transform</span>: translate(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">  <span class="attribute">background-color</span>: hsl(<span class="number">354</span>, <span class="number">81%</span>, <span class="number">63%</span>);</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: .<span class="number">3</span>;</span><br><span class="line">  <span class="attribute">animation</span>: spred-out .<span class="number">6s</span> cubic-bezier(<span class="number">0</span>, <span class="number">1</span>, .<span class="number">5</span>, <span class="number">1</span>) forwards;</span><br><span class="line">  &amp;<span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: translate(-<span class="number">50%</span>, -<span class="number">50%</span>) scale(<span class="number">0</span>);</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">animation</span>: spred .<span class="number">6s</span> cubic-bezier(<span class="number">0</span>, <span class="number">1</span>, .<span class="number">5</span>, <span class="number">1</span>) forwards;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">100%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@keyframes</span> spred &#123;</span><br><span class="line"> to &#123;</span><br><span class="line">   <span class="attribute">transform</span>: translate(-<span class="number">50%</span>, -<span class="number">50%</span>) scale(<span class="number">1.02</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@keyframes</span> spred-out &#123;</span><br><span class="line">  to &#123;</span><br><span class="line">    <span class="attribute">transform</span>: translate(-<span class="number">50%</span>, -<span class="number">50%</span>) scale(<span class="number">1.3</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="尖角圆弧正方形"><a href="#尖角圆弧正方形" class="headerlink" title="尖角圆弧正方形"></a>尖角圆弧正方形</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">180px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">180px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">50px</span> auto;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">35%</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">40px</span> <span class="number">40px</span> <span class="number">10px</span> <span class="number">10px</span> rgba(<span class="number">0</span> , <span class="number">0</span>, <span class="number">0</span>, .<span class="number">3</span>);</span><br><span class="line">  &amp;<span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">180px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">160px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-top-left-radius</span>: <span class="number">20px</span> <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">border-top-right-radius</span>: <span class="number">20px</span> <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">border-bottom-left-radius</span>: <span class="number">20px</span> <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">border-bottom-right-radius</span>: <span class="number">20px</span> <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  &amp;<span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">160px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">180px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">border-top-left-radius</span>: <span class="number">100px</span> <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border-top-right-radius</span>: <span class="number">100px</span> <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border-bottom-left-radius</span>: <span class="number">100px</span> <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border-bottom-right-radius</span>: <span class="number">100px</span> <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1035,7 +1037,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9A%8F%E7%AC%94"><span class="toc-number">1.</span> <span class="toc-text">随笔</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#js"><span class="toc-number">1.1.</span> <span class="toc-text">js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#css"><span class="toc-number">1.2.</span> <span class="toc-text">css</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E6%95%A3%E5%8A%A8%E7%94%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">扩散动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%96%E8%A7%92%E5%9C%86%E5%BC%A7%E6%AD%A3%E6%96%B9%E5%BD%A2"><span class="toc-number">1.2.2.</span> <span class="toc-text">尖角圆弧正方形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%BA%BF%E6%97%8B%E8%BD%AC%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB"><span class="toc-number">1.2.3.</span> <span class="toc-text">三线旋转加载动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E7%90%83%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB"><span class="toc-number">1.2.4.</span> <span class="toc-text">双球加载动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F-%E4%BC%AA%E5%85%83%E7%B4%A0"><span class="toc-number">1.2.5.</span> <span class="toc-text">动态修改样式(伪元素)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css%E5%8F%98%E9%87%8F-var%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.6.</span> <span class="toc-text">css变量(var函数)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#table-cell%E5%AE%9E%E7%8E%B0%E5%B1%85%E4%B8%AD"><span class="toc-number">1.2.7.</span> <span class="toc-text">table-cell实现居中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#clip-path%E5%89%AA%E8%A3%81%E5%9B%BE%E5%BD%A2"><span class="toc-number">1.2.8.</span> <span class="toc-text">clip-path剪裁图形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E7%AB%99%E9%BB%91%E7%99%BD"><span class="toc-number">1.2.9.</span> <span class="toc-text">整站黑白</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">网络请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue"><span class="toc-number">1.4.</span> <span class="toc-text">vue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%85%E8%B0%88%E5%AF%8C%E6%96%87%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">浅谈富文本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98"><span class="toc-number">1.6.</span> <span class="toc-text">回流和重绘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VSCode"><span class="toc-number">1.7.</span> <span class="toc-text">VSCode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%93%E8%99%B9%E7%81%AF%E4%B8%BB%E9%A2%98"><span class="toc-number">1.7.1.</span> <span class="toc-text">霓虹灯主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%AD%97%E7%89%B9%E6%95%88"><span class="toc-number">1.7.2.</span> <span class="toc-text">打字特效</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9A%8F%E7%AC%94"><span class="toc-number">1.</span> <span class="toc-text">随笔</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#js"><span class="toc-number">1.1.</span> <span class="toc-text">js</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E5%B7%A7"><span class="toc-number">1.1.1.</span> <span class="toc-text">技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pdf%E8%BD%AC%E5%9B%BE%E7%89%87"><span class="toc-number">1.1.2.</span> <span class="toc-text">pdf转图片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#css"><span class="toc-number">1.2.</span> <span class="toc-text">css</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E6%95%A3%E5%8A%A8%E7%94%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">扩散动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%96%E8%A7%92%E5%9C%86%E5%BC%A7%E6%AD%A3%E6%96%B9%E5%BD%A2"><span class="toc-number">1.2.2.</span> <span class="toc-text">尖角圆弧正方形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%BA%BF%E6%97%8B%E8%BD%AC%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB"><span class="toc-number">1.2.3.</span> <span class="toc-text">三线旋转加载动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E7%90%83%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB"><span class="toc-number">1.2.4.</span> <span class="toc-text">双球加载动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F-%E4%BC%AA%E5%85%83%E7%B4%A0"><span class="toc-number">1.2.5.</span> <span class="toc-text">动态修改样式(伪元素)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css%E5%8F%98%E9%87%8F-var%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.6.</span> <span class="toc-text">css变量(var函数)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#table-cell%E5%AE%9E%E7%8E%B0%E5%B1%85%E4%B8%AD"><span class="toc-number">1.2.7.</span> <span class="toc-text">table-cell实现居中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#clip-path%E5%89%AA%E8%A3%81%E5%9B%BE%E5%BD%A2"><span class="toc-number">1.2.8.</span> <span class="toc-text">clip-path剪裁图形</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E7%AB%99%E9%BB%91%E7%99%BD"><span class="toc-number">1.2.9.</span> <span class="toc-text">整站黑白</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">网络请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue"><span class="toc-number">1.4.</span> <span class="toc-text">vue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%85%E8%B0%88%E5%AF%8C%E6%96%87%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">浅谈富文本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98"><span class="toc-number">1.6.</span> <span class="toc-text">回流和重绘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VSCode"><span class="toc-number">1.7.</span> <span class="toc-text">VSCode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%93%E8%99%B9%E7%81%AF%E4%B8%BB%E9%A2%98"><span class="toc-number">1.7.1.</span> <span class="toc-text">霓虹灯主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%AD%97%E7%89%B9%E6%95%88"><span class="toc-number">1.7.2.</span> <span class="toc-text">打字特效</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -1064,7 +1066,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020-2023 <a href="https://mr-qxj.github.io/" target="_blank">MR-QXJ</a>
+    		&copy; 2020-2024 <a href="https://mr-qxj.github.io/" target="_blank">MR-QXJ</a>
     	</div>
       	<div class="footer-right">
 			
@@ -1191,11 +1193,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1211,15 +1213,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1231,7 +1229,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1239,43 +1237,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1284,6 +1250,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1296,6 +1266,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1319,6 +1301,26 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
               </li>
              
@@ -1327,15 +1329,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">

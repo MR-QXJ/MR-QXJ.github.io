@@ -18,7 +18,7 @@
 <meta property="og:description" content="vue3新特性 更好的支持typescript  使用proxy+Reflect代替defineProperty实现响应式 由于proxy和Reflect的方法一一对应，由proxy监听拦截对应操作，Reflect来完成并返回对应的默认行为,  将条件判断和实际行为优雅的区分,  proxy性能更好 数组也可以深度响应(proxy和Reflect都可以操作数组)   重写虚拟dom实现和Tree-">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-23T08:02:17.000Z">
-<meta property="article:modified_time" content="2022-06-14T09:53:00.805Z">
+<meta property="article:modified_time" content="2024-01-19T08:53:34.824Z">
 <meta property="article:author" content="MR-QXJ">
 <meta property="article:tag" content="vue3">
 <meta name="twitter:card" content="summary">
@@ -400,6 +400,7 @@
 <li>监听单个数据，可以是<code>getter</code>函数，也可以是响应式数据(<code>ref</code>或<code>proxy</code>代理对象)。如果是<code>getter</code>则处理函数的参数就是<code>getter</code>的返回值。</li>
 <li>要监听简单类型数据，第一个参数必须使用getter函数返回该数据</li>
 <li>对于对象、数组等复杂类型，新旧值指向的是同一个内存地址，没有深拷贝</li>
+<li>回调新增第三个参数<code>onCleanup</code> 是一个函数，调用后它的回调会在第二次触发watch之前执行</li>
 </ul>
 </li>
 <li><p>监听多个数据用数组。此时处理函数的参数会是<strong>两个数组</strong>，数组有与数据相同数量元素，分别对应数据的变化后和变化前的值(对象属性都会成为变化后的值，猜测由于引用类型影响)</p>
@@ -801,7 +802,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020-2023 <a href="https://mr-qxj.github.io/" target="_blank">MR-QXJ</a>
+    		&copy; 2020-2024 <a href="https://mr-qxj.github.io/" target="_blank">MR-QXJ</a>
     	</div>
       	<div class="footer-right">
 			
@@ -928,11 +929,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -948,15 +949,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vite</a>
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -968,7 +965,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+                <a href="javascript:void(0)" class="js-tag color5">vite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -976,43 +973,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">es6</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">继承</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">原型</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PC端</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1021,6 +986,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1033,6 +1002,18 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">node</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1056,6 +1037,26 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">es6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">event loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">继承</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">原型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
               </li>
              
@@ -1064,15 +1065,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">typescript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
