@@ -739,9 +739,9 @@
 <ul>
 <li><p>node-sass需要与sass-loader版本匹配</p>
 </li>
-<li><p><a href="mailto:&#x6e;&#x6f;&#100;&#101;&#x2d;&#115;&#x61;&#x73;&#x73;&#64;&#x34;&#x2e;&#x31;&#x34;">&#x6e;&#x6f;&#100;&#101;&#x2d;&#115;&#x61;&#x73;&#x73;&#64;&#x34;&#x2e;&#x31;&#x34;</a>对应<a href="mailto:&#x73;&#97;&#115;&#x73;&#45;&#108;&#x6f;&#97;&#x64;&#x65;&#114;&#x40;&#x38;&#x2e;&#120;">&#x73;&#97;&#115;&#x73;&#45;&#108;&#x6f;&#97;&#x64;&#x65;&#114;&#x40;&#x38;&#x2e;&#120;</a></p>
+<li><p><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#x2d;&#115;&#x61;&#115;&#115;&#64;&#52;&#46;&#x31;&#52;">&#110;&#x6f;&#x64;&#x65;&#x2d;&#115;&#x61;&#115;&#115;&#64;&#52;&#46;&#x31;&#52;</a>对应<a href="mailto:&#115;&#97;&#115;&#115;&#45;&#108;&#111;&#97;&#100;&#x65;&#114;&#x40;&#x38;&#x2e;&#120;">&#115;&#97;&#115;&#115;&#45;&#108;&#111;&#97;&#100;&#x65;&#114;&#x40;&#x38;&#x2e;&#120;</a></p>
 <ul>
-<li><a href="mailto:&#110;&#111;&#100;&#101;&#45;&#115;&#x61;&#x73;&#115;&#x40;&#52;&#46;&#49;&#x33;">&#110;&#111;&#100;&#101;&#45;&#115;&#x61;&#x73;&#115;&#x40;&#52;&#46;&#49;&#x33;</a>对应<a href="mailto:&#115;&#97;&#x73;&#115;&#45;&#108;&#x6f;&#97;&#x64;&#x65;&#114;&#x40;&#x37;&#46;&#x78;">&#115;&#97;&#x73;&#115;&#45;&#108;&#x6f;&#97;&#x64;&#x65;&#114;&#x40;&#x37;&#46;&#x78;</a></li>
+<li><a href="mailto:&#x6e;&#x6f;&#100;&#101;&#45;&#115;&#x61;&#115;&#115;&#64;&#x34;&#46;&#49;&#x33;">&#x6e;&#x6f;&#100;&#101;&#45;&#115;&#x61;&#115;&#115;&#64;&#x34;&#46;&#49;&#x33;</a>对应<a href="mailto:&#115;&#97;&#x73;&#x73;&#x2d;&#108;&#x6f;&#97;&#x64;&#x65;&#x72;&#64;&#55;&#46;&#120;">&#115;&#97;&#x73;&#x73;&#x2d;&#108;&#x6f;&#97;&#x64;&#x65;&#x72;&#64;&#55;&#46;&#120;</a></li>
 </ul>
 </li>
 <li><p>node-sass还要与node版本相配，否则会报<code>Error:Can&#39;t find Python executable &quot;python&quot;</code>。与node版本匹配如下表:</p>
@@ -993,11 +993,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">部署</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">部署</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
         		</li>
       		
 		</ul>
@@ -1242,7 +1242,7 @@
 </li>
 </ul>
 <h3 id="自实现脚手架工具"><a href="#自实现脚手架工具" class="headerlink" title="自实现脚手架工具"></a>自实现脚手架工具</h3><p><strong>目录划分</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">│  .gitignore</span><br><span class="line">│  index.js </span><br><span class="line">│  package-lock.json</span><br><span class="line">│  package.json</span><br><span class="line">│  </span><br><span class="line">└─libs</span><br><span class="line">    ├─config </span><br><span class="line">    │      global.js </span><br><span class="line">    │      </span><br><span class="line">    ├─core </span><br><span class="line">    │  └─command </span><br><span class="line">    │          create.js</span><br><span class="line">    │          </span><br><span class="line">    └─utils </span><br><span class="line">    </span><br><span class="line">│  .gitignore</span><br><span class="line">│  index.js //入口</span><br><span class="line">│  package-lock.json</span><br><span class="line">│  package.json</span><br><span class="line">│</span><br><span class="line">└─libs</span><br><span class="line">    ├─config</span><br><span class="line">    │      global.js //配置，如git地址</span><br><span class="line">    │</span><br><span class="line">    ├─core</span><br><span class="line">    │  └─command //指令</span><br><span class="line">    │          addcpn.js</span><br><span class="line">    │          addpage.js</span><br><span class="line">    │          create.js</span><br><span class="line">    │</span><br><span class="line">    ├─template //ejs文件模板</span><br><span class="line">    │  └─vue</span><br><span class="line">    │          cpn.ejs</span><br><span class="line">    │          router.ejs</span><br><span class="line">    │          store.ejs</span><br><span class="line">    │</span><br><span class="line">    └─utils //工具</span><br><span class="line">            tool.js</span><br><span class="line">            </span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">│  .gitignore</span><br><span class="line">│  index.js </span><br><span class="line">│  package-lock.json</span><br><span class="line">│  package.json</span><br><span class="line">│  </span><br><span class="line">└─libs</span><br><span class="line">    ├─config </span><br><span class="line">    │      global.js </span><br><span class="line">    │      </span><br><span class="line">    ├─core </span><br><span class="line">    │  └─command </span><br><span class="line">    │          create.js</span><br><span class="line">    │          </span><br><span class="line">    └─utils </span><br><span class="line"></span><br><span class="line">│  .gitignore</span><br><span class="line">│  index.js //入口</span><br><span class="line">│  package-lock.json</span><br><span class="line">│  package.json</span><br><span class="line">│</span><br><span class="line">└─libs</span><br><span class="line">    ├─config</span><br><span class="line">    │      global.js //配置，如git地址</span><br><span class="line">    │</span><br><span class="line">    ├─core</span><br><span class="line">    │  └─command //指令</span><br><span class="line">    │          addcpn.js</span><br><span class="line">    │          addpage.js</span><br><span class="line">    │          create.js</span><br><span class="line">    │</span><br><span class="line">    ├─template //ejs文件模板</span><br><span class="line">    │  └─vue</span><br><span class="line">    │          cpn.ejs</span><br><span class="line">    │          router.ejs</span><br><span class="line">    │          store.ejs</span><br><span class="line">    │</span><br><span class="line">    └─utils //工具</span><br><span class="line">            tool.js</span><br></pre></td></tr></table></figure>
 
 <p><strong>初始化</strong></p>
 <ul>
@@ -1354,7 +1354,7 @@
 <p>boundary<strong>后面可能还有信息</strong>需要除去，这时boundary末尾没有<code>--</code></p>
 </li>
 <li><p>头部的空格<code>\r\n</code>会导致文件错误，用正则<code>\s</code>匹配去除</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> qs = <span class="built_in">require</span>(<span class="string">&quot;querystring&quot;</span>)</span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (req.method === <span class="string">&quot;POST&quot;</span> &amp;&amp; req.url === <span class="string">&quot;/upload&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> data = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    req.setEncoding(<span class="string">&quot;binary&quot;</span>);</span><br><span class="line">    req.on(<span class="string">&quot;data&quot;</span>, <span class="function">(<span class="params">fd</span>) =&gt;</span> &#123;</span><br><span class="line">      data += fd;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">const</span> boundary = req.headers[<span class="string">&quot;content-type&quot;</span>].split(<span class="string">&quot;; &quot;</span>)[<span class="number">1</span>].replace(<span class="string">&quot;boundary=&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    req.on(<span class="string">&quot;end&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> valCT = qs.parse(data, <span class="string">&quot;\r\n&quot;</span>, <span class="string">&quot;: &quot;</span>)[<span class="string">&quot;Content-Type&quot;</span>];</span><br><span class="line"></span><br><span class="line">      <span class="comment">//获取文件名和后缀</span></span><br><span class="line">      <span class="keyword">const</span> beforeCT = data.split(valCT)[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">const</span> preName = qs.parse(beforeCT, <span class="string">&quot;; &quot;</span>, <span class="string">&quot;=&quot;</span>)[<span class="string">&quot;filename&quot;</span>].split(<span class="string">&quot;\&quot;&quot;</span>)[<span class="number">1</span>];</span><br><span class="line">      <span class="keyword">const</span> suffix = preName.split(<span class="string">&quot;.&quot;</span>)[<span class="number">1</span>];</span><br><span class="line">      <span class="comment">//头部的\r\n不能保留,用\s匹配去掉</span></span><br><span class="line">      <span class="keyword">const</span> afterCT = data.split(valCT)[<span class="number">1</span>].replace(<span class="regexp">/^\s\s*/</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">const</span> boundaryIndex = afterCT.indexOf(<span class="string">`--<span class="subst">$&#123;boundary&#125;</span>`</span>);</span><br><span class="line">      <span class="comment">//去除文件尾部空格</span></span><br><span class="line">      <span class="keyword">const</span> file = afterCT.substring(<span class="number">0</span>, boundaryIndex).replace(<span class="regexp">/\s\s*$/</span>, <span class="string">&quot;&quot;</span>);;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> afterFile = afterCT.substring(boundaryIndex)</span><br><span class="line">      <span class="comment">//解析formdata文件外其他参数</span></span><br><span class="line">      <span class="keyword">const</span> params = qs.parse(afterFile, <span class="string">&quot;form-data; name=&quot;</span>, <span class="string">&quot;\r\n\r\n&quot;</span>)</span><br><span class="line">      <span class="function"><span class="title">for</span>(<span class="params"><span class="keyword">let</span> key <span class="keyword">in</span> params</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> val = params[key];</span><br><span class="line">        <span class="keyword">const</span> subIndex = val.indexOf(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">        <span class="comment">//去除key中的 &quot; 和value中其他字符</span></span><br><span class="line">        params[key.replace(<span class="regexp">/\&quot;/g</span>, <span class="string">&quot;&quot;</span>)] = val.substring(<span class="number">0</span>, subIndex);</span><br><span class="line">        <span class="keyword">delete</span> params[key];</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">let</span> setName = preName;</span><br><span class="line">      <span class="comment">//参数params中有setName可以设置保存的文件名</span></span><br><span class="line">      params.setName &amp;&amp; (setName = <span class="string">`<span class="subst">$&#123;params.setName&#125;</span>.<span class="subst">$&#123;suffix || <span class="string">&quot;png&quot;</span>&#125;</span>`</span>)</span><br><span class="line">      fs.writeFile(<span class="string">`./<span class="subst">$&#123;setName&#125;</span>`</span>, file, <span class="string">&quot;binary&quot;</span>, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) <span class="keyword">return</span>;</span><br><span class="line">        res.end(<span class="string">&quot;上传成功&quot;</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).listen(<span class="string">&quot;8866&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;server start...&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> qs = <span class="built_in">require</span>(<span class="string">&quot;querystring&quot;</span>)</span><br><span class="line">http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">if</span> (req.method === <span class="string">&quot;POST&quot;</span> &amp;&amp; req.url === <span class="string">&quot;/upload&quot;</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> data = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  req.setEncoding(<span class="string">&quot;binary&quot;</span>);</span><br><span class="line">  req.on(<span class="string">&quot;data&quot;</span>, <span class="function">(<span class="params">fd</span>) =&gt;</span> &#123;</span><br><span class="line">    data += fd;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">const</span> boundary = req.headers[<span class="string">&quot;content-type&quot;</span>].split(<span class="string">&quot;; &quot;</span>)[<span class="number">1</span>].replace(<span class="string">&quot;boundary=&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">  req.on(<span class="string">&quot;end&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> valCT = qs.parse(data, <span class="string">&quot;\r\n&quot;</span>, <span class="string">&quot;: &quot;</span>)[<span class="string">&quot;Content-Type&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取文件名和后缀</span></span><br><span class="line">    <span class="keyword">const</span> beforeCT = data.split(valCT)[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">const</span> preName = qs.parse(beforeCT, <span class="string">&quot;; &quot;</span>, <span class="string">&quot;=&quot;</span>)[<span class="string">&quot;filename&quot;</span>].split(<span class="string">&quot;\&quot;&quot;</span>)[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">const</span> suffix = preName.split(<span class="string">&quot;.&quot;</span>)[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">//头部的\r\n不能保留,用\s匹配去掉</span></span><br><span class="line">    <span class="keyword">const</span> afterCT = data.split(valCT)[<span class="number">1</span>].replace(<span class="regexp">/^\s\s*/</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> boundaryIndex = afterCT.indexOf(<span class="string">`--<span class="subst">$&#123;boundary&#125;</span>`</span>);</span><br><span class="line">    <span class="comment">//去除文件尾部空格</span></span><br><span class="line">    <span class="keyword">const</span> file = afterCT.substring(<span class="number">0</span>, boundaryIndex).replace(<span class="regexp">/\s\s*$/</span>, <span class="string">&quot;&quot;</span>);;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> afterFile = afterCT.substring(boundaryIndex)</span><br><span class="line">    <span class="comment">//解析formdata文件外其他参数</span></span><br><span class="line">    <span class="keyword">const</span> params = qs.parse(afterFile, <span class="string">&quot;form-data; name=&quot;</span>, <span class="string">&quot;\r\n\r\n&quot;</span>)</span><br><span class="line">    <span class="function"><span class="title">for</span>(<span class="params"><span class="keyword">let</span> key <span class="keyword">in</span> params</span>)</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> val = params[key];</span><br><span class="line">      <span class="keyword">const</span> subIndex = val.indexOf(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">      <span class="comment">//去除key中的 &quot; 和value中其他字符</span></span><br><span class="line">      params[key.replace(<span class="regexp">/\&quot;/g</span>, <span class="string">&quot;&quot;</span>)] = val.substring(<span class="number">0</span>, subIndex);</span><br><span class="line">      <span class="keyword">delete</span> params[key];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> setName = preName;</span><br><span class="line">    <span class="comment">//参数params中有setName可以设置保存的文件名</span></span><br><span class="line">    params.setName &amp;&amp; (setName = <span class="string">`<span class="subst">$&#123;params.setName&#125;</span>.<span class="subst">$&#123;suffix || <span class="string">&quot;png&quot;</span>&#125;</span>`</span>)</span><br><span class="line">    fs.writeFile(<span class="string">`./<span class="subst">$&#123;setName&#125;</span>`</span>, file, <span class="string">&quot;binary&quot;</span>, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span>;</span><br><span class="line">      res.end(<span class="string">&quot;上传成功&quot;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;).listen(<span class="string">&quot;8866&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;server start...&quot;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -1476,7 +1476,7 @@
 </li>
 </ul>
 <p>开始发现日志的时间和实际的时间不对应，可能是时区问题，可以通过<code>morgan.token</code>和<code>morgan.format</code>自定义时区和格式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义token</span></span><br><span class="line">morgan.token(<span class="string">&#x27;localDate&#x27;</span>,<span class="function"><span class="keyword">function</span> <span class="title">getDate</span>(<span class="params">req</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">return</span> date.toLocaleString()</span><br><span class="line">&#125;)</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 自定义format，其中包含自定义的token</span></span><br><span class="line">morgan.format(<span class="string">&#x27;combined&#x27;</span>, <span class="string">&#x27;:remote-addr - :remote-user [:localDate]] &quot;:method :url HTTP/:http-version&quot; :status :res[content-length] &quot;:referrer&quot; &quot;:user-agent&quot;&#x27;</span>);</span><br><span class="line"></span><br><span class="line">app.use(morgan(<span class="string">&quot;combined&quot;</span>, &#123;<span class="attr">stream</span>: fs.createWriteStream(<span class="string">&quot;./access.log&quot;</span>, &#123;<span class="attr">flags</span>: <span class="string">&quot;a&quot;</span>&#125;)&#125;));</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义token</span></span><br><span class="line">morgan.token(<span class="string">&#x27;localDate&#x27;</span>,<span class="function"><span class="keyword">function</span> <span class="title">getDate</span>(<span class="params">req</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">return</span> date.toLocaleString()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义format，其中包含自定义的token</span></span><br><span class="line">morgan.format(<span class="string">&#x27;combined&#x27;</span>, <span class="string">&#x27;:remote-addr - :remote-user [:localDate]] &quot;:method :url HTTP/:http-version&quot; :status :res[content-length] &quot;:referrer&quot; &quot;:user-agent&quot;&#x27;</span>);</span><br><span class="line"></span><br><span class="line">app.use(morgan(<span class="string">&quot;combined&quot;</span>, &#123;<span class="attr">stream</span>: fs.createWriteStream(<span class="string">&quot;./access.log&quot;</span>, &#123;<span class="attr">flags</span>: <span class="string">&quot;a&quot;</span>&#125;)&#125;));</span><br></pre></td></tr></table></figure>
 
 <h3 id="url传参"><a href="#url传参" class="headerlink" title="url传参"></a>url传参</h3><p>除了上述通过手动解析、body-parser、multer等方式可以用<code>req.body</code>获取请求体中的参数外,还可以直接在路由上获取参数:</p>
 <ul>
@@ -1714,10 +1714,6 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">游览器</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">跨域</a>
         		</li>
       		 
@@ -1727,6 +1723,10 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">node</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">游览器</a>
         		</li>
       		
 		</ul>
@@ -1901,7 +1901,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020-2025 <a href="https://mr-qxj.github.io/" target="_blank">MR-QXJ</a>
+    		&copy; 2020-2026 <a href="https://mr-qxj.github.io/" target="_blank">MR-QXJ</a>
     	</div>
       	<div class="footer-right">
 			
@@ -2028,23 +2028,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">pannellum</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">VR</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">全景图</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color3">打包</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2056,19 +2044,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">打包</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color1">react</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2076,31 +2052,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+                <a href="javascript:void(0)" class="js-tag color1">vue优化</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">h5</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+                <a href="javascript:void(0)" class="js-tag color5">vue3</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2116,6 +2072,34 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">游览器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">渲染</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">微信小程序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">h5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">hybrid app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vue源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
@@ -2128,6 +2112,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">继承</a>
               </li>
              
@@ -2136,11 +2124,43 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">pannellum</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">VR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">全景图</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">部署</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2156,31 +2176,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">踩坑</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">react</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Node.js</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">typescript</a>
+                <a href="javascript:void(0)" class="js-tag color5">地图汇总</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">地图汇总</a>
               </li>
             
             <div class="clearfix"></div>
